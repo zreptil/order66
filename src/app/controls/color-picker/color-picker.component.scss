@@ -1,0 +1,52 @@
+:host {
+  --headBack: var(--settingsHeadBack);
+  --headFore: var(--settingsHeadFore);
+  --bodyBack: var(--settingsBodyBack);
+  --bodyFore: var(--settingsBodyFore);
+  --accentBack: var(--settingsHeadBack);
+  --accentFore: var(--settingsHeadFore);
+
+  display: flex;
+  flex-flow: row;
+  gap: 2px;
+
+  [panel] {
+    position: relative;
+
+    button {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: transparent;
+
+      [checkers] {
+        background-image: url(../../../assets/images/checkers.png);
+        background-size: 10px;
+      }
+
+      [back], [pattern] {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 6px;
+      }
+
+      mat-icon {
+        display: flex;
+        font-size: 1em;
+        align-items: center;
+        justify-content: center;
+        z-index: 1;
+      }
+    }
+  }
+}
+
+.is-debug {
+  background: var(--logDebugColor);
+  color: var(--logDebugFore);
+}

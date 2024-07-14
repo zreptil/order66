@@ -1,0 +1,42 @@
+<div #mouseArea
+     (dragstart)="false"
+     (mousedown)="mouseDown($event)"
+     (mousemove)="mouseMove($event)"
+     (mouseout)="mouseUp($event)"
+     (mouseup)="mouseUp($event)"
+     container>
+  <div #hslWheel [ngStyle]="styleForHslWheel" hslwheel>
+    <div #imageBox [ngStyle]="styleForHsl" inner>
+      <div image>
+        <canvas #canvasHSL></canvas>
+      </div>
+    </div>
+    <div [ngStyle]="styleForHuePointerBox" pointer-box>
+      <div [ngStyle]="styleForHuePointer" pointer>
+        <div hue-pointer-back></div>
+        <div [ngStyle]="styleForHuePointerFore" hue-pointer-fore></div>
+      </div>
+      <div [ngStyle]="styleForHslPointer" pointer>
+        <div mark></div>
+      </div>
+    </div>
+  </div>
+  <div #opcBar *ngIf="color?.type !== 'rgb'" [ngStyle]="styleForOpcBack" opc-back>
+    <div opc-fore></div>
+    <div [ngStyle]="styleForOpcPointer" pointer vert>
+      <div mark></div>
+    </div>
+  </div>
+</div>
+<div *ngIf="globals.isDebug" class="debug" info>
+  <div>
+    H: {{ floor(hue) }}
+    S: {{ floor(sat) }}
+    L: {{ floor(light) }}
+    O: {{ floor(opacity * 100) }}%
+  </div>
+  <div>{{ color.themeKey }}</div>
+  <div>
+    #: {{ color.display_rgba }}
+  </div>
+</div>

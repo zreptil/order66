@@ -1,0 +1,27 @@
+<div canvas-container>
+  <div #canvasBox image>
+    <canvas #canvasImage
+            (click)="clickCanvas($event)"
+            (mousemove)="mouseMoveCanvas($event)"
+            (wheel)="wheelCanvas($event)"></canvas>
+  </div>
+  <div edge tl>
+    <button (click)="clickSelectTrigger('tl')" [ngStyle]="selectColor(data.mixColors.tl)" color-select></button>
+  </div>
+  <div edge tr>
+    <button (click)="clickSelectTrigger('tr')" [ngStyle]="selectColor(data.mixColors.tr)" color-select></button>
+  </div>
+  <div bl edge>
+    <button (click)="clickSelectTrigger('bl')" [ngStyle]="selectColor(data.mixColors.bl)" color-select></button>
+  </div>
+  <div br edge>
+    <button (click)="clickSelectTrigger('br')" [ngStyle]="selectColor(data.mixColors.br)" color-select></button>
+  </div>
+
+  <div [ngStyle]="styleForColorWheel" color-wheel>
+    <ng-container *ngFor="let color of wheelColorList; let idx = index">
+      <button (click)="clickColorSelect(color)" [ngStyle]="selectColorWheel(idx)" color></button>
+    </ng-container>
+  </div>
+</div>
+

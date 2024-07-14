@@ -1,0 +1,88 @@
+:host {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+[mainpanel] {
+  display: flex;
+  flex-flow: column;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--mainBack);
+  color: var(--mainFore);
+  overflow: hidden;
+
+  [toolbar] {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    background-color: var(--mainHeadBack);
+    color: var(--mainHeadFore);
+    z-index: 2;
+    position: relative;
+    padding: 0 1em;
+
+    div {
+      display: flex;
+      flex-flow: row;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 50%;
+    }
+
+    div[center] {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 100%;
+    }
+
+    mat-icon {
+      color: var(--toolbarFore);
+    }
+
+    mat-icon#link-delete {
+      color: var(--trashcan);
+    }
+  }
+
+  [content].grid {
+    overflow-y: auto;
+  }
+}
+
+::ng-deep [linkcard] {
+  background: var(--linkBack) !important;
+  color: var(--linkFore) !important;
+}
+
+.appicon {
+  width: 32px;
+}
+
+::ng-deep .mat-menu-panel {
+  background-color: var(--menuBack);
+  color: var(--menuFore);
+}
+
+[mainpanel] {
+  background-color: var(--mainBodyBack);
+  color: var(--mainBodyFore);
+}
+
+.btnLanguage:not(:hover) {
+  .crowdin {
+    display: none;
+  }
+}
+
+.crowdin {
+  margin-top: 12px;
+  position: fixed;
+}
+
+button[micro-button] {
+  background-color: transparent;
+}

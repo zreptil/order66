@@ -1,0 +1,36 @@
+:host {
+  --headBack: var(--settingsHeadBack);
+  --headFore: var(--settingsHeadFore);
+  --bodyBack: var(--settingsBodyBack);
+  --bodyFore: var(--settingsBodyFore);
+}
+
+[mat-dialog-title] {
+  gap: 0.5em;
+}
+
+div[row] {
+  display: flex;
+  flex-flow: row;
+  align-items: flex-start;
+  justify-content: center;
+
+  div {
+    margin: 3px;
+  }
+
+  app-color-picker {
+    ::ng-deep button {
+      border-radius: 0.5em;
+    }
+  }
+
+  [name] {
+    flex: 1;
+  }
+
+  [name].is-debug {
+    background: var(--logDebugColor) !important;
+    color: var(--logDebugFore) !important;
+  }
+}

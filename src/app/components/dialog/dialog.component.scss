@@ -1,0 +1,95 @@
+.mat-mdc-standard-chip.mat-mdc-chip-selected.mat-primary {
+  --mdc-chip-disabled-label-text-color: var(--headFore);
+  --mdc-chip-elevated-container-color: var(--headBack);
+  --mdc-chip-elevated-disabled-container-color: #3f51b5;
+  --mdc-chip-focus-state-layer-color: var(--headFore);
+  --mdc-chip-focus-state-layer-opacity: 0.9;
+  --mdc-chip-label-text-color: var(--headFore);
+  --mdc-chip-with-icon-icon-color: var(--headFore);
+  --mdc-chip-with-icon-disabled-icon-color: white;
+  --mdc-chip-with-icon-selected-icon-color: var(--headFore);
+  --mdc-chip-with-trailing-icon-disabled-trailing-icon-color: white;
+  --mdc-chip-with-trailing-icon-trailing-icon-color: white;
+}
+
+.mat-mdc-standard-chip {
+  --mdc-chip-disabled-label-text-color: rgba(255, 255, 255, 0.2);
+  --mdc-chip-elevated-container-color: rgba(255, 255, 255, 0.5);
+  --mdc-chip-elevated-disabled-container-color: #e0e0e0;
+  --mdc-chip-focus-state-layer-color: black;
+  --mdc-chip-focus-state-layer-opacity: 0.9;
+  --mdc-chip-label-text-color: rgba(0, 0, 0, 1);
+  --mdc-chip-with-icon-icon-color: #212121;
+  --mdc-chip-with-icon-disabled-icon-color: #212121;
+  --mdc-chip-with-icon-selected-icon-color: #212121;
+  --mdc-chip-with-trailing-icon-disabled-trailing-icon-color: #212121;
+  --mdc-chip-with-trailing-icon-trailing-icon-color: #212121;
+}
+
+:host {
+  --mat-select-panel-background-color: white;
+  --mat-select-enabled-trigger-text-color: rgba(0, 0, 0, 0.87);
+  --mat-select-disabled-trigger-text-color: rgba(0, 0, 0, 0.38);
+  --mat-select-placeholder-text-color: rgba(0, 0, 0, 0.6);
+  --mat-select-enabled-arrow-color: rgba(0, 0, 0, 0.54);
+  --mat-select-disabled-arrow-color: rgba(0, 0, 0, 0.38);
+  --mat-select-focused-arrow-color: var(--headBack);
+  --mat-select-invalid-arrow-color: rgba(244, 67, 54, 0.87);
+  --mdc-theme-primary: var(--headBack);
+}
+
+.dialog-text {
+  div {
+    //margin: 0.5em 0;
+    //white-space: break-spaces;
+  }
+
+  ::ng-deep .mark {
+    font-weight: bold;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+
+  .italic {
+    font-style: italic;
+  }
+
+  .line {
+    display: block;
+    text-align: center;
+  }
+
+  .btn {
+    font-size: 75%;
+    cursor: pointer;
+  }
+
+  .debug {
+    padding: 0.2em;
+  }
+}
+
+.mat-mdc-button:not(:disabled) {
+  color: var(--fore);
+}
+
+::ng-deep a, a:visited {
+  text-decoration: none;
+  color: inherit;
+  font-weight: bold;
+}
+
+.dialog-box mat-dialog-container mat-dialog-actions.type0 {
+  justify-content: flex-end;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+
+.mdc-dialog__title::before {
+  display: none;
+}

@@ -1,0 +1,65 @@
+{
+  "name": "inquisitor",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "ng build",
+    "i18n-01-extract": "ng extract-i18n app --output-path src/locale --out-file messages.en-GB.xliff --format xliff --progress",
+    "i18n-02-upload-english": "start https://crowdin.com/project/inquisitor/content/files",
+    "i18n-03-create-messages": "tsc tools/i18n-create-messages.ts && node tools/i18n-create-messages.js",
+    "i18n": "npm run i18n-01-extract && npm run i18n-03-create-messages",
+    "ng": "ng",
+    "start": "ng serve --port 3206 --open",
+    "test": "ng test",
+    "watch": "ng build --watch --configuration development"
+  },
+  "dependencies": {
+    "@angular/animations": "^17.1.0",
+    "@angular/cdk": "^16.1.4",
+    "@angular/common": "^17.1.0",
+    "@angular/compiler": "^17.1.0",
+    "@angular/core": "^17.1.0",
+    "@angular/forms": "^17.1.0",
+    "@angular/material": "^16.1.4",
+    "@angular/platform-browser": "^17.1.0",
+    "@angular/platform-browser-dynamic": "^17.1.0",
+    "@angular/router": "^17.1.0",
+    "@types/pdfmake": "^0.2.1",
+    "@types/ws": "^8.5.4",
+    "base64-arraybuffer": "^1.0.2",
+    "better-npm-audit": "^3.7.3",
+    "extract-zip": "^2.0.1",
+    "fast-sha256": "^1.3.0",
+    "file-saver": "^2.0.5",
+    "jszip": "^3.10.1",
+    "node-ensure": "^0.0.0",
+    "pdfjs-dist": "^3.1.81",
+    "pdfmake": "^0.2.7",
+    "rxjs": "~7.8.0",
+    "sha1": "^1.1.1",
+    "tslib": "^2.3.0",
+    "utf8-encoding": "^0.1.2",
+    "xliff": "^6.1.0",
+    "zone.js": "~0.14.3"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^17.1.0",
+    "@angular/cli": "^17.1.0",
+    "@angular/compiler-cli": "^17.1.0",
+    "@angular/localize": "^17.1.0",
+    "@types/file-saver": "^2.0.5",
+    "@types/jasmine": "~4.3.0",
+    "@types/node": "^12.11.1",
+    "@types/ws": "8.5.4",
+    "jasmine-core": "~4.5.0",
+    "npm-build-zip": "^1.0.3",
+    "typescript": "~5.3.3"
+  },
+  "overrides": {
+    "vite": "~5.0.12"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=7.0.0"
+  }
+}

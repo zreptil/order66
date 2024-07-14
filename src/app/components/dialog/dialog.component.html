@@ -1,0 +1,61 @@
+<!--suppress HtmlDeprecatedAttribute -->
+<div cdkDrag
+     cdkDragBoundary=".cdk-overlay-container"
+     cdkDragRootElement=".dialog-box.dialog">
+  <div [style]="customStyle('Head')" cdkDragHandle class="type{{data?.type}}" mat-dialog-title>
+    <h1>
+      <mat-icon *ngIf="showTitleIcon">{{ titleIcon }}</mat-icon>
+      <img (error)="noImage($event)" *ngIf="showTitleImage" [src]="titleImage" alt="titleimage">
+      {{ data.title }}
+    </h1>
+    <div></div>
+    <app-close-button *ngIf="!data?.params?.noClose" [data]="closeData"></app-close-button>
+  </div>
+  <div [style]="customStyle('Body')" class="dialog-text" mat-dialog-content>
+    <div *ngFor="let text of data.display" [innerHTML]="text"></div>
+    <ng-container *ngFor="let ctrl of data.controls">
+      <ng-container [ngSwitch]="ctrl.type">
+        <ng-container *ngSwitchCase="'input'">
+          <mat-form-field>
+            <mat-label>{{ ctrl.title }}</mat-label>
+            <input [(ngModel)]="ctrl.value" matInput>
+            <mat-hint *ngIf="ctrl.hint != null">{{ ctrl.hint }}</mat-hint>
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngSwitchCase="'textarea'">
+          <mat-form-field>
+            <mat-label>{{ ctrl.title }}</mat-label>
+            <textarea [(ngModel)]="ctrl.value" appTextareaAutoresize autofocus matInput></textarea>
+            <mat-hint *ngIf="ctrl.hint != null">{{ ctrl.hint }}</mat-hint>
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngSwitchCase="'helplist'">
+          <ng-container *ngFor="let item of ctrl.helpList;let idx=index">
+            <span *ngIf="showHelpItem(item, 'text')" [class]="classForItem(item)" [innerHtml]="item.text"></span>
+            <span (click)="onHelpLinkClick(item)" *ngIf="showHelpItem(item, 'btn')" [class]="classForItem(item, 'btn')">{{ item.text }}</span>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'checkbox'">
+          <mat-checkbox [(ngModel)]="ctrl.value">{{ ctrl.title }}</mat-checkbox>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    <mat-chip-listbox *ngIf="data.chips != null" [(ngModel)]="chipsResult" multiple>
+      <ng-container *ngFor="let btn of data.chips; let idx = index">
+        <mat-chip-option [selected]="btn.selected">{{ btn.title }}</mat-chip-option>
+      </ng-container>
+    </mat-chip-listbox>
+  </div>
+  <div [style]="customStyle('Head')" align="end" class="type{{data?.type}}" mat-dialog-actions>
+    <ng-container *ngFor="let btn of data.buttons; let idx = index">
+      <button (click)="closeDialog(btn)" *ngIf="btn.url == null" mat-button>
+        <mat-icon *ngIf="btn.icon != null">{{ btn.icon }}</mat-icon>
+        {{ btn.title }}
+      </button>
+      <button (click)="openUrl(btn)" *ngIf="btn.url != null" mat-button>
+        <mat-icon *ngIf="btn.icon != null">{{ btn.icon }}</mat-icon>
+        {{ btn.title }}
+      </button>
+    </ng-container>
+  </div>
+</div>

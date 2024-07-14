@@ -1,0 +1,162 @@
+:host {
+  display: flex;
+  flex-flow: column;
+  gap: 0.5em;
+  --ps: 19px;
+  --pf: 3px;
+
+  [pointer] {
+    --c: black;
+    position: absolute;
+    pointer-events: none;
+    border-radius: 50%;
+    border: var(--pf) solid var(--c);
+    height: var(--ps);
+    width: var(--ps);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    [mark] {
+      pointer-events: none;
+      background-color: var(--c);
+    }
+  }
+
+  [pointer][vert] {
+    [mark] {
+      width: 1px;
+      height: 100%;
+    }
+  }
+
+  [pointer][point] {
+    transform: translateX(-50%) translateY(-50%);
+    align-items: center;
+
+    [mark] {
+      width: 3px;
+      height: 3px;
+    }
+  }
+
+  [container] {
+    display: flex;
+    flex-flow: column;
+    gap: 1em;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    [hslwheel] {
+      overflow: hidden;
+      pointer-events: none;
+      --size: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: conic-gradient(
+          rgb(255, 0, 0),
+          rgb(255, 255, 0),
+          rgb(0, 255, 0),
+          rgb(0, 255, 255),
+          rgb(0, 0, 255),
+          rgb(255, 0, 255),
+          rgb(255, 0, 0)
+      );
+      height: var(--size);
+      width: var(--size);
+      position: relative;
+
+      [inner] {
+        pointer-events: none;
+        display: flex;
+        flex-flow: column;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        height: 80%;
+        width: 80%;
+        border-radius: 50%;
+        background: var(--bodyBack);
+
+        [image] {
+          pointer-events: none;
+          position: relative;
+          display: flex;
+          flex: 1;
+
+          canvas {
+            pointer-events: none;
+          }
+        }
+
+        flex: 1;
+      }
+
+      [pointer-box] {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+
+        [pointer] {
+          position: absolute;
+        }
+      }
+    }
+  }
+
+  [hue-pointer-back] {
+    background-size: 5px;
+    background-image: url(../../../../assets/images/checkers.png);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    opacity: 50%;
+  }
+
+  [hue-pointer-fore] {
+    border-radius: 50%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+
+  [opc-back] {
+    pointer-events: none;
+    width: 80%;
+    height: 20px;
+    margin-bottom: 10px;
+    background-image: url(../../../../assets/images/checkers.png);
+    background-size: 10px;
+    position: relative;
+
+    [opc-fore] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--c);
+      opacity: var(--o);
+    }
+
+    [pointer] {
+      top: calc(-0.5 * var(--pf));
+      transform: translateX(-50%);
+      --c: inherit;
+    }
+  }
+
+  [info] {
+    display: flex;
+    flex-flow: row;
+    padding: 0 0.5em;
+    justify-content: space-between;
+  }
+}

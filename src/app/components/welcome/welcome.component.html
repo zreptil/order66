@@ -1,0 +1,17 @@
+<div cdkDrag cdkDragBoundary=".cdk-overlay-container"
+     cdkDragRootElement=".dialog-box.welcome">
+  <div cdkDragHandle mat-dialog-title>
+    <h1>{{ globals.titles.welcome }}</h1>
+    <app-close-button [data]="closeData"></app-close-button>
+  </div>
+  <mat-dialog-content>
+    <div>
+      Inquisitor is a webapp where you can store cards containing questions and
+      answers.
+    </div>
+    <div>
+      With these cards you can learn the contents by letting the app
+      show them to you.
+    </div>
+  </mat-dialog-content>
+</div>

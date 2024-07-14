@@ -1,0 +1,91 @@
+:host {
+  --headBack: var(--settingsHeadBack);
+  --headFore: var(--settingsHeadFore);
+  --bodyBack: var(--settingsBodyBack);
+  --bodyFore: var(--settingsBodyFore);
+  --accentBack: var(--settingsHeadBack);
+  --accentFore: var(--settingsHeadFore);
+
+  .mat-mdc-dialog-actions:not([align=end]) {
+    margin: 0 0.5em;
+    justify-content: space-between;
+
+    div {
+      display: flex;
+      flex-flow: row;
+    }
+  }
+}
+
+.color {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3em;
+  outline: 1px solid black;
+  width: 1em;
+  height: 1em;
+  cursor: pointer;
+
+  mat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 75%;
+  }
+}
+
+[mat-dialog-title] {
+  gap: 0.5em;
+}
+
+h1 {
+  .mat-mdc-icon-button ::ng-deep .mat-mdc-button-persistent-ripple {
+    display: none;
+  }
+
+  [title] {
+    display: flex;
+    flex-flow: column;
+    gap: 0.1em;
+
+    div {
+      padding: 0;
+      margin: 0;
+      line-height: 1em;
+    }
+
+    [main] {
+      font-size: 75%;
+    }
+
+    [sub] {
+      font-size: 50%;
+    }
+  }
+}
+
+[nav] {
+  position: absolute;
+  height: calc(100% - 2 * 64px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2em;
+  padding: 0;
+  margin: 0;
+  min-width: initial;
+
+  .mat-icon {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+[nav][left] {
+  left: 0;
+}
+
+[nav][right] {
+  right: 0;
+}

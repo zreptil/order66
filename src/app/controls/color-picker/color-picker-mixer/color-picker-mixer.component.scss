@@ -1,0 +1,114 @@
+:host {
+  width: 100%;
+  height: 100%;
+  --size: 30px;
+}
+
+canvas {
+  cursor: crosshair;
+}
+
+[color-select] {
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  cursor: pointer;
+  position: absolute;
+}
+
+[color-line] {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+[canvas-container] {
+  position: relative;
+  padding: calc(var(--size) * 2.5);
+
+  [image] {
+    position: relative;
+    display: flex;
+    flex: 1;
+    z-index: 1;
+  }
+
+  [edge] {
+    position: absolute;
+    display: flex;
+    width: calc(var(--size) * 3);
+    height: calc(var(--size) * 3);
+    z-index: 0;
+  }
+
+  [tl] {
+    align-items: flex-end;
+    justify-content: flex-end;
+    top: 0;
+    left: 0;
+  }
+
+  [tr] {
+    align-items: flex-end;
+    justify-content: flex-start;
+    top: 0;
+    right: 0;
+  }
+
+  [bl] {
+    align-items: flex-start;
+    justify-content: flex-end;
+    bottom: 0;
+    left: 0;
+  }
+
+  [br] {
+    bottom: 0;
+    right: 0;
+  }
+}
+
+[color-wheel] {
+  --size1: 10em;
+  --col-size: var(--size1) / 3.7;
+  width: calc(var(--size) * 4.5);
+  height: calc(var(--size) * 4.5);
+  background-color: transparent;
+  position: absolute;
+  z-index: 100;
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+
+  [color] {
+    position: absolute;
+    left: calc(50% - calc(var(--col-size) / 2));
+    top: calc(50% - calc(var(--size1) / 2));
+    transform-origin: center calc(var(--size1) / 2);
+    width: calc(var(--col-size));
+    height: calc(var(--col-size));
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  @keyframes open {
+    0% {
+      transform: scale(0) rotate(0deg);
+    }
+
+    100% {
+      transform: scale(1) rotate(360deg);
+    }
+  }
+
+  @keyframes close {
+    0% {
+      transform: scale(1) rotate(360deg);
+    }
+    100% {
+      transform: scale(0) rotate(0deg);
+    }
+  }
+}
