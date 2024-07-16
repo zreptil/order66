@@ -16,6 +16,23 @@
 html, body {
   height: 100%;
   overflow: hidden !important;
+  --e-rrorColor: yellow;
+  --mdc-filled-text-field-error-caret-color: var(--errorColor);
+  --mdc-filled-text-field-error-label-text-color: var(--errorColor);
+  --mdc-filled-text-field-error-focus-label-text-color: var(--errorColor);
+  --mat-form-field-error-text-color: var(--errorColor);
+  --mat-select-invalid-arrow-color: var(--errorColor);
+  --mdc-outlined-text-field-error-caret-color: var(--errorColor);
+  --mdc-outlined-text-field-error-focus-label-text-color: var(--errorColor);
+  --mdc-outlined-text-field-error-label-text-color: var(--errorColor);
+  --mdc-outlined-text-field-error-hover-label-text-color: var(--errorColor);
+  --mdc-outlined-text-field-error-focus-outline-color: var(--errorColor);
+  --mdc-outlined-text-field-error-hover-outline-color: var(--errorColor);
+  --mdc-outlined-text-field-error-outline-color: var(--errorColor);
+  --mdc-filled-text-field-error-active-indicator-color: var(--errorColor);
+  --mdc-filled-text-field-error-focus-active-indicator-color: var(--errorColor);
+  --mdc-filled-text-field-error-hover-active-indicator-color: var(--errorColor);
+  --mdc-filled-text-field-error-hover-label-text-color: var(--errorColor);
 }
 
 .mat-mdc-dialog-container .mdc-dialog__surface {
@@ -243,7 +260,7 @@ html {
 
     .mat-mdc-dialog-actions:not([align=end]) {
       margin: 0;
-      padding: 0;
+      padding: 0 0.5em;
       min-height: 3em;
 
       .mat-button-wrapper {

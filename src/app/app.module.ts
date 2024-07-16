@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-
 import {AppComponent} from './app.component';
 import {DialogComponent} from '@/components/dialog/dialog.component';
 import {ColorPickerComponent} from '@/controls/color-picker/color-picker.component';
@@ -9,8 +8,8 @@ import {ColorPickerMixerComponent} from '@/controls/color-picker/color-picker-mi
 import {ColorPickerBaseComponent} from '@/controls/color-picker/color-picker-base.component';
 import {WelcomeComponent} from '@/components/welcome/welcome.component';
 import {MainComponent} from '@/components/main/main.component';
-import {FormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {MaterialModule} from '@/material.module';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {LogComponent} from '@/components/log/log.component';
@@ -45,17 +44,13 @@ import {ColorPickerHslComponent} from '@/controls/color-picker/color-picker-hsl/
     WelcomeComponent,
     ImpressumComponent,
   ],
-  imports: [
-    BrowserModule,
+  bootstrap: [AppComponent], imports: [BrowserModule,
+    ReactiveFormsModule,
     FormsModule,
     MaterialModule,
-    HttpClientModule,
     DragDropModule,
     LogComponent,
-    ProgressComponent
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    ProgressComponent], providers: [provideHttpClient(withInterceptorsFromDi())]
 })
 export class AppModule {
 }

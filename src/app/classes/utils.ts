@@ -5,6 +5,16 @@ export class Utils {
     return new Date();
   }
 
+  static async hash(text: string) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(text);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    return Array
+      .from(new Uint8Array(hashBuffer))
+      .map(byte => byte.toString(16).padStart(2, '0'))
+      .join('');
+  }
+
   static replace(text: string, src: string | string[], dst: string | string[]): string {
     if (!Array.isArray(src) && !Array.isArray(dst)) {
       src = [src];
@@ -339,12 +349,13 @@ export class Utils {
 
   static cvtMultilineText(text: string): string {
     if (text != null) {
-      text = text.replace(/\n/g, 'µ') ?? '';
-      text = text.replace(/µµ/g, '<br><br>');
-      text = text.replace(/µ/g, ' ');
+      text = text.replace(/\n/g, 'Âµ') ?? '';
+      text = text.replace(/ÂµÂµ/g, '<br><br>');
+      text = text.replace(/Âµ/g, ' ');
     }
     return text;
   }
+
   static decodeBase64(src: string, failRet: string = null): string {
     let ret;
     // atob alleine reicht an dieser Stelle nicht, weil dadurch Umlaute nicht korrekt

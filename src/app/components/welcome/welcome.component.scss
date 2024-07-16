@@ -7,6 +7,14 @@
   --accentFore: var(--whatsnewHeadFore);
 }
 
+::ng-deep body {
+  --errorColor: white;
+}
+
+::ng-deep .dialog-box.welcome {
+  max-width: 660px !important;
+}
+
 h1 {
   margin-top: 0;
   margin-bottom: 0.5em;
@@ -19,7 +27,6 @@ a, a:visited, a:active {
 }
 
 div[header] {
-
   > div {
 
     display: flex;
@@ -35,6 +42,10 @@ div[header] {
   justify-content: space-between;
   align-items: center;
 
+  mat-icon {
+    position: absolute;
+  }
+
   .langPanel {
     display: flex;
     flex-direction: row;
@@ -43,18 +54,25 @@ div[header] {
   }
 }
 
-[mat-dialog-content] {
+mat-dialog-content {
   padding: 1em;
   font-size: 1.2em;
-  height: 40vh;
 
   div {
     text-align: justify;
     padding-top: 1.0em;
+
+    span:first-child {
+      margin-right: 0.5em;
+    }
+
+    span:not(:first-child) {
+      margin: 0 0.5em;
+    }
   }
 }
 
-[mat-dialog-actions] {
+mat-dialog-actions {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -87,4 +105,8 @@ div[row] {
   display: flex;
   flex-flow: row;
   align-items: flex-start;
+}
+
+.current {
+  background: rgba(0, 0, 0, 0.2);
 }

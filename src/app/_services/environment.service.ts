@@ -10,6 +10,7 @@ export class EnvironmentService {
   OAUTH2_CLIENT_ID: string = null;
   GOOGLE_API_KEY: string = null;
   DROPBOX_APP_KEY: string = null;
+  backendUrl: string = null;
   settingsFilename: string = null;
 
   urlParams: any = {};

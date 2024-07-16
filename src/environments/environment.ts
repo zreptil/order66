@@ -3,6 +3,8 @@ export const environment = {
   // name of settings file in dropbox appdata folder
   settingsFilename: 'order66-settings',
   // api key for dropbox
-  DROPBOX_APP_KEY: 'order66'
+  DROPBOX_APP_KEY: 'order66',
+  // url for backend
+  backendUrl: 'http://localhost',
 };
 

@@ -32,7 +32,7 @@ export class GlobalsService {
   isConfigured = false;
   dragPos: any = {};
   themeChanged = false;
-  editColors = true;
+  editColors = false;
   appMode = 'standard';
   editPart: string;
   maxLogEntries = 20;
@@ -49,12 +49,11 @@ export class GlobalsService {
     own: GlobalsService.msgThemeOwn,
   }
   titles: any = {
-    settings: $localize`Einstellungen`,
-    dsgvo: $localize`Datenschutzerklärung`,
-    formparams: $localize`Formularparameter`,
+    settings: $localize`Settings`,
+    dsgvo: $localize`Dataprotection`,
     help: $localize`Information`,
     impressum: $localize`Impressum`,
-    welcome: $localize`Welcome to the Inquisition`,
+    welcome: $localize`Welcome to Order66`,
     whatsnew: $localize`Once upon a time...`
   };
   private flags = '';

@@ -1,10 +1,9 @@
 import {DialogData, DialogParams, DialogResult, DialogResultButton, DialogType, IDialogDef} from '@/_model/dialog-data';
 import {Injectable} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {map, Observable, of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {DialogComponent} from '@/components/dialog/dialog.component';
 import {ComponentType} from '@angular/cdk/overlay';
-import {GLOBALS} from '@/_services/globals.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +17,10 @@ export class MessageService {
 
   info(content: string | string[], params?: DialogParams): Observable<DialogResult> {
     return this.showDialog(DialogType.info, content, false, params);
+  }
+
+  error(content: string | string[], params?: DialogParams): Observable<DialogResult> {
+    return this.showDialog(DialogType.error, content, false, params);
   }
 
   confirm(content: string | string[], params?: DialogParams): Observable<DialogResult> {
