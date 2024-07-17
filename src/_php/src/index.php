@@ -13,10 +13,6 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS'
 
 include 'authenticate.php';
 
-$body = file_get_contents('php://input');
-$raw = json_decode($body, TRUE);
-$cmd = isset($raw['cmd']) ? $raw['cmd'] : 'load';
-$data = isset($raw['data']) ? $raw['data'] : 'none';
 $code = 200;
 
 if ($cmd == 'loadPerson') {
@@ -45,9 +41,23 @@ function loadTextblocks()
 {
   global $userDb;
   $result = $userDb->query('select * from textblock');
+  return mapRow($result, [
+    'id' => 'a',
+    'type' => 'b',
+    'text' => 'c'
+  ]);
+}
+
+function mapRow($src, $map)
+{
   $data = array();
-  while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-    $data[] = $row;
+  while ($row = $src->fetchArray(SQLITE3_ASSOC)) {
+    $data[] = array_combine(
+      array_map(function ($key) use ($map) {
+        return $map[$key];
+      }, array_keys($row)),
+      array_values($row)
+    );
   }
   return json_encode($data);
 }
@@ -56,18 +66,19 @@ function loadPlans()
 {
   global $userDb;
   $result = $userDb->query('select id,start,end from plan');
-  $data = array();
-  while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-    $data[] = $row;
-  }
-  return json_encode($data);
+  return mapRow($result, [
+    'id' => 'a',
+    'start' => 'b',
+    'end' => 'c',
+    'data' => 'd'
+  ]);
 }
 
 /*
 function handleError()
 {
   global $scriptname;
-  
+
   echo($scriptname);
 }
 
@@ -76,16 +87,16 @@ function processOPTIONS() {
 
 function checkPermission() {
   global $code,$headers,$user,$cmd;
-  
+
   if($_SERVER['REQUEST_METHOD']=='OPTIONS')
     return true;
-  
+
   if(in_array($_SERVER['REQUEST_METHOD'], $user['permissions']))
     return true;
-  
+
   if(in_array('ADMIN', $user['permissions']))
     return true;
-  
+
   if($_SERVER['REQUEST_METHOD'] == 'POST')
   {
     switch ($cmd)
@@ -96,7 +107,7 @@ function checkPermission() {
         return true;
     }
   }
-  
+
   $code = 401;
   header('Content-Type: application/json');
   $response = array('error' => 'access not allowed for '.$user['fullname']);

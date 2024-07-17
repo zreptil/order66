@@ -17,7 +17,8 @@ import {EnvironmentService} from '@/_services/environment.service';
 })
 export class WelcomeComponent implements OnInit {
   closeData: CloseButtonData = {
-    colorKey: 'welcome'
+    colorKey: 'welcome',
+    showClose: false
   };
   hash: string;
   username: string;
@@ -27,17 +28,16 @@ export class WelcomeComponent implements OnInit {
   appearance: MatFormFieldAppearance = 'fill';
   form?: FormGroup;
   controls: any = {
-    username: {label: $localize`Username`, validators: Validators.required},
-    password: {label: $localize`Password`, validators: Validators.required},
-    firstname: {label: $localize`Firstname`, validators: Validators.required},
-    lastname: {label: $localize`Lastname`, validators: Validators.required},
+    username: {label: $localize`Username`},
+    password: {label: $localize`Password`},
+    firstname: {label: $localize`Firstname`},
+    lastname: {label: $localize`Lastname`},
     email: {label: $localize`E-Mail`, validators: Validators.email},
-    street: {label: $localize`Street`, validators: Validators.required},
-    streetNo: {label: $localize`Street-No.`, validators: Validators.required},
-    zip: {label: $localize`ZIP`, validators: Validators.required},
-    city: {label: $localize`City`, validators: Validators.required},
+    street: {label: $localize`Street`},
+    streetNo: {label: $localize`Street-No.`},
+    zip: {label: $localize`ZIP`},
+    city: {label: $localize`City`},
   };
-  protected readonly onsubmit = onsubmit;
 
   constructor(public globals: GlobalsService,
               public bs: BackendService,
@@ -109,7 +109,7 @@ export class WelcomeComponent implements OnInit {
     return ret;
   }
 
-  onSubmit() {
+  onSend() {
     switch (this.mode) {
       case 'login':
         this.submitLogin();
@@ -123,49 +123,38 @@ export class WelcomeComponent implements OnInit {
   submitLogin() {
     if (this.form.get('username').errors == null
       && this.form.get('password').errors == null) {
-      Utils.hash(this.form.value.password).then((hash: string) => {
-        // request a login at the backend
-        this.bs.query({}, `auth|${this.form.value.username}|${hash}`)
-          .subscribe({
-            next: response => {
-              // save token for future requests without login-data
-              this.bs.token = response.u.token;
-              this.bs.loadPerson((data) => {
-                GLOBALS.saveSharedData();
-                this.msg.closePopup();
-              });
-            },
-            // request to login was rejected
-            error: err => {
-              console.error(err);
-              this.msg.error($localize`Wrong username or password`);
-            }
-          })
-      });
+      this.bs.login(this.form.value.username, this.form.value.password,
+        (person) => {
+          console.log(person);
+          GLOBALS.person = person;
+          GLOBALS.saveSharedData();
+          this.msg.closePopup();
+        },
+        (error) => {
+          console.error(error);
+          this.msg.error($localize`Wrong username or password`);
+        });
     }
   }
 
   submitRegister() {
     if (this.form.valid) {
-      Utils.hash(this.form.value.password).then((hash: string) => {
-        const user = new PersonData();
-        user.firstname = this.form.value.firstname;
-        user.lastname = this.form.value.lastname;
-        user.email = this.form.value.email;
-        user.street = this.form.value.street;
-        user.streetNo = this.form.value.streetNo;
-        user.zip = this.form.value.zip;
-        user.city = this.form.value.city;
-        console.log(user.asJson);
-        const base64 = Utils.encodeBase64(user.asString);
-        console.log(base64);
-        console.log(Utils.decodeBase64(base64));
-        console.log(hash);
-        const u = new PersonData();
-        u.fillFromString(Utils.decodeBase64(base64));
-        console.log(u);
-        GLOBALS.saveSharedData();
-      });
+      const person = new PersonData();
+      for (const key of Object.keys(this.form.value)) {
+        (person as any)[key] = this.form.value[key];
+      }
+      this.bs.register(this.form.value.username, this.form.value.password, person,
+        (person) => {
+          GLOBALS.person = person;
+          GLOBALS.saveSharedData();
+          this.msg.closePopup();
+        },
+        (error) => {
+          console.error(error);
+          if (error.status === 409) {
+            this.msg.error($localize`The user with the name "${this.form.value.username}" already exists`);
+          }
+        });
     }
   }
 }

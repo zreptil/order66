@@ -4,6 +4,10 @@ import {Log} from '@/_services/log.service';
 export abstract class BaseData {
   abstract get asJson(): any;
 
+  get forBackend(): string {
+    return Utils.encodeBase64(this.asString);
+  }
+
   get asString(): string {
     try {
       return JSON.stringify(this.asJson);
@@ -19,6 +23,11 @@ export abstract class BaseData {
       return def;
     }
     return `${json[key]}`;
+  }
+
+  fillFromBackend(src: string): void {
+    console.log(Utils.decodeBase64(src));
+    this.fillFromString(Utils.decodeBase64(src));
   }
 
   abstract _fillFromJson(json: any, def?: any): void;

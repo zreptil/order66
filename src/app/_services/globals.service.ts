@@ -12,6 +12,7 @@ import {MessageService} from '@/_services/message.service';
 import {WhatsNewComponent} from '@/components/whats-new/whats-new.component';
 import {WelcomeComponent} from '@/components/welcome/welcome.component';
 import {BackendService} from '@/_services/backend.service';
+import {PersonData} from '@/_model/person-data';
 
 class CustomTimeoutError extends Error {
   constructor() {
@@ -57,6 +58,7 @@ export class GlobalsService {
     welcome: $localize`Welcome to Order66`,
     whatsnew: $localize`Once upon a time...`
   };
+  person: PersonData;
   private flags = '';
 
   constructor(public http: HttpClient,
@@ -68,13 +70,18 @@ export class GlobalsService {
     GLOBALS = this;
     this.loadWebData();
     this.loadSharedData().then(_ => {
-      if (Utils.isEmpty(this.storageVersion)) {
-        this.ms.showPopup(WelcomeComponent, 'welcome', {});
-      } else if (this.storageVersion !== this.version) {
-        this.ms.showPopup(WhatsNewComponent, 'whatsnew', {});
-      } else {
-        this.currentPage = 'main';
-      }
+      this.bs.loginByToken(
+        (data) => {
+          this.person = new PersonData();
+          this.person.fillFromBackend(data.person.data);
+          if (this.storageVersion !== this.version) {
+            this.ms.showPopup(WhatsNewComponent, 'whatsnew', {});
+          } else {
+            this.currentPage = 'main';
+          }
+        }, (_error) => {
+          this.ms.showPopup(WelcomeComponent, 'welcome', {});
+        });
     });
   }
 
@@ -197,6 +204,7 @@ export class GlobalsService {
 
     this.storageVersion = storage.s1;
     // validate values
+    this.bs.token = storage.s2;
   }
 
   saveSharedData(): void {

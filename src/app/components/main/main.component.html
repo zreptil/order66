@@ -4,39 +4,41 @@
 -->
 <div mainpanel>
   <div toolbar>
-    <div controls>
+    <div></div>
+    <div>
       <button (click)="globals.isDebug = !globals.isDebug" *ngIf="globals.mayDebug" id="debug" mat-icon-button>
         <mat-icon *ngIf="!globals.isDebug">bug_report</mat-icon>
         <mat-icon *ngIf="globals.isDebug">pest_control</mat-icon>
       </button>
-      <button (click)="sync.toggleSyncDropbox()" id="sync" mat-icon-button>
+      <!-- button (click)="sync.toggleSyncDropbox()" id="sync" mat-icon-button>
         <ng-container *ngIf="!sync.hasSync">
           <mat-icon>sync_disabled</mat-icon>
         </ng-container>
         <ng-container *ngIf="sync.hasSync">
           <img alt="dropbox" src="../../../assets/images/dropbox.png">
         </ng-container>
-      </button>
+      </button -->
       <button (click)="onClick('whatsnew')" id="whatsnew" mat-icon-button>
         <mat-icon>info_outline</mat-icon>
       </button>
       <button (click)="onClick('impressum')" id="impressum" mat-icon-button>
         <mat-icon>account_balance</mat-icon>
       </button>
-      <button (click)="onClick('welcome')" id="welcome" mat-icon-button>
-        <mat-icon>school</mat-icon>
+      <button (click)="onClick('logout')" *ngIf="bs.token != null" id="logout" mat-icon-button>
+        <mat-icon>logout</mat-icon>
       </button>
+      <app-close-button [data]="closeData"></app-close-button>
     </div>
-    <app-close-button [data]="closeData"></app-close-button>
   </div>
-  <div contentpanel>
-    <div sidebar>
+  <div>
+    <div>
     </div>
-    <div contentback>
+    <div>
       <div content>
         <app-impressum *ngIf="globals.currentPage==='impressum'"></app-impressum>
         <app-welcome *ngIf="globals.currentPage==='welcome'"></app-welcome>
         <app-whats-new *ngIf="globals.currentPage==='news'"></app-whats-new>
+        {{ globals.person ?? {} |json }}
       </div>
     </div>
   </div>

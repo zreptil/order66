@@ -15,13 +15,16 @@
       This is a webapp for creating and managing informations for pet sitters who
       are looking after the pets during absence of their owners.
     </div>
-    <div>
+    <div *ngIf="bs.remainingUsers > 0">
       <span i18n>To use this app you need to</span>
       <button (click)="mode='login'" [class]="classForLogin" i18n mat-button>login</button>
       <span i18n>or</span>
       <button (click)="mode='register'" [class]="classForRegister" i18n mat-button>register</button>
     </div>
-    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+    <div *ngIf="bs.remainingUsers <= 0">
+      <span i18n>To use this app you need to login</span>
+    </div>
+    <form [formGroup]="form">
       <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'username'}"></ng-container>
       <mat-form-field [appearance]="appearance" [formGroup]="form">
         <mat-label i18n>Password</mat-label>
@@ -34,11 +37,11 @@
           matSuffix>
           <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
-        <mat-error *ngIf="form.get('password')?.invalid && !form.get('password')?.untouched">
+        <!-- mat-error *ngIf="form.get('password')?.invalid && !form.get('password')?.untouched">
           <ng-container *ngIf="form.get('password')?.errors?.['required']" i18n>Password is required</ng-container>
-        </mat-error>
+        </mat-error -->
       </mat-form-field>
-      <div [class]="classForArea('register')">
+      <div *ngIf="bs.remainingUsers > 0" [class]="classForArea('register')">
         <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'firstname'}"></ng-container>
         <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'lastname'}"></ng-container>
         <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'street'}"></ng-container>
@@ -50,7 +53,7 @@
     </form>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button (click)="onSubmit()" mat-button>{{ btnSendTitle }}</button>
+    <button (click)="onSend()" mat-button>{{ btnSendTitle }}</button>
   </mat-dialog-actions>
 </div>
 
@@ -58,10 +61,10 @@
   <mat-form-field [appearance]="appearance" [formGroup]="form">
     <mat-label>{{ controls[name]?.label }}</mat-label>
     <input [formControlName]="name" matInput>
-    <mat-error *ngIf="form.get(name)?.invalid && !form.get(name)?.untouched">
+    <!-- mat-error *ngIf="form.get(name)?.invalid && !form.get(name)?.untouched">
       <ng-container *ngIf="form.get(name)?.errors?.['required']" i18n>{{ controls[name]?.label }} is required</ng-container>
       <ng-container *ngIf="form.get(name)?.errors?.['email']" i18n>Invalid email address</ng-container>
-    </mat-error>
+    </mat-error -->
   </mat-form-field>
 </ng-template>
 

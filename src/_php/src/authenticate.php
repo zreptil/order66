@@ -4,6 +4,7 @@ require_once 'config.php';
 unset($skipCheck);
 // legalize all calls to config.php from this point on
 $scriptValid = $scriptCheck;
+$maxUsers = 10;
 
 if (!file_exists($userFile)) {
   include('setupUsers.php');
@@ -93,15 +94,20 @@ function forSQL($value, $isText = false)
 
 function createToken()
 {
-  $token = bin2hex(random_bytes(16));
+  $ret = bin2hex(random_bytes(16));
   $time = microtime(true) * 10000;
-  return substr($token, 0, 16) . $time . substr($token, 16);
+  return substr($ret, 0, 16) . $time . substr($ret, 16);
 }
 
 function userId($id)
 {
   return str_pad($id, 5, '0', STR_PAD_LEFT);
 }
+
+$body = file_get_contents('php://input');
+$raw = json_decode($body, TRUE);
+$cmd = isset($raw['cmd']) ? $raw['cmd'] : 'load';
+$data = isset($raw['data']) ? $raw['data'] : 'none';
 
 unset($user);
 // if HTTP_AUTHORIZATION is given, try to find the user with the
@@ -111,14 +117,40 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
   $db = new SQLite3($userFile, SQLITE3_OPEN_READWRITE);
   $token = $_SERVER['HTTP_AUTHORIZATION'];
   $isLogin = false;
-  // if HTTP_AUTHORIZATION starts with auth| then the following two parts should be username and password-hash
+  $isRegister = false;
   if (substr($token, 0, 5) == 'auth|') {
+    // if HTTP_AUTHORIZATION starts with auth| then the following two parts should be username and password-hash
     $parts = explode('|', $token);
     if (count($parts) == 3) {
       // look for user with the given credentials
       $query = 'select * from users where username=' . forSQL($parts[1], true)
         . ' and pwd=' . forSQL($parts[2], true);
       $isLogin = true;
+    }
+  } else if (substr($token, 0, 9) == 'register|') {
+    // if HTTP_AUTHORIZATION starts with register| then the following two parts should be username and password-hash
+    $parts = explode('|', $token);
+    if (count($parts) == 3) {
+      // check if username already exists
+      $query = 'select username from users where username=' . forSQL($parts[1], true);
+      $result = $db->query($query);
+      if ($result && $user = $result->fetchArray(SQLITE3_ASSOC)) {
+        // if the username already exists, throw error 409
+        header('HTTP/1.0 409 User already exists!');
+        exit;
+      }
+      // if user doesn't exist, create a token for immediate login
+      $token = createToken();
+      $query = 'insert into users (username, pwd, token) values ('
+        . forSQL($parts[1], true) . ', '
+        . forSQL($parts[2], true) . ', '
+        . forSQL($token, true) . ')';
+      $result = $db->query($query);
+      $isLogin = true;
+      $isRegister = true;
+      // look for user with the given credentials
+      $query = 'select * from users where username=' . forSQL($parts[1], true)
+        . ' and pwd=' . forSQL($parts[2], true);
     }
   } else {
     $query = 'select * from users where token=' . forSQL($token, true);
@@ -133,6 +165,10 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
       unset($user['pwd']);
       $userFilename = userId($user['id']) . '.sqlite';
       include('setupSingleUser.php');
+      if ($isRegister && isset($userDb)) {
+        $query = 'insert into person (data) values(' . forSQL($data, true) . ')';
+        $result = $userDb->query($query);
+      }
       if ($isLogin && isset($userDb)) {
         if (!isset($user['token'])) {
           $user['token'] = createToken();
@@ -142,7 +178,11 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         header('HTTP/1.0 200 OK');
         unset($user['id']);
         unset($user['username']);
-        echo('{"u":' . json_encode($user) . '}');
+        if ($isRegister) {
+          echo('{"u":' . json_encode($user) . ',"p":"' . $data . '"}');
+        } else {
+          echo('{"u":' . json_encode($user) . '}');
+        }
         exit;
       }
     }
@@ -155,6 +195,14 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
 }
 
 if (!isset($userDb)) {
+  if ($cmd == 'loadPerson') {
+    $db = new SQLite3($userFile, SQLITE3_OPEN_READONLY);
+    $query = 'select count(*) as cnt from users';
+    $result = $db->query($query);
+    $row = $result->fetchArray(SQLITE3_ASSOC);
+    echo('{"r":' . ($maxUsers - $row['cnt']) . '}');
+    $db->close();
+  }
   header('HTTP/1.0 403 Forbidden');
   exit;
 }

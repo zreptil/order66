@@ -16,11 +16,11 @@
         </library>
       </libraries>
     </data-source>
-    <data-source source="LOCAL" name="users" uuid="4bb50c15-9be5-4ce2-acaf-04958d393df4">
+    <data-source source="LOCAL" name="users" uuid="baf03fc2-06fe-4470-b0c4-bf6c47579b97">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\msn\PhpstormProjects\backend\src\users.sqlite</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\msn\WebstormProjects\order66\src\_php\src\users.sqlite</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <libraries>
         <library>

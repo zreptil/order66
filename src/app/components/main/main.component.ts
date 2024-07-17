@@ -6,6 +6,7 @@ import {WhatsNewComponent} from '@/components/whats-new/whats-new.component';
 import {ImpressumComponent} from '@/components/impressum/impressum.component';
 import {WelcomeComponent} from '@/components/welcome/welcome.component';
 import {CloseButtonData} from '@/controls/close-button/close-button-data';
+import {BackendService} from '@/_services/backend.service';
 
 @Component({
   selector: 'app-main',
@@ -19,7 +20,8 @@ export class MainComponent {
   };
 
   constructor(public globals: GlobalsService,
-              public ms: MessageService,
+              public msg: MessageService,
+              public bs: BackendService,
               public sync: SyncService) {
   }
 
@@ -38,13 +40,18 @@ export class MainComponent {
   onClick(key: string) {
     switch (key) {
       case 'whatsnew':
-        this.ms.showPopup(WhatsNewComponent, 'whatsnew', {});
+        this.msg.showPopup(WhatsNewComponent, 'whatsnew', {});
         break;
       case 'impressum':
-        this.ms.showPopup(ImpressumComponent, 'impressum', {});
+        this.msg.showPopup(ImpressumComponent, 'impressum', {});
         break;
       case 'welcome':
-        this.ms.showPopup(WelcomeComponent, 'welcome', {});
+        this.msg.showPopup(WelcomeComponent, 'welcome', {});
+        break;
+      case 'logout':
+        this.bs.logout();
+        GLOBALS.saveSharedData();
+        this.msg.showPopup(WelcomeComponent, 'welcome', {});
         break;
     }
   }
