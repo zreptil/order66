@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="1d9ddece-526e-4a6a-998d-61d84c8daae7" name="Webtropia" url="http://vps1380150.vs.webtropia-customer.com">
+        <fileTransfer rootFolder="/websites/zreptil.de/backend.zreptil.de" host="vps1380150.vs.webtropia-customer.com" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
