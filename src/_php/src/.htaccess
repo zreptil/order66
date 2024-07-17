@@ -1,0 +1,7 @@
+<FilesMatch "\.sqlite$">
+    Header set Content-Type "text/plain"
+    Header set Status "404 Not Found"
+    ErrorDocument 404 "Not Found"
+    Require all denied
+</FilesMatch>
+ErrorDocument 404 /errors.php
