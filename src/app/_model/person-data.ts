@@ -1,6 +1,6 @@
 import {BaseData} from '@/_model/base-data';
 
-export class UserData extends BaseData {
+export class PersonData extends BaseData {
   firstname: string;
   lastname: string;
   email: string;

@@ -56,7 +56,7 @@
 
 <ng-template #formFieldTemplate let-name="name">
   <mat-form-field [appearance]="appearance" [formGroup]="form">
-    <mat-label i18n>{{ controls[name]?.label }}</mat-label>
+    <mat-label>{{ controls[name]?.label }}</mat-label>
     <input [formControlName]="name" matInput>
     <mat-error *ngIf="form.get(name)?.invalid && !form.get(name)?.untouched">
       <ng-container *ngIf="form.get(name)?.errors?.['required']" i18n>{{ controls[name]?.label }} is required</ng-container>

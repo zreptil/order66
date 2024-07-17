@@ -5,9 +5,10 @@ import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {Utils} from '@/classes/utils';
 import {MatFormFieldAppearance} from '@angular/material/form-field';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {UserData} from '@/_model/user-data';
+import {PersonData} from '@/_model/person-data';
 import {BackendService} from '@/_services/backend.service';
 import {MessageService} from '@/_services/message.service';
+import {EnvironmentService} from '@/_services/environment.service';
 
 @Component({
   selector: 'app-welcome',
@@ -40,6 +41,7 @@ export class WelcomeComponent implements OnInit {
 
   constructor(public globals: GlobalsService,
               public bs: BackendService,
+              public env: EnvironmentService,
               public dbs: DropboxService,
               public msg: MessageService) {
   }
@@ -84,20 +86,9 @@ export class WelcomeComponent implements OnInit {
       this.hash = result;
     });
     const controls: any = {};
-    const def: any = {
-      username: 'admin',
-      password: 'zugang',
-      firstname: 'Andreas',
-      lastname: 'Perlitz',
-      email: 'andi@zreptil.de',
-      street: 'Karlsbader Str.',
-      streetNo: '15',
-      zip: '86169',
-      city: 'Augsburg',
-    }
     for (const key of Object.keys(this.controls)) {
       const ctrl = this.controls[key];
-      controls[key] = new FormControl(def[key] ?? '', ctrl.validators);
+      controls[key] = new FormControl(this.env.defaultLogin?.[key] ?? '', ctrl.validators);
     }
     this.form = new FormGroup(controls);
   }
@@ -133,27 +124,23 @@ export class WelcomeComponent implements OnInit {
     if (this.form.get('username').errors == null
       && this.form.get('password').errors == null) {
       Utils.hash(this.form.value.password).then((hash: string) => {
-        console.log(this.form.value.username, hash);
+        // request a login at the backend
         this.bs.query({}, `auth|${this.form.value.username}|${hash}`)
           .subscribe({
             next: response => {
-              console.log(response);
+              // save token for future requests without login-data
               this.bs.token = response.u.token;
-              this.bs.query({cmd: 'loadPerson'})
-                .subscribe({
-                  next: response => {
-                    console.log(response);
-                  },
-                  error: err => {
-                    console.error(err);
-                  }
-                });
+              this.bs.loadPerson((data) => {
+                GLOBALS.saveSharedData();
+                this.msg.closePopup();
+              });
             },
-            error: _err => {
+            // request to login was rejected
+            error: err => {
+              console.error(err);
               this.msg.error($localize`Wrong username or password`);
             }
           })
-        // GLOBALS.saveSharedData();
       });
     }
   }
@@ -161,7 +148,7 @@ export class WelcomeComponent implements OnInit {
   submitRegister() {
     if (this.form.valid) {
       Utils.hash(this.form.value.password).then((hash: string) => {
-        const user = new UserData();
+        const user = new PersonData();
         user.firstname = this.form.value.firstname;
         user.lastname = this.form.value.lastname;
         user.email = this.form.value.email;
@@ -174,7 +161,7 @@ export class WelcomeComponent implements OnInit {
         console.log(base64);
         console.log(Utils.decodeBase64(base64));
         console.log(hash);
-        const u = new UserData();
+        const u = new PersonData();
         u.fillFromString(Utils.decodeBase64(base64));
         console.log(u);
         GLOBALS.saveSharedData();

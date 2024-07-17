@@ -3,5 +3,7 @@ export const environment = {
   // name of settings file in google appdatafolder
   settingsFilename: 'nightrep-settings',
   // api key for dropbox
-  DROPBOX_APP_KEY: 'z5opkgt8251mhsb'
+  DROPBOX_APP_KEY: 'z5opkgt8251mhsb',
+  // url for backend
+  backendUrl: 'https://order66.zreptil.de/backend/index.php',
 };

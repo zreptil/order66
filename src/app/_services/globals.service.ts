@@ -11,6 +11,7 @@ import {EnvironmentService} from '@/_services/environment.service';
 import {MessageService} from '@/_services/message.service';
 import {WhatsNewComponent} from '@/components/whats-new/whats-new.component';
 import {WelcomeComponent} from '@/components/welcome/welcome.component';
+import {BackendService} from '@/_services/backend.service';
 
 class CustomTimeoutError extends Error {
   constructor() {
@@ -62,6 +63,7 @@ export class GlobalsService {
               public sync: SyncService,
               public ls: LanguageService,
               public ms: MessageService,
+              public bs: BackendService,
               public env: EnvironmentService) {
     GLOBALS = this;
     this.loadWebData();
@@ -201,6 +203,7 @@ export class GlobalsService {
     const storage: any = {
       s0: Date.now(),
       s1: this.version,
+      s2: this.bs.token
     };
     const data = JSON.stringify(storage);
     localStorage.setItem('sharedData', data);

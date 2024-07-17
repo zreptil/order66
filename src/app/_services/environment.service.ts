@@ -12,6 +12,7 @@ export class EnvironmentService {
   DROPBOX_APP_KEY: string = null;
   backendUrl: string = null;
   settingsFilename: string = null;
+  defaultLogin: any = null;
 
   urlParams: any = {};
 

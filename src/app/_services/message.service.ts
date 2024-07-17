@@ -11,8 +11,13 @@ import {ComponentType} from '@angular/cdk/overlay';
 export class MessageService {
 
   private dlgRef: MatDialogRef<any>;
+  private popupDlgRef: MatDialogRef<any>;
 
   constructor(private dialog: MatDialog) {
+  }
+
+  closePopup(): void {
+    this.popupDlgRef?.close();
   }
 
   info(content: string | string[], params?: DialogParams): Observable<DialogResult> {
@@ -32,12 +37,12 @@ export class MessageService {
   }
 
   showPopup(dlg: ComponentType<any>, id: string, data: any): Observable<DialogResult> {
-    const dlgRef = this.dialog.open(dlg, {
+    this.popupDlgRef = this.dialog.open(dlg, {
       data: data,
       panelClass: ['dialog-box', id],
       disableClose: true
     });
-    return dlgRef.afterClosed();
+    return this.popupDlgRef.afterClosed();
   }
 
   showDialog(type: DialogType | IDialogDef, content: string | string[], disableClose = false, params?: DialogParams): Observable<DialogResult> {
