@@ -12,14 +12,14 @@ import {EnvironmentService} from '@/_services/environment.service';
 import {AppData} from '@/_model/app-data';
 
 @Component({
-  selector: 'app-welcome',
-  templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.scss']
+  selector: 'app-settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss']
 })
-export class WelcomeComponent implements OnInit {
+export class SettingsComponent implements OnInit {
   closeData: CloseButtonData = {
-    colorKey: 'welcome',
-    showClose: false
+    colorKey: 'settings',
+    showClose: true
   };
   hash: string;
   username: string;
@@ -29,8 +29,6 @@ export class WelcomeComponent implements OnInit {
   appearance: MatFormFieldAppearance = 'fill';
   form?: FormGroup;
   controls: any = {
-    username: {label: $localize`Username`},
-    password: {label: $localize`Password`},
     firstname: {label: $localize`Firstname`},
     lastname: {label: $localize`Lastname`},
     email: {label: $localize`E-Mail`, validators: Validators.email},
@@ -47,41 +45,6 @@ export class WelcomeComponent implements OnInit {
               public msg: MessageService) {
   }
 
-  private _mode = 'login';
-
-  get mode(): string {
-    return this._mode;
-  }
-
-  set mode(value: string) {
-    this._mode = value;
-    setTimeout(() => this.userName?.nativeElement?.focus());
-  }
-
-  get btnSendTitle(): string {
-    const titles: any = {
-      login: $localize`Login`,
-      register: $localize`Register`
-    };
-    return titles[this._mode] ?? 'doit';
-  }
-
-  get classForLogin(): string[] {
-    const ret: string[] = [];
-    if (this._mode === 'login') {
-      ret.push('current');
-    }
-    return ret;
-  };
-
-  get classForRegister(): string[] {
-    const ret: string[] = [];
-    if (this._mode === 'register') {
-      ret.push('current');
-    }
-    return ret;
-  };
-
   ngOnInit() {
     Utils.hash('zugang').then(result => {
       this.hash = result;
@@ -89,56 +52,12 @@ export class WelcomeComponent implements OnInit {
     const controls: any = {};
     for (const key of Object.keys(this.controls)) {
       const ctrl = this.controls[key];
-      controls[key] = new FormControl(this.env.defaultLogin?.[key] ?? '', ctrl.validators);
+      controls[key] = new FormControl((GLOBALS.appData.person as any)?.[key] ?? '', ctrl.validators);
     }
     this.form = new FormGroup(controls);
   }
 
-  doSync() {
-    this.dbs.connect();
-  }
-
-  clickHide(_evt: MouseEvent) {
-    this.hide = !this.hide;
-  }
-
-  classForArea(mode: string): string[] {
-    const ret: string[] = []
-    if (this.mode !== mode) {
-      ret.push('hidden');
-    }
-    return ret;
-  }
-
-  onSend() {
-    switch (this.mode) {
-      case 'login':
-        this.submitLogin();
-        break;
-      case 'register':
-        this.submitRegister();
-        break;
-    }
-  }
-
-  submitLogin() {
-    if (this.form.get('username').errors == null
-      && this.form.get('password').errors == null) {
-      this.bs.login(this.form.value.username, this.form.value.password,
-        (data) => {
-          console.log(data);
-          GLOBALS.appData = data;
-          GLOBALS.saveSharedData();
-          this.msg.closePopup();
-        },
-        (error) => {
-          console.error(error);
-          this.msg.error($localize`Wrong username or password`);
-        });
-    }
-  }
-
-  submitRegister() {
+  clickSave() {
     if (this.form.valid) {
       const person = new PersonData();
       for (const key of Object.keys(this.form.value)) {
@@ -146,7 +65,7 @@ export class WelcomeComponent implements OnInit {
       }
       GLOBALS.appData ??= new AppData();
       GLOBALS.appData.person = person;
-      this.bs.register(this.form.value.username, this.form.value.password, GLOBALS.appData,
+      this.bs.saveAppData(GLOBALS.appData,
         (data) => {
           GLOBALS.appData = data;
           GLOBALS.saveSharedData();
@@ -154,9 +73,7 @@ export class WelcomeComponent implements OnInit {
         },
         (error) => {
           console.error(error);
-          if (error.status === 409) {
-            this.msg.error($localize`The user with the name "${this.form.value.username}" already exists`);
-          }
+          this.msg.error($localize`Error when saving data - ${error}`);
         });
     }
   }
@@ -165,7 +82,7 @@ export class WelcomeComponent implements OnInit {
   onKeyDown(evt: KeyboardEvent): void {
     evt.stopPropagation();
     if (evt.key === 'Enter') {
-      this.submitLogin();
+      this.clickSave();
     }
   }
 }

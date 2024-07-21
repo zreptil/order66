@@ -454,4 +454,8 @@ export class Utils {
     }
     return value;
   }
+
+  static isNumeric(value: string): boolean {
+    return /^\d+$/.test(value);
+  }
 }

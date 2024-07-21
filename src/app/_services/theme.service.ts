@@ -144,7 +144,7 @@ export class ThemeService {
 
   async setTheme(name: string, setGlobalTheme = false, checkThemeChanged = true) {
     if (checkThemeChanged && GLOBALS.themeChanged) {
-      this.msg.confirm($localize`Es wurden Farben geändert. Sollen diese Änderungen verworfen werden?`).subscribe(result => {
+      this.msg.confirm($localize`Colors have been changed. Should these changes be discarded?`).subscribe(result => {
         if (result?.btn === DialogResultButton.yes) {
           GLOBALS.themeChanged = false;
           this.setTheme(name, setGlobalTheme);

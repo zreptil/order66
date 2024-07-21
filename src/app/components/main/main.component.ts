@@ -7,6 +7,7 @@ import {ImpressumComponent} from '@/components/impressum/impressum.component';
 import {WelcomeComponent} from '@/components/welcome/welcome.component';
 import {CloseButtonData} from '@/controls/close-button/close-button-data';
 import {BackendService} from '@/_services/backend.service';
+import {SettingsComponent} from '@/components/settings/settings.component';
 
 @Component({
   selector: 'app-main',
@@ -47,6 +48,9 @@ export class MainComponent {
         break;
       case 'welcome':
         this.msg.showPopup(WelcomeComponent, 'welcome', {});
+        break;
+      case 'settings':
+        this.msg.showPopup(SettingsComponent, 'settings', {});
         break;
       case 'logout':
         this.bs.logout();

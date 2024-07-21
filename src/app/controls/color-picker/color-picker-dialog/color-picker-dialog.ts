@@ -144,7 +144,7 @@ export class ColorPickerDialog implements AfterViewInit {
   updateTitle(): void {
     setTimeout(() => {
       const color = this.data.colorList[this.data.colorIdx];
-      this.title.main = color?.title ?? color?.themeKey ?? $localize`Farbauswahl`;
+      this.title.main = color?.title ?? color?.themeKey ?? $localize`Colorselection`;
       this.title.sub = color?.subtitle ?? '';
     });
   }

@@ -41,11 +41,6 @@ export class ColorCfgDialogComponent implements AfterViewInit {
   ) {
   }
 
-  get dialogTitle(): string {
-    const ret = this.mapEntry(this.dlgData?.colorKey, true)?.title;
-    return ret == null ? $localize`Farbanpassungen` : $localize`Farben für ` + ret;
-  }
-
   _listThemeKeys: string[];
 
   closeData: CloseButtonData = {
@@ -61,7 +56,7 @@ export class ColorCfgDialogComponent implements AfterViewInit {
       if (!hasChanges) {
         return of(true);
       }
-      return this.ms.confirm($localize`Sollen die Farbänderungen verworfen werden?`,
+      return this.ms.confirm($localize`Should the color changes be discarded?`,
         new DialogParams({noClose: true}))
         .pipe(map(
           result => {
@@ -200,6 +195,11 @@ export class ColorCfgDialogComponent implements AfterViewInit {
     }
     this._listThemeKeys = ret;
     return ret;
+  }
+
+  get dialogTitle(): string {
+    const ret = this.mapEntry(this.dlgData?.colorKey, true)?.title;
+    return ret == null ? $localize`Coloradjustments` : $localize`Colors for ` + ret;
   }
 
   nameForColor(key: string): string {

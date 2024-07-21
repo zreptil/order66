@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="00001" uuid="7f621e8e-938e-4b8f-a57e-d15c3a513c0f">
+    <data-source source="LOCAL" name="users" uuid="baf03fc2-06fe-4470-b0c4-bf6c47579b97">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\msn\PhpstormProjects\backend\src\00001.sqlite</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\msn\WebstormProjects\order66\src\_php\src\users.sqlite</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <libraries>
         <library>
@@ -16,11 +16,11 @@
         </library>
       </libraries>
     </data-source>
-    <data-source source="LOCAL" name="users" uuid="baf03fc2-06fe-4470-b0c4-bf6c47579b97">
+    <data-source source="LOCAL" name="00001" uuid="f2ba4559-8087-4acb-816c-7154a708e188">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\msn\WebstormProjects\order66\src\_php\src\users.sqlite</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\msn\WebstormProjects\order66\src\_php\src\00001.sqlite</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <libraries>
         <library>

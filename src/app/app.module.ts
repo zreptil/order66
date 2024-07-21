@@ -23,6 +23,7 @@ import {ColorCfgDialogComponent} from '@/controls/color-cfg/color-cfg-dialog/col
 import {CloseButtonComponent} from '@/controls/close-button/close-button.component';
 import {ColorPickerSliderComponent} from '@/controls/color-picker/color-picker-slider/color-picker-slider.component';
 import {ColorPickerHslComponent} from '@/controls/color-picker/color-picker-hsl/color-picker-hsl.component';
+import {SettingsComponent} from '@/components/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import {ColorPickerHslComponent} from '@/controls/color-picker/color-picker-hsl/
     WhatsNewComponent,
     MainComponent,
     WelcomeComponent,
+    SettingsComponent,
     ImpressumComponent,
   ],
   bootstrap: [AppComponent], imports: [BrowserModule,

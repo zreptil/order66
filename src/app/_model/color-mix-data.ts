@@ -23,7 +23,7 @@ export class ColorMix extends BaseData {
 
   static fromJson(json: any): ColorMix {
     const ret = new ColorMix();
-    ret.fillFromJson(json);
+    ret.fillFromJson(0, json);
     return ret;
   }
 

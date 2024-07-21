@@ -4,7 +4,7 @@
 -->
 <div mainpanel>
   <div toolbar>
-    <div></div>
+    <div>{{ globals.appData?.person?.fullname }}</div>
     <div>
       <button (click)="globals.isDebug = !globals.isDebug" *ngIf="globals.mayDebug" id="debug" mat-icon-button>
         <mat-icon *ngIf="!globals.isDebug">bug_report</mat-icon>
@@ -24,9 +24,19 @@
       <button (click)="onClick('impressum')" id="impressum" mat-icon-button>
         <mat-icon>account_balance</mat-icon>
       </button>
-      <button (click)="onClick('logout')" *ngIf="bs.token != null" id="logout" mat-icon-button>
-        <mat-icon>logout</mat-icon>
+      <button *ngIf="bs.token != null" [matMenuTriggerFor]="userMenu" mat-icon-button>
+        <mat-icon>person</mat-icon>
       </button>
+      <mat-menu #userMenu="matMenu">
+        <button (click)="onClick('settings')" mat-menu-item>
+          <mat-icon>settings</mat-icon>
+          <span i18n>Settings</span>
+        </button>
+        <button (click)="onClick('logout')" mat-menu-item>
+          <mat-icon>logout</mat-icon>
+          <span i18n>Logout</span>
+        </button>
+      </mat-menu>
       <app-close-button [data]="closeData"></app-close-button>
     </div>
   </div>
@@ -38,7 +48,7 @@
         <app-impressum *ngIf="globals.currentPage==='impressum'"></app-impressum>
         <app-welcome *ngIf="globals.currentPage==='welcome'"></app-welcome>
         <app-whats-new *ngIf="globals.currentPage==='news'"></app-whats-new>
-        {{ globals.person ?? {} |json }}
+        {{ globals.appData ?? {} |json }}<br>
       </div>
     </div>
   </div>

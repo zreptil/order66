@@ -1,0 +1,112 @@
+:host {
+  --headBack: var(--whatsnewHeadBack);
+  --headFore: var(--whatsnewHeadFore);
+  --bodyBack: var(--whatsnewBodyBack);
+  --bodyFore: var(--whatsnewBodyFore);
+  --accentBack: var(--whatsnewHeadBack);
+  --accentFore: var(--whatsnewHeadFore);
+}
+
+::ng-deep body {
+  --errorColor: white;
+}
+
+::ng-deep .dialog-box.settings {
+  max-width: calc(100vw * 0.75) !important;
+}
+
+h1 {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
+a, a:visited, a:active {
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--headBack);
+}
+
+div[header] {
+  > div {
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+[mat-dialog-title] {
+  display: flex;
+  flex-direction: row;
+  color: var(--headFore);
+  justify-content: space-between;
+  align-items: center;
+
+  mat-icon {
+    position: absolute;
+  }
+
+  .langPanel {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-end;
+    flex-wrap: wrap;
+  }
+}
+
+mat-dialog-content {
+  padding: 1em;
+  font-size: 1.2em;
+
+  div {
+    text-align: justify;
+    padding-top: 1.0em;
+
+    span:first-child {
+      margin-right: 0.5em;
+    }
+
+    span:not(:first-child) {
+      margin: 0 0.5em;
+    }
+  }
+}
+
+mat-dialog-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  button {
+    color: var(--headFore);
+  }
+
+  .left {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .right {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+  }
+}
+
+
+@media(max-width: 33em) {
+  div[mat-dialog-title] {
+    flex-direction: column !important;
+  }
+}
+
+div[row] {
+  display: flex;
+  flex-flow: row;
+  align-items: flex-start;
+}
+
+.current {
+  background: rgba(0, 0, 0, 0.2);
+}

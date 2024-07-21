@@ -7,11 +7,14 @@
     "i18n-01-extract": "ng extract-i18n app --output-path src/locale --out-file messages.en-GB.xliff --format xliff --progress",
     "i18n-02-upload-english": "start https://crowdin.com/project/order66/content/files",
     "i18n-03-create-messages": "tsc tools/i18n-create-messages.ts && node tools/i18n-create-messages.js",
+    "i18n-12-extract-and-upload-english": "npm run i18n-01-extract && npm run i18n-02-upload-english",
     "i18n": "npm run i18n-01-extract && npm run i18n-03-create-messages",
     "ng": "ng",
     "start": "ng serve --port 66 --open",
     "test": "ng test",
-    "watch": "ng build --watch --configuration development"
+    "watch": "ng build --watch --configuration development",
+    "backend": "C:\\Users\\msn\\PhpstormProjects\\php8.3.9\\php.exe -S localhost:80 -t C:\\Users\\msn\\WebstormProjects\\order66\\src\\_php\\src router.php",
+    "phpliteadmin": "C:\\Users\\msn\\PhpstormProjects\\php8.3.9\\php.exe -S localhost:81 -t C:\\Users\\msn\\WebstormProjects\\order66\\src\\_php"
   },
   "dependencies": {
     "@angular/animations": "^18.0.0",

@@ -27,7 +27,7 @@ export class CrowdinData {
       + `&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-${this.statsCode}.json`;
   }
 
-  static factoryEnglish(): CrowdinData {
-    return new CrowdinData('lisa', 39, 'en', '13600041-555863');
+  static factoryGerman(): CrowdinData {
+    return new CrowdinData('order66', 39, 'en', '13600041-555863');
   }
 }

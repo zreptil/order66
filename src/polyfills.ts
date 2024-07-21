@@ -3,4 +3,4 @@ import 'zone.js';
 import {LanguageService} from '@/_services/language.service';
 
 const srv = new LanguageService();
-srv.activate()
+srv.activate('de-DE');

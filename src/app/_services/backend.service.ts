@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {EnvironmentService} from '@/_services/environment.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {PersonData} from '@/_model/person-data';
 import {Utils} from '@/classes/utils';
 import {GLOBALS} from '@/_services/globals.service';
+import {AppData} from '@/_model/app-data';
 
 @Injectable({
   providedIn: 'root'
@@ -23,20 +23,20 @@ export class BackendService {
    * Register a new user and save the data for the person
    * @param username username
    * @param pwd      password
-   * @param person   data for the person to save
+   * @param data     data for saving
    * @param onDone   called when done
    * @param onError  called on error during processing
    */
-  register(username: string, pwd: string, person: PersonData, onDone: (person: PersonData) => void, onError?: (error: any) => void): void {
+  register(username: string, pwd: string, data: AppData, onDone: (data: AppData) => void, onError?: (error: any) => void): void {
     Utils.hash(pwd).then((hash: string) => {
-      this.query({data: person.forBackend}, `register|${username}|${hash}`)
+      this.query({data: data.forBackend}, `register|${username}|${hash}`)
         .subscribe({
           next: response => {
             // save token for future requests without login-data
             this.token = response.u.token;
-            person = new PersonData();
-            person.fillFromBackend(response.p);
-            onDone?.(person);
+            data = new AppData(response.d);
+            this.query({cmd: 'saveAppData', data: data});
+            onDone?.(data);
           },
           // request to login was rejected
           error: error => {
@@ -53,14 +53,14 @@ export class BackendService {
    * @param onDone   called when done
    * @param onError  called on error during processing
    */
-  login(username: string, pwd: string, onDone: (person: PersonData) => void, onError?: (error: any) => void): void {
+  login(username: string, pwd: string, onDone: (data: AppData) => void, onError?: (error: any) => void): void {
     Utils.hash(pwd).then((hash: string) => {
       this.query({}, `auth|${username}|${hash}`)
         .subscribe({
           next: response => {
             // save token for future requests without login-data
             this.token = response.u.token;
-            this.loadPerson((data) => {
+            this.loadAppData((data) => {
               onDone?.(data);
             });
           },
@@ -73,10 +73,10 @@ export class BackendService {
   }
 
   loginByToken(onDone: (data: any) => void, onError?: (error: any) => void): void {
-    this.query({cmd: 'loadPerson'}, this.token)
+    this.query({cmd: 'loadAppData', id: 1}, this.token)
       .subscribe({
         next: response => {
-          onDone?.(response);
+          onDone?.(response.data.data);
         },
         // request to login was rejected
         error: error => {
@@ -86,15 +86,13 @@ export class BackendService {
       })
   }
 
-  loadPerson(onDone: (data: PersonData) => void, onError?: (error: any) => void): void {
-    this.query({cmd: 'loadPerson'})
+  loadAppData(onDone: (data: AppData) => void, onError?: (error: any) => void): void {
+    this.query({cmd: 'loadAppData', id: 1})
       .subscribe({
         next: (response: any) => {
-          console.log('antwort!!!!', response);
-          const person = new PersonData();
-          person.fillFromBackend(response.person.data);
-          console.log(response.person.data);
-          onDone(person);
+          const ret = new AppData();
+          ret.fillFromBackend(response.id, response.data.data);
+          onDone(ret);
         },
         error: error => {
           console.error(error);
@@ -103,9 +101,64 @@ export class BackendService {
       });
   }
 
+  saveAppData(data: AppData, onDone: (data: AppData) => void, onError?: (error: any) => void): void {
+    // const list: any[] = [];
+    // for (let i = 0; i < 10000; i++) {
+    //   list.push(data.person);
+    // }
+    // (data as any).test = list;
+    // console.log(data.forBackend);
+//       $query = 'insert into plan (start, end) values ('
+//         . forSql(20240711) . ',' . forSql(20240721) . ');'
+//         . 'insert into plan (start, end) values ('
+//         . forSql(20240808) . ',' . forSql(20240816) . ');';
+//       $result = $userDb->exec($query);
+//       $query = 'insert into textblock (type, text) values ('
+//         . forSql(0) . ','
+//         . forSql('Boots, Emma, Tyson und Marley bekommen zusammen eine ganze 400g Dose in ihren Schüsseln', true) . ');'
+//         . 'insert into textblock (type, text) values ('
+//         . forSql(0) . ','
+//         . forSql('Für Ohneschwanz eine Aluschale vor die Eingangstüre stellen. Und wenn Felix da ist, eine Schale im Carport neben dem Igel-Holzhaus platzieren. Bitte die Schalen beim Gehen in den Restmüll schmeissen.', true) . ');'
+//         . 'insert into textblock (type, text) values ('
+//         . forSql(1) . ','
+//         . forSql('Graue Restmülltonne rausstellen.', true) . ');'
+//         . 'insert into textblock (type, text) values ('
+//         . forSql(1) . ','
+//         . forSql('Graue Restmülltonne reinstellen.', true) . ');'
+//         . 'insert into textblock (type, text) values ('
+//         . forSql(0) . ','
+//         . forSql('Eier aus dem Stall rein holen.', true) . ');'
+//         . 'insert into textblock (type, text) values ('
+//         . forSql(0) . ','
+//         . forSql('Bei den Hühnern im Aussengehege das Wasser auffüllen.', true) . ');'
+//         . 'insert into textblock (type, text) values ('
+//         . forSql(0) . ','
+//         . forSql('Bei den Hühnern im Aussengehege das Wasser auffüllen.', true) . ');'
+//         . 'insert into textblock (type, text) values ('
+//         . forSql(1) . ','
+//         . forSql('Braune Biotonne rausstellen.', true) . ');'
+//         . 'insert into textblock (type, text) values ('
+//         . forSql(1) . ','
+//         . forSql('Braune Biotonne reinstellen.', true) . ');';
+    //*
+    this.query({cmd: 'saveAppData', data: data.forBackend})
+      .subscribe({
+        next: (response: any) => {
+          const ret = new AppData();
+          ret.fillFromBackend(response.data.id, response.data.data);
+          onDone(ret);
+        },
+        error: error => {
+          console.error(error);
+          onError?.(error);
+        }
+      });
+    // */
+  }
+
   logout(): void {
     this.token = null;
-    GLOBALS.person = null;
+    GLOBALS.appData = null;
     GLOBALS.saveSharedData();
   }
 

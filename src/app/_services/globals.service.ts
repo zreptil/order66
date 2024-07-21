@@ -12,7 +12,7 @@ import {MessageService} from '@/_services/message.service';
 import {WhatsNewComponent} from '@/components/whats-new/whats-new.component';
 import {WelcomeComponent} from '@/components/welcome/welcome.component';
 import {BackendService} from '@/_services/backend.service';
-import {PersonData} from '@/_model/person-data';
+import {AppData} from '@/_model/app-data';
 
 class CustomTimeoutError extends Error {
   constructor() {
@@ -58,7 +58,7 @@ export class GlobalsService {
     welcome: $localize`Welcome to Order66`,
     whatsnew: $localize`Once upon a time...`
   };
-  person: PersonData;
+  appData: AppData;
   private flags = '';
 
   constructor(public http: HttpClient,
@@ -72,8 +72,8 @@ export class GlobalsService {
     this.loadSharedData().then(_ => {
       this.bs.loginByToken(
         (data) => {
-          this.person = new PersonData();
-          this.person.fillFromBackend(data.person.data);
+          this.appData = new AppData();
+          this.appData.fillFromBackend(0, data);
           if (this.storageVersion !== this.version) {
             this.ms.showPopup(WhatsNewComponent, 'whatsnew', {});
           } else {
@@ -85,7 +85,7 @@ export class GlobalsService {
     });
   }
 
-  static _msgThemeOwn = $localize`:theme selection - own|:Eigenes`;
+  static _msgThemeOwn = $localize`:theme selection - own|:Own`;
 
   static get msgThemeOwn(): string {
     return GlobalsService._msgThemeOwn;
@@ -96,7 +96,7 @@ export class GlobalsService {
   }
 
   static get msgThemeAuto(): string {
-    return $localize`:theme selection - automatic|:Automatisch`;
+    return $localize`:theme selection - automatic|:Automatic`;
   }
 
   static get msgThemeStandard(): string {
@@ -104,7 +104,7 @@ export class GlobalsService {
   }
 
   static get msgThemeXmas(): string {
-    return $localize`:theme selection - christmas|:Weihnachten`;
+    return $localize`:theme selection - christmas|:X-Mas`;
   }
 
   _isDebug = false;

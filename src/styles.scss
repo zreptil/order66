@@ -33,6 +33,9 @@ html, body {
   --mdc-filled-text-field-error-focus-active-indicator-color: var(--errorColor);
   --mdc-filled-text-field-error-hover-active-indicator-color: var(--errorColor);
   --mdc-filled-text-field-error-hover-label-text-color: var(--errorColor);
+  --mat-menu-container-color: var(--mainHeadBack);
+  --mat-menu-item-label-text-color: var(--mainHeadFore);
+  --mat-menu-item-icon-color: var(----mat-menu-item-label-text-color);
 }
 
 .mat-mdc-dialog-container .mdc-dialog__surface {

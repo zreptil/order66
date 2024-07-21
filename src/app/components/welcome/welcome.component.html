@@ -1,7 +1,7 @@
 <div cdkDrag cdkDragBoundary=".cdk-overlay-container"
      cdkDragRootElement=".dialog-box.welcome">
   <div cdkDragHandle mat-dialog-title>
-    <mat-icon matTooltip="The name of the app is based on Star Wars, where Order 66 was an order that
+    <mat-icon i18n-matTooltip matTooltip="The name of the app is based on Star Wars, where Order 66 was an order that
       the clone troopers could not disobey and which resulted in the extinction of the
       Jedi. Of course, this app is NOT intended to exterminate the Jedi, but the
       current instructions of the pet owners should be recognized as valid even if
@@ -11,7 +11,7 @@
     <app-close-button [data]="closeData"></app-close-button>
   </div>
   <mat-dialog-content>
-    <div>
+    <div i18n>
       This is a webapp for creating and managing informations for pet sitters who
       are looking after the pets during absence of their owners.
     </div>
@@ -34,7 +34,8 @@
           [attr.aria-label]="'Hide password'"
           [attr.aria-pressed]="hide"
           mat-icon-button
-          matSuffix>
+          matSuffix
+          type="button">
           <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
         <!-- mat-error *ngIf="form.get('password')?.invalid && !form.get('password')?.untouched">
@@ -42,13 +43,16 @@
         </mat-error -->
       </mat-form-field>
       <div *ngIf="bs.remainingUsers > 0" [class]="classForArea('register')">
+        <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'email'}"></ng-container>
+        <br>
         <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'firstname'}"></ng-container>
         <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'lastname'}"></ng-container>
-        <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'street'}"></ng-container>
-        <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'streetNo'}"></ng-container>
+        <br>
+        <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'address1'}"></ng-container>
+        <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'address2'}"></ng-container>
+        <br>
         <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'zip'}"></ng-container>
         <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'city'}"></ng-container>
-        <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'email'}"></ng-container>
       </div>
     </form>
   </mat-dialog-content>

@@ -96,7 +96,7 @@ export class ColorPickerImageComponent extends ColorPickerBaseComponent implemen
         });
         reader.readAsDataURL(file);
       } else {
-        Log.error($localize`Die Datei hat ${file.size} Bytes, darf aber maximal ${this.data.maxFilesize} Bytes haben.`);
+        Log.error($localize`The file has ${file.size} bytes, but must have maximal ${this.data.maxFilesize} bytes.`);
         Log.debug(file);
       }
     } else {

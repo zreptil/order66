@@ -166,7 +166,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
       $userFilename = userId($user['id']) . '.sqlite';
       include('setupSingleUser.php');
       if ($isRegister && isset($userDb)) {
-        $query = 'insert into person (data) values(' . forSQL($data, true) . ')';
+        $query = 'insert into app (data) values(' . forSQL($data, true) . ')';
         $result = $userDb->query($query);
       }
       if ($isLogin && isset($userDb)) {
@@ -179,7 +179,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         unset($user['id']);
         unset($user['username']);
         if ($isRegister) {
-          echo('{"u":' . json_encode($user) . ',"p":"' . $data . '"}');
+          echo('{"u":' . json_encode($user) . ',"d":"' . $data . '"}');
         } else {
           echo('{"u":' . json_encode($user) . '}');
         }
@@ -195,7 +195,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
 }
 
 if (!isset($userDb)) {
-  if ($cmd == 'loadPerson') {
+  if ($cmd == 'loadAppData') {
     $db = new SQLite3($userFile, SQLITE3_OPEN_READONLY);
     $query = 'select count(*) as cnt from users';
     $result = $db->query($query);

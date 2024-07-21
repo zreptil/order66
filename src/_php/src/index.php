@@ -15,37 +15,19 @@ include 'authenticate.php';
 
 $code = 200;
 
-if ($cmd == 'loadPerson') {
-  $ret = '{'
-    . '"person":' . loadPerson()
-    . ',"textblocks":' . loadTextblocks()
-    . ',"plans":' . loadPlans()
-    . '}';
+if ($cmd == 'loadAppData') {
+  include_once 'data-app.php';
+  $ret = '{"id": '.$raw['id'].',"data":' . loadAppData($raw['id']) . '}';
   header('Content-Type: application/json');
   echo($ret);
-  http_response_code($code);
-  die();
-}
-
-function loadPerson()
-{
-  global $userDb;
-  $result = $userDb->query('select * from person');
-  if (!($data = $result->fetchArray(SQLITE3_ASSOC))) {
-    $data = new stdClass();
-  }
-  return json_encode($data);
-}
-
-function loadTextblocks()
-{
-  global $userDb;
-  $result = $userDb->query('select * from textblock');
-  return mapRow($result, [
-    'id' => 'a',
-    'type' => 'b',
-    'text' => 'c'
-  ]);
+  exit;
+} else if ($cmd == 'saveAppData') {
+  include_once 'data-app.php';
+  saveAppData();
+  $ret = '{"id": '.$raw['id'].',"data":' . loadAppData($raw['id']) . '}';
+  header('Content-Type: application/json');
+  echo($ret);
+  exit;
 }
 
 function mapRow($src, $map)
@@ -60,18 +42,6 @@ function mapRow($src, $map)
     );
   }
   return json_encode($data);
-}
-
-function loadPlans()
-{
-  global $userDb;
-  $result = $userDb->query('select id,start,end from plan');
-  return mapRow($result, [
-    'id' => 'a',
-    'start' => 'b',
-    'end' => 'c',
-    'data' => 'd'
-  ]);
 }
 
 /*
