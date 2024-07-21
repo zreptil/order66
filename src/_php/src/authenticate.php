@@ -166,8 +166,9 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
       $userFilename = userId($user['id']) . '.sqlite';
       include('setupSingleUser.php');
       if ($isRegister && isset($userDb)) {
-        $query = 'insert into app (data) values(' . forSQL($data, true) . ')';
-        $result = $userDb->query($query);
+        $query = $userDb->prepare('update app set data=:data where id=1');
+        $query->bindValue(':data', forSQL($data, true), SQLITE3_TEXT);
+        $result = $query->execute();
       }
       if ($isLogin && isset($userDb)) {
         if (!isset($user['token'])) {

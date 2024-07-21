@@ -34,13 +34,14 @@ export abstract class BaseData {
   }
 
   fillFromBackend(id: number, src: string): void {
+    console.log(this, id, Utils.decodeBase64(src));
     this.fillFromString(id, Utils.decodeBase64(src));
   }
 
-  abstract _fillFromJson(json: any, def?: any): void;
+  abstract _fillFromJson(id: number, json: any, def?: any): void;
 
   __fillFromJson(id: number, json: any, def?: any): void {
-    this.id = json?.['0'] ?? def?.id ?? 0;
+    this.id = json?.['0'] ?? def?.id ?? 1;
     this._fillFromJson(json, def);
   }
 
@@ -59,7 +60,7 @@ export abstract class BaseData {
   fillFromString(id: number, src: string): void {
     try {
       if (src == null || src.trim() === '') {
-        this.fillFromJson(0, {});
+        this.fillFromJson(1, {});
       } else {
         this.fillFromJson(id, JSON.parse(src));
       }

@@ -24,7 +24,7 @@ if ($cmd == 'loadAppData') {
 } else if ($cmd == 'saveAppData') {
   include_once 'data-app.php';
   saveAppData();
-  $ret = '{"id": '.$raw['id'].',"data":' . loadAppData($raw['id']) . '}';
+  $ret = loadAppData($raw['id']);
   header('Content-Type: application/json');
   echo($ret);
   exit;

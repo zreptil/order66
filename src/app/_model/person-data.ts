@@ -12,7 +12,7 @@ export class PersonData extends BaseData {
 
   constructor(id?: number, json?: any) {
     super();
-    this.fillFromJson(id ?? 0, json);
+    this.fillFromJson(id ?? 1, json);
   }
 
   get fullname(): string {

@@ -141,11 +141,11 @@ export class BackendService {
 //         . forSql(1) . ','
 //         . forSql('Braune Biotonne reinstellen.', true) . ');';
     //*
-    this.query({cmd: 'saveAppData', data: data.forBackend})
+    this.query({cmd: 'saveAppData', id: data.id, data: data.forBackend})
       .subscribe({
         next: (response: any) => {
           const ret = new AppData();
-          ret.fillFromBackend(response.data.id, response.data.data);
+          ret.fillFromBackend(response.id, response.data);
           onDone(ret);
         },
         error: error => {

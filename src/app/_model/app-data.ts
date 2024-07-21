@@ -6,16 +6,16 @@ export class AppData extends BaseData {
 
   constructor(json?: any) {
     super();
-    this.fillFromJson(0, json);
+    this.fillFromJson(1, json);
   }
 
   override get asJson(): any {
     return {
-      a: this.person
+      a: this.person.asJson
     };
   }
 
   override _fillFromJson(json: any, def?: any): void {
-    this.person = new PersonData(json.a);
+    this.person = new PersonData(1, json.a);
   }
 }
