@@ -13,7 +13,7 @@
     "start": "ng serve --port 66 --open",
     "test": "ng test",
     "watch": "ng build --watch --configuration development",
-    "backend": "C:\\Users\\msn\\PhpstormProjects\\php8.3.9\\php.exe -S localhost:80 -t C:\\Users\\msn\\WebstormProjects\\order66\\src\\_php\\src router.php",
+    "backend": "C:\\Users\\msn\\PhpstormProjects\\php8.3.9\\php.exe -S localhost:80 -t C:\\Users\\msn\\WebstormProjects\\order66\\src\\_php\\src",
     "phpliteadmin": "C:\\Users\\msn\\PhpstormProjects\\php8.3.9\\php.exe -S localhost:81 -t C:\\Users\\msn\\WebstormProjects\\order66\\src\\_php"
   },
   "dependencies": {

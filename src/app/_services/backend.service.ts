@@ -13,10 +13,14 @@ export class BackendService {
 
   token: string;
   remainingUsers: number;
+  serviceAvailable = true;
 
   constructor(public env: EnvironmentService,
               private http: HttpClient) {
+  }
 
+  may(check: string): boolean {
+    return true;
   }
 
   /**
@@ -53,7 +57,7 @@ export class BackendService {
    * @param onDone   called when done
    * @param onError  called on error during processing
    */
-  login(username: string, pwd: string, onDone: (data: AppData) => void, onError?: (error: any) => void): void {
+  login(username: string, pwd: string, onDone: (data: any) => void, onError?: (error: any) => void): void {
     Utils.hash(pwd).then((hash: string) => {
       this.query({}, `auth|${username}|${hash}`)
         .subscribe({
@@ -61,7 +65,7 @@ export class BackendService {
             // save token for future requests without login-data
             this.token = response.u.token;
             this.loadAppData((data) => {
-              onDone?.(data);
+              onDone?.({data: data, perm: response.u.permissions, type: response.u.type});
             });
           },
           // request to login was rejected
@@ -76,11 +80,19 @@ export class BackendService {
     this.query({cmd: 'loadAppData', id: 1}, this.token)
       .subscribe({
         next: response => {
-          onDone?.(response.data.data);
+          this.remainingUsers = response.ru;
+          onDone?.(response);
         },
         // request to login was rejected
         error: error => {
           this.remainingUsers = +(error?.error?.r);
+          console.log(error?.error);
+          console.log(this.remainingUsers);
+          if (error?.error?.r == null) {
+            this.serviceAvailable = false;
+          } else {
+            this.serviceAvailable = true;
+          }
           onError?.(error);
         }
       })
@@ -91,7 +103,8 @@ export class BackendService {
       .subscribe({
         next: (response: any) => {
           const ret = new AppData();
-          ret.fillFromBackend(response.id, response.data.data);
+          ret.fillFromBackend(response.id, response.data);
+          ret.permissions = response.perm.split(',');
           onDone(ret);
         },
         error: error => {

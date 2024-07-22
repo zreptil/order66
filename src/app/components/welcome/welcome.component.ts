@@ -126,8 +126,9 @@ export class WelcomeComponent implements OnInit {
       && this.form.get('password').errors == null) {
       this.bs.login(this.form.value.username, this.form.value.password,
         (data) => {
-          console.log(data);
-          GLOBALS.appData = data;
+          GLOBALS.appData = data.data;
+          GLOBALS.appData.permissions = data.perm.split(',');
+          GLOBALS.appData.usertype = data.type;
           GLOBALS.saveSharedData();
           this.msg.closePopup();
         },

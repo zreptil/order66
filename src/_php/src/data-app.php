@@ -9,7 +9,7 @@ function saveAppData()
     $result = $query->execute();
     if ($userDb->changes() == 0) {
       $query = $userDb->prepare('insert into app (id, data) values (:id,:data)');
-      $query->bindValue(':id', $raw['id'], SQLITE3_TEXT);
+      $query->bindValue(':id', $raw['id'], SQLITE3_INTEGER);
       $query->bindValue(':data', $raw['data'], SQLITE3_TEXT);
       $result = $query->execute();
       if ($result) {
@@ -28,7 +28,7 @@ function loadAppData($id)
   $query->bindValue(':id', $id, SQLITE3_INTEGER);
   $result = $query->execute();
   if (!($data = $result->fetchArray(SQLITE3_ASSOC))) {
-    $data = new stdClass();
+    return json_encode(array('id' => $id));
   }
   return json_encode($data);
 }

@@ -17,7 +17,12 @@ $code = 200;
 
 if ($cmd == 'loadAppData') {
   include_once 'data-app.php';
-  $ret = '{"id": '.$raw['id'].',"data":' . loadAppData($raw['id']) . '}';
+  $ret = loadAppData($raw['id']);
+  $ret = substr($ret,0,strlen($ret)-1)
+  .',"perm":"'. $user['permissions'] .'"'
+  .',"type":'.($user['type'] ?? 0)
+  .',"ru":'.$remainingUsers
+  .'}';
   header('Content-Type: application/json');
   echo($ret);
   exit;

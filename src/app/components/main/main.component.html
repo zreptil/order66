@@ -4,7 +4,7 @@
 -->
 <div mainpanel>
   <div toolbar>
-    <div>{{ globals.appData?.person?.fullname }}</div>
+    <div>{{ globals.appData?.person?.fullinfo }}</div>
     <div>
       <button (click)="globals.isDebug = !globals.isDebug" *ngIf="globals.mayDebug" id="debug" mat-icon-button>
         <mat-icon *ngIf="!globals.isDebug">bug_report</mat-icon>
@@ -48,7 +48,9 @@
         <app-impressum *ngIf="globals.currentPage==='impressum'"></app-impressum>
         <app-welcome *ngIf="globals.currentPage==='welcome'"></app-welcome>
         <app-whats-new *ngIf="globals.currentPage==='news'"></app-whats-new>
-        {{ globals.appData ?? {} |json }}<br>
+        @if (globals.devSupport) {
+          {{ globals.appData ?? {} |json }}<br>
+        }
       </div>
     </div>
   </div>

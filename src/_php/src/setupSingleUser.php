@@ -21,9 +21,11 @@ if (isset($userFilename)) {
       if (!$result) {
         throw new Exception('error when creating table app: ' . $userDb->lastErrorMsg());
       }
-      $query = $userDb->prepare('insert into app (data) values (:data);');
-      $query->bindValue(':data', 'e30=', SQLITE3_TEXT);
-      $query->execute();
+      if ($user['type'] == TYPE_ADMIN) {
+        $query = $userDb->prepare('insert into app (data) values (:data);');
+        $query->bindValue(':data', base64_encode('{"0":'.$user['id'].',"a":{"a":"Mega","b":"Star"}}'), SQLITE3_TEXT);
+        $query->execute();
+      }
     }
   } catch (Exception $e) {
     header('HTTP/1.1 500 Internal Server Error');

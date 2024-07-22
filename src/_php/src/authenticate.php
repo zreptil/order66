@@ -1,4 +1,7 @@
 <?php
+define('TYPE_ADMIN', 1<<0);
+define('TYPE_SITTER', 1<<1);
+define('TYPE_OWNER', 1<<2);
 $skipCheck = true;
 require_once 'config.php';
 unset($skipCheck);
@@ -10,75 +13,13 @@ if (!file_exists($userFile)) {
   include('setupUsers.php');
 }
 
-/*
-function saveUser($data)
-{
-  global $code,$userkey;
-
-  $conn = connect();
-  if($data['id'] == $userkey)
-  {
-    $query = "update users set ";
-    $query .= "username='".forSQL($data['username'])."'";
-    $query .= ",fullname='".forSQL($data['fullname'])."'";
-    $query .= ",pwd='".forSQL($data['pwd'])."'";
-    $query .= ",tfacode='".forSQL($data['tfacode'])."'";
-    $query .= ",permissions='".json_encode($data['permissions'])."'";
-    $query .= " where id='".forSQL($data['id'])."'";
-    if($conn->query($query) !== TRUE)
-    {
-      $code = 400;
-      header('Content-Type: application/json');
-      $response = array('error' => $conn->error);
-      echo(json_encode($response));
-    }
-  } else {
-    $query = 'insert into users(id,isauthorized,username,fullname,pwd,tfacode,permissions)values(';
-    $query .= "'".forSQL($data['id'])."'";
-    $query .= ",0";
-    $query .= ",'".forSQL($data['username'])."'";
-    $query .= ",'".forSQL($data['fullname'])."'";
-    $query .= ",'".forSQL($data['pwd'])."'";
-    $query .= ",'".forSQL($data['tfacode'])."'";
-    $query .= ",'".json_encode($data['permissions'])."'";
-    $query .= ')';
-    if($conn->query($query) !== TRUE)
-    {
-      $code = 400;
-      header('Content-Type: application/json');
-      $response = array('error' => $conn->error);
-      echo(json_encode($response));
-    }
-  }
-  $conn->close();
-}
-
-// Den user als objekt zurueckgeben
-function userinfo($user)
-{
-  $user['may'] = array();
-  if(in_array('GET',$user['permissions']))
-    $user['may']['read'] = true;
-  if(in_array('POST',$user['permissions']))
-    $user['may']['add'] = true;
-  if(in_array('PUT',$user['permissions']))
-    $user['may']['edit'] = true;
-  if(in_array('DELETE',$user['permissions']))
-    $user['may']['delete'] = true;
-  if(in_array('EDITOR',$user['permissions']))
-    $user['may']['editor'] = true;
-  if(in_array('DEBUG',$user['permissions']))
-    $user['may']['debug'] = true;
-  if(in_array('ADMIN',$user['permissions']))
-    $user['may']['admin'] = true;
-  unset($user['permissions']);
-  unset($user['pwd']);
-  unset($user['tfacode']);
-  $user['isAuthorized'] = $user['isauthorized'] != 0;
-  unset($user['isauthorized']);
-  return $user;
-}
-*/
+$db = new SQLite3($userFile, SQLITE3_OPEN_READONLY);
+// fetch remaining users for registration-limit
+$query = 'select count(*) as cnt from users';
+$result = $db->query($query);
+$row = $result->fetchArray(SQLITE3_ASSOC);
+$remainingUsers = $maxUsers - $row['cnt'];
+$db->close();
 
 function forSQL($value, $isText = false)
 {
@@ -102,6 +43,13 @@ function createToken()
 function userId($id)
 {
   return str_pad($id, 5, '0', STR_PAD_LEFT);
+}
+
+function may($check) {
+  global $user;
+  $perm = ','.$user['permissions'].',';
+  $check = ','.$check.',';
+  return $perm == ',all,' || strpos($perm, $check) !== false;
 }
 
 $body = file_get_contents('php://input');
@@ -166,15 +114,18 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
       $userFilename = userId($user['id']) . '.sqlite';
       include('setupSingleUser.php');
       if ($isRegister && isset($userDb)) {
+      // write registration information to db
         $query = $userDb->prepare('update app set data=:data where id=1');
-        $query->bindValue(':data', forSQL($data, true), SQLITE3_TEXT);
+        $query->bindValue(':data', $data, SQLITE3_TEXT);
         $result = $query->execute();
       }
       if ($isLogin && isset($userDb)) {
         if (!isset($user['token'])) {
           $user['token'] = createToken();
-          $query = 'update users set token=' . forSQL($user['token'], true) . ' where id=' . forSQL($user['id']);
-          $result = $db->query($query);
+          $query = $db->prepare('update users set token=:token where id=:id');
+          $query->bindValue(':token', $user['token'], SQLITE3_TEXT);
+          $query->bindValue(':id', $user['id'], SQLITE3_INTEGER);
+          $result = $query->execute();
         }
         header('HTTP/1.0 200 OK');
         unset($user['id']);
@@ -197,12 +148,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
 
 if (!isset($userDb)) {
   if ($cmd == 'loadAppData') {
-    $db = new SQLite3($userFile, SQLITE3_OPEN_READONLY);
-    $query = 'select count(*) as cnt from users';
-    $result = $db->query($query);
-    $row = $result->fetchArray(SQLITE3_ASSOC);
-    echo('{"r":' . ($maxUsers - $row['cnt']) . '}');
-    $db->close();
+    echo('{"r":' . $remainingUsers . '}');
   }
   header('HTTP/1.0 403 Forbidden');
   exit;

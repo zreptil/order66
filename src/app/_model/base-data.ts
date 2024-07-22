@@ -34,7 +34,6 @@ export abstract class BaseData {
   }
 
   fillFromBackend(id: number, src: string): void {
-    console.log(this, id, Utils.decodeBase64(src));
     this.fillFromString(id, Utils.decodeBase64(src));
   }
 

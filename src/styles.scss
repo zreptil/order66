@@ -48,12 +48,12 @@ html, body {
 
 html {
   .mat-mdc-standard-chip {
-    --mdc-chip-elevated-container-color: var(--mainBodyBack);
+    --mdc-chip-elevated-container-color: var(--bodyBack);
   }
 
   .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) {
     .mdc-evolution-chip__text-label {
-      --mdc-chip-label-text-color: var(--mainBodyFore);
+      --mdc-chip-label-text-color: var(--bodyFore);
     }
   }
 

@@ -1,5 +1,6 @@
 import {BaseData} from '@/_model/base-data';
 import {Utils} from '@/classes/utils';
+import {GLOBALS} from '@/_services/globals.service';
 
 export class PersonData extends BaseData {
   firstname: string;
@@ -17,6 +18,10 @@ export class PersonData extends BaseData {
 
   get fullname(): string {
     return Utils.join([this.firstname, this.lastname], ' ');
+  }
+
+  get fullinfo(): string {
+    return Utils.join([this.fullname, GLOBALS.currentUsertypes], ' - ');
   }
 
   get address(): string {

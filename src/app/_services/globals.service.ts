@@ -12,7 +12,7 @@ import {MessageService} from '@/_services/message.service';
 import {WhatsNewComponent} from '@/components/whats-new/whats-new.component';
 import {WelcomeComponent} from '@/components/welcome/welcome.component';
 import {BackendService} from '@/_services/backend.service';
-import {AppData} from '@/_model/app-data';
+import {AppData, UserType} from '@/_model/app-data';
 
 class CustomTimeoutError extends Error {
   constructor() {
@@ -29,6 +29,7 @@ export let GLOBALS: GlobalsService;
 export class GlobalsService {
   version = '1.0';
   skipStorageClear = false;
+  devSupport = false;
   debugFlag = 'debug';
   debugActive = 'yes';
   isConfigured = false;
@@ -73,7 +74,9 @@ export class GlobalsService {
       this.bs.loginByToken(
         (data) => {
           this.appData = new AppData();
-          this.appData.fillFromBackend(0, data);
+          this.appData.fillFromBackend(data.id, data.data);
+          this.appData.permissions = data.perm.split(',');
+          this.appData.usertype = data.type;
           if (this.storageVersion !== this.version) {
             this.ms.showPopup(WhatsNewComponent, 'whatsnew', {});
           } else {
@@ -186,6 +189,28 @@ export class GlobalsService {
     return 'own';
   }
 
+  get currentUsertypes(): string {
+    const ret: string[] = [];
+    for (const key of Object.keys(AppData.UserTypes)) {
+      const type = AppData.UserTypes[key];
+      if (GLOBALS.appData?.usertype & type.value) {
+        ret.push(type.label);
+      }
+    }
+    return Utils.join(ret, ', ');
+  }
+
+  get usertypes(): any[] {
+    const ret: any[] = [];
+    for (const key of Object.keys(AppData.UserTypes)) {
+      const type = AppData.UserTypes[key];
+      if (type.value !== UserType.Admin) {
+        ret.push(type);
+      }
+    }
+    return ret;
+  }
+
   async loadSharedData() {
     let storage: any = {};
     try {
@@ -232,6 +257,7 @@ export class GlobalsService {
     this._syncType = storage.w1 ?? oauth2SyncType.none;
     this.oauth2AccessToken = storage.w2;
     this.theme = storage.w3 ?? 'standard';
+    this.devSupport = storage.w4 ?? false;
 
     // validate values
     if (this.oauth2AccessToken == null) {
@@ -244,7 +270,8 @@ export class GlobalsService {
       w0: this.language.code ?? 'de_DE',
       w1: this._syncType,
       w2: this.oauth2AccessToken,
-      w3: this.theme
+      w3: this.theme,
+      w4: this.devSupport
     };
     localStorage.setItem('webData', JSON.stringify(storage));
   }
