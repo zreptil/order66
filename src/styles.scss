@@ -46,9 +46,34 @@ html, body {
   }
 }
 
+[page-error] {
+  padding: 2em;
+  background: maroon;
+  color: red;
+  font-size: 2em;
+  margin: 0.5em;
+  border-radius: 0.5em;
+}
+
 html {
   .mat-mdc-standard-chip {
     --mdc-chip-elevated-container-color: var(--bodyBack);
+    // --mdc-chip-elevated-selected-container-color: red !important;
+    --mdc-chip-focus-state-layer-opacity: 0.3 !important;
+    --mdc-chip-selected-focus-state-layer-opacity: 0.3 !important;
+  }
+
+  .mdc-evolution-chip-set__chips {
+    align-items: center;
+    margin-left: 0 !important;
+
+    [label] {
+      padding-top: 0 !important;
+    }
+  }
+
+  .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) {
+    filter: brightness(90%);
   }
 
   .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) {

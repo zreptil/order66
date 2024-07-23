@@ -23,7 +23,7 @@ if (isset($userFilename)) {
       }
       if ($user['type'] == TYPE_ADMIN) {
         $query = $userDb->prepare('insert into app (data) values (:data);');
-        $query->bindValue(':data', base64_encode('{"0":'.$user['id'].',"a":{"a":"Mega","b":"Star"}}'), SQLITE3_TEXT);
+        $query->bindValue(':data', forBackend('{"0":1,"a":{"0":1,"a":"Mega","b":"Star"}}'), SQLITE3_TEXT);
         $query->execute();
       }
     }

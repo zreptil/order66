@@ -1,15 +1,14 @@
 import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
-import {DropboxService} from '@/_services/sync/dropbox.service';
 import {CloseButtonData} from '@/controls/close-button/close-button-data';
 import {GLOBALS, GlobalsService} from '@/_services/globals.service';
-import {Utils} from '@/classes/utils';
 import {MatFormFieldAppearance} from '@angular/material/form-field';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormGroup, Validators} from '@angular/forms';
 import {PersonData} from '@/_model/person-data';
 import {BackendService} from '@/_services/backend.service';
 import {MessageService} from '@/_services/message.service';
 import {EnvironmentService} from '@/_services/environment.service';
-import {AppData} from '@/_model/app-data';
+import {PersonFormData} from '@/controls/person-form/person-form.component';
+import {PageService} from '@/_services/page.service';
 
 @Component({
   selector: 'app-settings',
@@ -21,10 +20,8 @@ export class SettingsComponent implements OnInit {
     colorKey: 'settings',
     showClose: true
   };
-  hash: string;
   username: string;
   password: string;
-  hide = true;
   @ViewChild('userName') userName!: ElementRef;
   appearance: MatFormFieldAppearance = 'fill';
   form?: FormGroup;
@@ -37,45 +34,40 @@ export class SettingsComponent implements OnInit {
     zip: {label: $localize`ZIP`},
     city: {label: $localize`City`},
   };
+  personData: PersonFormData;
+  pageKeyPerson = 'person';
 
   constructor(public globals: GlobalsService,
               public bs: BackendService,
+              public ps: PageService,
               public env: EnvironmentService,
-              public dbs: DropboxService,
               public msg: MessageService) {
   }
 
   ngOnInit() {
-    Utils.hash('zugang').then(result => {
-      this.hash = result;
-    });
-    const controls: any = {};
-    for (const key of Object.keys(this.controls)) {
-      const ctrl = this.controls[key];
-      controls[key] = new FormControl((GLOBALS.appData.person as any)?.[key] ?? '', ctrl.validators);
-    }
-    this.form = new FormGroup(controls);
+    this.personData = {
+      person: new PersonData(GLOBALS.appData.person.asJson),
+      usertype: GLOBALS.appData.usertype
+    };
   }
 
   clickSave() {
-    if (this.form.valid) {
-      const person = new PersonData();
-      for (const key of Object.keys(this.form.value)) {
-        (person as any)[key] = this.form.value[key];
-      }
-      GLOBALS.appData ??= new AppData();
-      GLOBALS.appData.person = person;
-      this.bs.saveAppData(GLOBALS.appData,
-        (data) => {
-          GLOBALS.appData = data;
-          GLOBALS.saveSharedData();
-          this.msg.closePopup();
-        },
-        (error) => {
-          console.error(error);
-          this.msg.error($localize`Error when saving data - ${error}`);
-        });
-    }
+    this.ps.writeData(this.pageKeyPerson);
+    GLOBALS.appData.person.fillFromJson(this.personData.person.asJson);
+    GLOBALS.appData.usertype = this.personData.usertype;
+    this.bs.saveAppData(GLOBALS.appData,
+      (data) => {
+        GLOBALS.appData.fillFromJson(data.asJson);
+        GLOBALS.appData.usertype = data.usertype;
+        GLOBALS.currentUserType = GLOBALS.usertypeList[0];
+        GLOBALS.saveSharedData();
+        this.msg.closePopup();
+      },
+      (error) => {
+        console.error(error);
+        this.msg.error($localize`Error when saving data - ${error}`);
+      });
+    return;
   }
 
   @HostListener('document:keydown', ['$event'])

@@ -1,33 +1,31 @@
-import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, HostListener, OnInit} from '@angular/core';
 import {DropboxService} from '@/_services/sync/dropbox.service';
 import {CloseButtonData} from '@/controls/close-button/close-button-data';
 import {GLOBALS, GlobalsService} from '@/_services/globals.service';
-import {Utils} from '@/classes/utils';
 import {MatFormFieldAppearance} from '@angular/material/form-field';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {PersonData} from '@/_model/person-data';
 import {BackendService} from '@/_services/backend.service';
 import {MessageService} from '@/_services/message.service';
 import {EnvironmentService} from '@/_services/environment.service';
-import {AppData} from '@/_model/app-data';
+import {AppData, UserType} from '@/_model/app-data';
 
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.scss']
 })
-export class WelcomeComponent implements OnInit {
+export class WelcomeComponent implements OnInit, AfterViewInit {
   closeData: CloseButtonData = {
     colorKey: 'welcome',
     showClose: false
   };
-  hash: string;
   username: string;
   password: string;
   hide = true;
-  @ViewChild('userName') userName!: ElementRef;
   appearance: MatFormFieldAppearance = 'fill';
   form?: FormGroup;
+  usertype: number;
   controls: any = {
     username: {label: $localize`Username`},
     password: {label: $localize`Password`},
@@ -38,6 +36,7 @@ export class WelcomeComponent implements OnInit {
     address2: {label: $localize`Address Line 2`},
     zip: {label: $localize`ZIP`},
     city: {label: $localize`City`},
+    usertype: {label: $localize`I am`},
   };
 
   constructor(public globals: GlobalsService,
@@ -55,7 +54,7 @@ export class WelcomeComponent implements OnInit {
 
   set mode(value: string) {
     this._mode = value;
-    setTimeout(() => this.userName?.nativeElement?.focus());
+    this.focusUsername();
   }
 
   get btnSendTitle(): string {
@@ -82,15 +81,29 @@ export class WelcomeComponent implements OnInit {
     return ret;
   };
 
+  hasUsertype(type: number): boolean {
+//form.get('usertype').value.includes(fruit
+    return (+this.controls.usertype.value & type) === type;
+  }
+
+  focusUsername(timeout = 0): void {
+    setTimeout(() => {
+      (document.querySelector('#username') as HTMLInputElement)?.focus();
+    }, timeout);
+  }
+
+  ngAfterViewInit() {
+    this.focusUsername(750);
+  }
+
   ngOnInit() {
-    Utils.hash('zugang').then(result => {
-      this.hash = result;
-    });
     const controls: any = {};
     for (const key of Object.keys(this.controls)) {
       const ctrl = this.controls[key];
       controls[key] = new FormControl(this.env.defaultLogin?.[key] ?? '', ctrl.validators);
     }
+    controls.usertype.value = UserType.Owner;
+    this.controls.usertype.value = controls.usertype.value;
     this.form = new FormGroup(controls);
   }
 
@@ -127,8 +140,9 @@ export class WelcomeComponent implements OnInit {
       this.bs.login(this.form.value.username, this.form.value.password,
         (data) => {
           GLOBALS.appData = data.data;
-          GLOBALS.appData.permissions = data.perm.split(',');
+          GLOBALS.appData.permissions = data.u?.permissions?.split(',');
           GLOBALS.appData.usertype = data.type;
+          GLOBALS.currentUserType = GLOBALS.usertypeList[0];
           GLOBALS.saveSharedData();
           this.msg.closePopup();
         },
@@ -145,11 +159,12 @@ export class WelcomeComponent implements OnInit {
       for (const key of Object.keys(this.form.value)) {
         (person as any)[key] = this.form.value[key];
       }
-      GLOBALS.appData ??= new AppData();
+      GLOBALS.appData ??= new AppData(1);
       GLOBALS.appData.person = person;
-      this.bs.register(this.form.value.username, this.form.value.password, GLOBALS.appData,
+      this.bs.register(this.form.value.username, this.form.value.password, this.usertype, GLOBALS.appData,
         (data) => {
           GLOBALS.appData = data;
+          GLOBALS.currentUserType = GLOBALS.usertypeList[0];
           GLOBALS.saveSharedData();
           this.msg.closePopup();
         },
@@ -166,7 +181,11 @@ export class WelcomeComponent implements OnInit {
   onKeyDown(evt: KeyboardEvent): void {
     evt.stopPropagation();
     if (evt.key === 'Enter') {
-      this.submitLogin();
+      this.onSend();
     }
+  }
+
+  toggleUsertype(value: number) {
+    this.usertype = (+this.usertype) ^ +value;
   }
 }

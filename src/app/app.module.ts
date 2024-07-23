@@ -24,6 +24,9 @@ import {CloseButtonComponent} from '@/controls/close-button/close-button.compone
 import {ColorPickerSliderComponent} from '@/controls/color-picker/color-picker-slider/color-picker-slider.component';
 import {ColorPickerHslComponent} from '@/controls/color-picker/color-picker-hsl/color-picker-hsl.component';
 import {SettingsComponent} from '@/components/settings/settings.component';
+import {PersonFormComponent} from '@/controls/person-form/person-form.component';
+import {TypeOwnerComponent} from '@/components/type-owner/type-owner.component';
+import {TypeSitterComponent} from '@/components/type-sitter/type-sitter.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +48,9 @@ import {SettingsComponent} from '@/components/settings/settings.component';
     WelcomeComponent,
     SettingsComponent,
     ImpressumComponent,
+    PersonFormComponent,
+    TypeOwnerComponent,
+    TypeSitterComponent
   ],
   bootstrap: [AppComponent], imports: [BrowserModule,
     ReactiveFormsModule,

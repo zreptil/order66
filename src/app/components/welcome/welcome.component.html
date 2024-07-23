@@ -29,7 +29,7 @@
         <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'username'}"></ng-container>
         <mat-form-field [appearance]="appearance" [formGroup]="form">
           <mat-label i18n>Password</mat-label>
-          <input [type]="hide ? 'password' : 'text'" formControlName="password" matInput/>
+          <input [type]="hide ? 'password' : 'text'" formControlName="password" id="password" matInput/>
           <button
             (click)="clickHide($event)"
             [attr.aria-label]="'Hide password'"
@@ -44,9 +44,14 @@
           </mat-error -->
         </mat-form-field>
         <div *ngIf="bs.remainingUsers > 0" [class]="classForArea('register')">
-          <mat-chip-listbox aria-label="Cutest dog breeds" multiple>
+          <mat-chip-listbox aria-label="usertype" multiple>
+            <div label>{{ controls.usertype.label }}</div>
             @for (type of globals.usertypes; track type) {
-              <mat-chip-option>{{ type.label }}</mat-chip-option>
+              <mat-chip-option selectable="true"
+                               [selected]="hasUsertype(type.value)"
+                               (selectionChange)="toggleUsertype(type.value)">
+                {{ type.label }}
+              </mat-chip-option>
             }
           </mat-chip-listbox>
           <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'email'}"></ng-container>
@@ -76,7 +81,7 @@
 <ng-template #formFieldTemplate let-name="name">
   <mat-form-field [appearance]="appearance" [formGroup]="form">
     <mat-label>{{ controls[name]?.label }}</mat-label>
-    <input [formControlName]="name" matInput>
+    <input [formControlName]="name" [id]="name" matInput>
     <!-- mat-error *ngIf="form.get(name)?.invalid && !form.get(name)?.untouched">
       <ng-container *ngIf="form.get(name)?.errors?.['required']" i18n>{{ controls[name]?.label }} is required</ng-container>
       <ng-container *ngIf="form.get(name)?.errors?.['email']" i18n>Invalid email address</ng-container>

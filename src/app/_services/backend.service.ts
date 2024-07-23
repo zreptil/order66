@@ -19,7 +19,7 @@ export class BackendService {
               private http: HttpClient) {
   }
 
-  may(check: string): boolean {
+  may(_check: string): boolean {
     return true;
   }
 
@@ -27,20 +27,23 @@ export class BackendService {
    * Register a new user and save the data for the person
    * @param username username
    * @param pwd      password
+   * @param type     usertype
    * @param data     data for saving
    * @param onDone   called when done
    * @param onError  called on error during processing
    */
-  register(username: string, pwd: string, data: AppData, onDone: (data: AppData) => void, onError?: (error: any) => void): void {
+  register(username: string, pwd: string, type: number, data: AppData, onDone: (data: AppData) => void, onError?: (error: any) => void): void {
     Utils.hash(pwd).then((hash: string) => {
-      this.query({data: data.forBackend}, `register|${username}|${hash}`)
+      this.query({data: data.forBackend}, `register|${username}|${hash}|${type}`)
         .subscribe({
           next: response => {
             // save token for future requests without login-data
             this.token = response.u.token;
-            data = new AppData(response.d);
-            this.query({cmd: 'saveAppData', data: data});
-            onDone?.(data);
+            // extract AppData from response and save the usertype
+            const ret = new AppData();
+            ret.fillFromBackend(response.d);
+            ret.usertype = response.u.type;
+            onDone?.(ret);
           },
           // request to login was rejected
           error: error => {
@@ -86,13 +89,7 @@ export class BackendService {
         // request to login was rejected
         error: error => {
           this.remainingUsers = +(error?.error?.r);
-          console.log(error?.error);
-          console.log(this.remainingUsers);
-          if (error?.error?.r == null) {
-            this.serviceAvailable = false;
-          } else {
-            this.serviceAvailable = true;
-          }
+          this.serviceAvailable = error?.error?.r != null;
           onError?.(error);
         }
       })
@@ -103,7 +100,7 @@ export class BackendService {
       .subscribe({
         next: (response: any) => {
           const ret = new AppData();
-          ret.fillFromBackend(response.id, response.data);
+          ret.fillFromBackend(response.data);
           ret.permissions = response.perm.split(',');
           onDone(ret);
         },
@@ -154,11 +151,12 @@ export class BackendService {
 //         . forSql(1) . ','
 //         . forSql('Braune Biotonne reinstellen.', true) . ');';
     //*
-    this.query({cmd: 'saveAppData', id: data.id, data: data.forBackend})
+    this.query({cmd: 'saveAppData', id: data.id, data: data.forBackend, usertype: data.usertype})
       .subscribe({
         next: (response: any) => {
           const ret = new AppData();
-          ret.fillFromBackend(response.id, response.data);
+          ret.fillFromBackend(response.data);
+          ret.usertype = response.usertype;
           onDone(ret);
         },
         error: error => {

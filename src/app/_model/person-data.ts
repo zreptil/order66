@@ -11,17 +11,21 @@ export class PersonData extends BaseData {
   zip: string;
   city: string;
 
-  constructor(id?: number, json?: any) {
+  constructor(json?: any) {
     super();
-    this.fillFromJson(id ?? 1, json);
+    this.fillFromJson(json);
   }
 
   get fullname(): string {
-    return Utils.join([this.firstname, this.lastname], ' ');
+    const ret = Utils.join([this.firstname, this.lastname], ' ');
+    if (Utils.isEmpty(ret)) {
+      return null;
+    }
+    return ret;
   }
 
   get fullinfo(): string {
-    return Utils.join([this.fullname, GLOBALS.currentUsertypes], ' - ');
+    return Utils.join([this.fullname ?? this.email, GLOBALS.currentUsertypes], ' - ');
   }
 
   get address(): string {

@@ -8,6 +8,7 @@ import {WelcomeComponent} from '@/components/welcome/welcome.component';
 import {CloseButtonData} from '@/controls/close-button/close-button-data';
 import {BackendService} from '@/_services/backend.service';
 import {SettingsComponent} from '@/components/settings/settings.component';
+import {TypeUser, UserType} from '@/_model/app-data';
 
 @Component({
   selector: 'app-main',
@@ -19,6 +20,7 @@ export class MainComponent {
     colorKey: 'main',
     showClose: false
   };
+  readonly UserType = UserType;
 
   constructor(public globals: GlobalsService,
               public msg: MessageService,
@@ -58,5 +60,17 @@ export class MainComponent {
         this.msg.showPopup(WelcomeComponent, 'welcome', {});
         break;
     }
+  }
+
+  clickType(type: TypeUser) {
+    GLOBALS.currentUserType = type;
+  }
+
+  classForType(type: TypeUser): string[] {
+    const ret: string[] = [];
+    if (type.value === GLOBALS.currentUserType?.value) {
+      ret.push('current');
+    }
+    return ret;
   }
 }

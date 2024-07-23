@@ -92,6 +92,7 @@
       "1431416938026210429": "Password",
       "2649629070916226496": " The service is currently not available ",
       "5248717555542428023": "Username",
+      "7337385171534704079": "I am",
       "2454050363478003966": "Login",
       "3301086086650990787": "Register",
       "7527980706824212298": "Wrong username or password",
@@ -105,7 +106,8 @@
       "6830194984812251284": "Colors for ",
       "1218656448576107723": "Colorselection",
       "3490027067127948130": " An image can be loaded using the button{$LINE_BREAK}at the bottom right. A color can then{$LINE_BREAK}be selected from this image. ",
-      "5685972249758589432": "The file has {$PH} bytes, but must have maximal {$PH_1} bytes."
+      "5685972249758589432": "The file has {$PH} bytes, but must have maximal {$PH_1} bytes.",
+      "2317720615569975293": " The form is missing some information"
     }
   },
   {
@@ -201,6 +203,7 @@
       "1431416938026210429": "Passwort",
       "2649629070916226496": " Der Service ist zur Zeit nicht verfügbar ",
       "5248717555542428023": "Benutzername",
+      "7337385171534704079": "Ich bin",
       "2454050363478003966": "Anmelden",
       "3301086086650990787": "Registrieren",
       "7527980706824212298": "Falscher Benutzername oder Passwort",
@@ -214,7 +217,8 @@
       "6830194984812251284": "Farben für ",
       "1218656448576107723": "Farbauswahl",
       "3490027067127948130": " Mit dem Button rechts unten kann ein Bild{$LINE_BREAK}geladen werden. Aus diesem kann dann{$LINE_BREAK}eine Farbe entnommen werden. ",
-      "5685972249758589432": "Die Datei hat {$PH} Bytes, darf aber maximal {$PH_1} Bytes haben."
+      "5685972249758589432": "Die Datei hat {$PH} Bytes, darf aber maximal {$PH_1} Bytes haben.",
+      "2317720615569975293": " Dem Formular fehlen einige Informationen"
     }
   }
 ]

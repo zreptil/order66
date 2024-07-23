@@ -1,7 +1,7 @@
 <?php
-define('TYPE_ADMIN', 1<<0);
-define('TYPE_SITTER', 1<<1);
-define('TYPE_OWNER', 1<<2);
+define('TYPE_ADMIN', 1 << 0);
+define('TYPE_SITTER', 1 << 1);
+define('TYPE_OWNER', 1 << 2);
 $skipCheck = true;
 require_once 'config.php';
 unset($skipCheck);
@@ -20,6 +20,12 @@ $result = $db->query($query);
 $row = $result->fetchArray(SQLITE3_ASSOC);
 $remainingUsers = $maxUsers - $row['cnt'];
 $db->close();
+
+function forBackend($src)
+{
+  return $src;
+//  return base64_encode($src);
+}
 
 function forSQL($value, $isText = false)
 {
@@ -45,10 +51,11 @@ function userId($id)
   return str_pad($id, 5, '0', STR_PAD_LEFT);
 }
 
-function may($check) {
+function may($check)
+{
   global $user;
-  $perm = ','.$user['permissions'].',';
-  $check = ','.$check.',';
+  $perm = ',' . $user['permissions'] . ',';
+  $check = ',' . $check . ',';
   return $perm == ',all,' || strpos($perm, $check) !== false;
 }
 
@@ -76,9 +83,9 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
       $isLogin = true;
     }
   } else if (substr($token, 0, 9) == 'register|') {
-    // if HTTP_AUTHORIZATION starts with register| then the following two parts should be username and password-hash
+    // if HTTP_AUTHORIZATION starts with register| then the following two parts should be username, password-hash and usertype
     $parts = explode('|', $token);
-    if (count($parts) == 3) {
+    if (count($parts) == 4) {
       // check if username already exists
       $query = 'select username from users where username=' . forSQL($parts[1], true);
       $result = $db->query($query);
@@ -89,11 +96,12 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
       }
       // if user doesn't exist, create a token for immediate login
       $token = createToken();
-      $query = 'insert into users (username, pwd, token) values ('
-        . forSQL($parts[1], true) . ', '
-        . forSQL($parts[2], true) . ', '
-        . forSQL($token, true) . ')';
-      $result = $db->query($query);
+      $query = $db->prepare('insert into users (username,pwd,token,type) values(:u,:p,:to,:ty)');
+      $query->bindValue(':u', $parts[1], SQLITE3_TEXT);
+      $query->bindValue(':p', $parts[2], SQLITE3_TEXT);
+      $query->bindValue(':to', $token, SQLITE3_TEXT);
+      $query->bindValue(':ty', $parts[3], SQLITE3_INTEGER);
+      $result = $query->execute();
       $isLogin = true;
       $isRegister = true;
       // look for user with the given credentials
@@ -111,11 +119,11 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         unset($user['token']);
       }
       unset($user['pwd']);
-      $userFilename = userId($user['id']) . '.sqlite';
+      $userFilename = 'db/'.userId($user['id']) . '.sqlite';
       include('setupSingleUser.php');
       if ($isRegister && isset($userDb)) {
-      // write registration information to db
-        $query = $userDb->prepare('update app set data=:data where id=1');
+        // write registration information to db
+        $query = $userDb->prepare('insert into app (data) values(:data)');
         $query->bindValue(':data', $data, SQLITE3_TEXT);
         $result = $query->execute();
       }
@@ -131,7 +139,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         unset($user['id']);
         unset($user['username']);
         if ($isRegister) {
-          echo('{"u":' . json_encode($user) . ',"d":"' . $data . '"}');
+          echo('{"u":' . json_encode($user) . ',"d":' . json_encode($data) . '}');
         } else {
           echo('{"u":' . json_encode($user) . '}');
         }
@@ -140,10 +148,6 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     }
   }
   $db->close();
-//  if ($result && $row = $result->fetch_assoc()) {
-//    $user = row2user($row);
-//  }
-//  $result->close();
 }
 
 if (!isset($userDb)) {
@@ -153,24 +157,3 @@ if (!isset($userDb)) {
   header('HTTP/1.0 403 Forbidden');
   exit;
 }
-//if (!isset($user)) {
-//  if ($result && $row = $result->fetch_assoc()) {
-//    $user = row2user($row);
-//    if ($row['isauthorized'] != 0) {
-//      $query = "delete from users where id<>'' && isauthorized=0";
-//      $result = $conn->query($query);
-//    }
-//  } else {
-//    $defNames = ['Karl Napf', 'Hurwanek Krustinak', 'John Doe', 'Max Mustermann',
-//      'Vrranz', 'Häuptling kranker Storch', 'Alfons Qumstdanetrein',
-//      'Susi Sorglos', 'Tamara Tüpfel', 'Katharina die Nichtsokleine',
-//      'Alex Gross', 'Arnold Einstein', 'Karola Kornfeld'
-//    ];
-//    $user = array('id' => '',
-//      'isauthorized' => false,
-//      'username' => '',
-//      'fullname' => $defNames[rand(0, count($defNames) - 1)],
-//      'permissions' => array('GET', 'EDITOR')
-//    );
-//  }
-//}

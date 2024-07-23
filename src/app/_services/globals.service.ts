@@ -12,7 +12,7 @@ import {MessageService} from '@/_services/message.service';
 import {WhatsNewComponent} from '@/components/whats-new/whats-new.component';
 import {WelcomeComponent} from '@/components/welcome/welcome.component';
 import {BackendService} from '@/_services/backend.service';
-import {AppData, UserType} from '@/_model/app-data';
+import {AppData, TypeUser, UserType} from '@/_model/app-data';
 
 class CustomTimeoutError extends Error {
   constructor() {
@@ -45,6 +45,7 @@ export class GlobalsService {
   _syncType: oauth2SyncType;
   oauth2AccessToken: string = null;
   ownTheme: any;
+  currentUserType: TypeUser;
   themeList: any = {
     null: GlobalsService.msgThemeAuto,
     standard: GlobalsService.msgThemeStandard,
@@ -74,9 +75,10 @@ export class GlobalsService {
       this.bs.loginByToken(
         (data) => {
           this.appData = new AppData();
-          this.appData.fillFromBackend(data.id, data.data);
-          this.appData.permissions = data.perm.split(',');
+          this.appData.fillFromBackend(data.data);
+          this.appData.permissions = data.perm?.split(',');
           this.appData.usertype = data.type;
+          this.currentUserType = this.usertypeList[0];
           if (this.storageVersion !== this.version) {
             this.ms.showPopup(WhatsNewComponent, 'whatsnew', {});
           } else {
@@ -187,6 +189,17 @@ export class GlobalsService {
       return this._theme;
     }
     return 'own';
+  }
+
+  get usertypeList(): TypeUser[] {
+    const ret: TypeUser[] = [];
+    for (const key of Object.keys(AppData.UserTypes)) {
+      const type = AppData.UserTypes[key];
+      if (GLOBALS.appData?.usertype & type.value) {
+        ret.push(type);
+      }
+    }
+    return ret;
   }
 
   get currentUsertypes(): string {

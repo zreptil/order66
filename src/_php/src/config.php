@@ -1,5 +1,5 @@
 <?php
-$userFile = 'users.sqlite';
+$userFile = 'db/users.sqlite';
 $scriptCheck = 'larkngbpwo9jgp02g2';
 
 // only allow access if $skipCheck is set or $scriptValid is the
