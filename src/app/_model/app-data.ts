@@ -1,5 +1,6 @@
 import {BaseData} from '@/_model/base-data';
 import {PersonData} from '@/_model/person-data';
+import {PlanData} from '@/_model/plan-data';
 
 export enum UserType {
   Admin = 1 << 0,
@@ -22,19 +23,25 @@ export class AppData extends BaseData {
   usertype: UserType;
   permissions: string[];
   person: PersonData;
+  plans: PlanData[];
 
   constructor(json?: any) {
     super();
     this.fillFromJson(json);
   }
 
-  override get asJson(): any {
+  override get _asJson(): any {
     return {
-      a: this.person.asJson
+      a: this.person.asJson,
+      b: this.plans?.map((entry, index) => {
+        entry.id = index + 1;
+        return entry.asJson;
+      })
     };
   }
 
   override _fillFromJson(json: any, def?: any): void {
-    this.person = new PersonData(json?.a);
+    this.person = new PersonData(json?.a ?? def?.person);
+    this.plans = (json?.b ?? def?.plans)?.map((src: any) => new PlanData(src));
   }
 }

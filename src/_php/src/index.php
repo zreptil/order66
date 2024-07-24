@@ -33,6 +33,12 @@ if ($cmd == 'loadAppData') {
   header('Content-Type: application/json');
   echo($ret);
   exit;
+} else if ($cmd == 'loadSitterList') {
+  include_once 'data-app.php';
+  $ret = loadSitterList();
+  header('Content-Type: application/json');
+  echo($ret);
+  exit;
 }
 
 function mapRow($src, $map)

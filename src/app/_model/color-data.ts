@@ -43,7 +43,7 @@ export class ColorData extends BaseData {
     return ColorUtils.fontColor(this.value);
   }
 
-  get asJson(): any {
+  override get _asJson(): any {
     if ((this.value?.length ?? 0) < 3) {
       this.value = [255, 255, 255];
     }

@@ -36,6 +36,13 @@ html, body {
   --mat-menu-container-color: var(--mainHeadBack);
   --mat-menu-item-label-text-color: var(--mainHeadFore);
   --mat-menu-item-icon-color: var(----mat-menu-item-label-text-color);
+
+  .mat-mdc-fab.mat-accent {
+    --mdc-fab-container-color: var(--mainHeadBack);
+    --mat-fab-foreground-color: var(--mainHeadFore);
+    --mat-fab-state-layer-color: var(--mainHeadFore);
+    --mat-fab-ripple-color: rgba(255, 255, 255, 0.1);
+  }
 }
 
 .mat-mdc-dialog-container .mdc-dialog__surface {
@@ -56,11 +63,23 @@ html, body {
 }
 
 html {
+  --mat-select-panel-background-color: var(--headBack) !important;
+
   .mat-mdc-standard-chip {
-    --mdc-chip-elevated-container-color: var(--bodyBack);
-    // --mdc-chip-elevated-selected-container-color: red !important;
-    --mdc-chip-focus-state-layer-opacity: 0.3 !important;
-    --mdc-chip-selected-focus-state-layer-opacity: 0.3 !important;
+    --mdc-chip-disabled-label-text-color: #212121;
+    --mdc-chip-elevated-container-color: rgba(0, 0, 0, 0.2);
+    --mdc-chip-elevated-selected-container-color: rgba(0, 0, 0, 0.2);
+    --mdc-chip-elevated-disabled-container-color: rgba(0, 0, 0, 0.2);
+    --mdc-chip-flat-disabled-selected-container-color: rgba(0, 0, 0, 0.2);
+  }
+
+  .mat-mdc-standard-chip.mat-mdc-chip-selected.mat-primary,
+  .mat-mdc-standard-chip.mat-mdc-chip-highlighted.mat-primary {
+    --mdc-chip-disabled-label-text-color: var(--headFore);
+    --mdc-chip-elevated-container-color: var(--headBack);
+    --mdc-chip-elevated-selected-container-color: var(--headBack);
+    --mdc-chip-elevated-disabled-container-color: var(--headBack);
+    --mdc-chip-flat-disabled-selected-container-color: var(--headBack);
   }
 
   .mdc-evolution-chip-set__chips {

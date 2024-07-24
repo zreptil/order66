@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {Utils} from '@/classes/utils';
 import {GLOBALS} from '@/_services/globals.service';
 import {AppData} from '@/_model/app-data';
+import {PersonData} from '@/_model/person-data';
 
 @Injectable({
   providedIn: 'root'
@@ -75,8 +76,28 @@ export class BackendService {
           error: error => {
             onError?.(error);
           }
-        })
+        });
     });
+  }
+
+  getSitterList(onDone: (data: PersonData[]) => void, onError?: (error: any) => void): void {
+    this.query({cmd: 'loadSitterList'}, this.token)
+      .subscribe({
+        next: response => {
+          const ret: PersonData[] = [];
+          for (const src of response) {
+            const dst = new AppData();
+            dst.fillFromBackend(src.d.data);
+            dst.person.fkUser = src.u;
+            ret.push(dst.person);
+          }
+          onDone?.(ret);
+        },
+        // request to login was rejected
+        error: error => {
+          onError?.(error);
+        }
+      });
   }
 
   loginByToken(onDone: (data: any) => void, onError?: (error: any) => void): void {
@@ -170,6 +191,8 @@ export class BackendService {
   logout(): void {
     this.token = null;
     GLOBALS.appData = null;
+    GLOBALS.currentPage = null;
+    GLOBALS.currentUserType = null;
     GLOBALS.saveSharedData();
   }
 

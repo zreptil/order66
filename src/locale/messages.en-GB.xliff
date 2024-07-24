@@ -31,7 +31,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">58</context>
+          <context context-type="linenumber">59</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8720977247725652816" datatype="html">
@@ -47,6 +47,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/dialog-data.ts</context>
           <context context-type="linenumber">111</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/datepicker/datepicker-dialog/datepicker-dialog.component.html</context>
+          <context context-type="linenumber">73,76</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6759205696902713848" datatype="html">
@@ -124,10 +128,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/lang-data.ts</context>
           <context context-type="linenumber">28</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/classes/utils.ts</context>
-          <context context-type="linenumber">151</context>
         </context-group>
         <note priority="1" from="description">this is the dateformat, please use dd for days, MM for months and yyyy for year. It has to be the english formatstring.</note>
       </trans-unit>
@@ -421,7 +421,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">61</context>
+          <context context-type="linenumber">62</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8645499116170704011" datatype="html">
@@ -478,32 +478,39 @@
           <context context-type="linenumber">90</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="5605123772636494177" datatype="html">
+        <source>Plan</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="4759312981227880392" datatype="html">
         <source>Dataprotection</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">57</context>
+          <context context-type="linenumber">58</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1547876271716599756" datatype="html">
         <source>Impressum</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">60</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6799896755931667405" datatype="html">
         <source>Welcome to Order66</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">60</context>
+          <context context-type="linenumber">61</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7646507470496958959" datatype="html">
         <source>Own</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">93</context>
+          <context context-type="linenumber">94</context>
         </context-group>
         <note priority="1" from="meaning">theme selection - own</note>
       </trans-unit>
@@ -511,7 +518,7 @@
         <source>Automatic</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">104</context>
+          <context context-type="linenumber">105</context>
         </context-group>
         <note priority="1" from="meaning">theme selection - automatic</note>
       </trans-unit>
@@ -519,7 +526,7 @@
         <source>Standard</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">108</context>
+          <context context-type="linenumber">109</context>
         </context-group>
         <note priority="1" from="meaning">theme selection - standard</note>
       </trans-unit>
@@ -527,15 +534,57 @@
         <source>X-Mas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">112</context>
+          <context context-type="linenumber">113</context>
         </context-group>
         <note priority="1" from="meaning">theme selection - christmas</note>
+      </trans-unit>
+      <trans-unit id="4937238701328708875" datatype="html">
+        <source>Selected Period</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">230</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6479681338512278715" datatype="html">
+        <source>One Month ago</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">231</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4634686543910917221" datatype="html">
+        <source>Two Months ago</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">232</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3391680301204048086" datatype="html">
+        <source>Three Months ago</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">233</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1494116721319611637" datatype="html">
+        <source>Six Months ago</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">234</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7792248046138362602" datatype="html">
+        <source>One Year ago</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">235</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="6899006172769799970" datatype="html">
         <source>There was no answer within <x id="PH" equiv-text="params.timeout / 1000"/> seconds at <x id="PH_1" equiv-text="url"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">325</context>
+          <context context-type="linenumber">346</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7351700212933699939" datatype="html">
@@ -627,6 +676,13 @@
           <context context-type="linenumber">113</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="671740983484503056" datatype="html">
+        <source>dd/MM/yyyy</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/classes/utils.ts</context>
+          <context context-type="linenumber">151</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="3797778920049399855" datatype="html">
         <source>Logout</source>
         <context-group purpose="location">
@@ -638,7 +694,7 @@
         <source><x id="START_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;mat-icon&gt;"/>save<x id="CLOSE_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;/mat-icon&gt;"/> Save </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/settings/settings.component.html</context>
-          <context context-type="linenumber">26,28</context>
+          <context context-type="linenumber">27,29</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4360072995007239979" datatype="html">
@@ -750,7 +806,7 @@
         <source>Error when saving data - <x id="PH" equiv-text="error"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/settings/settings.component.ts</context>
-          <context context-type="linenumber">67</context>
+          <context context-type="linenumber">68</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1437726284917476348" datatype="html">
@@ -946,6 +1002,102 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/controls/color-picker/color-picker-image/color-picker-image.component.ts</context>
           <context context-type="linenumber">99</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1507949699959470925" datatype="html">
+        <source>Period</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/datepicker/datepicker-dialog/datepicker-dialog.component.html</context>
+          <context context-type="linenumber">4,5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/datepicker/datepicker.component.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+        <note priority="1" from="description">title for datepicker dialog</note>
+      </trans-unit>
+      <trans-unit id="1881232843130767205" datatype="html">
+        <source>The period contains no evaluable days</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/datepicker/datepicker-dialog/datepicker-dialog.component.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/datepicker/datepicker-period.ts</context>
+          <context context-type="linenumber">131</context>
+        </context-group>
+        <note priority="1" from="description">title for datepicker dialog when period empty</note>
+      </trans-unit>
+      <trans-unit id="2403658725205893910" datatype="html">
+        <source>Please check activation of the days of the week below the month</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/datepicker/datepicker-dialog/datepicker-dialog.component.html</context>
+          <context context-type="linenumber">7,9</context>
+        </context-group>
+        <note priority="1" from="description">subtitle for datepicker dialog when period empty</note>
+      </trans-unit>
+      <trans-unit id="7163643306534605785" datatype="html">
+        <source>The startdate is not correct</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/datepicker/datepicker-dialog/datepicker-dialog.component.ts</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5097742520407574812" datatype="html">
+        <source>The enddate is not correct</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/datepicker/datepicker-dialog/datepicker-dialog.component.ts</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6622570912640383427" datatype="html">
+        <source>Define as first day of week</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/datepicker/datepicker-month/datepicker-month.component.html</context>
+          <context context-type="linenumber">7,10</context>
+        </context-group>
+        <note priority="1" from="description">title for button of weekdayname</note>
+      </trans-unit>
+      <trans-unit id="8500302644734716984" datatype="html">
+        <source>January|February|March|April|May|June|July|August|September|October|November|December</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/datepicker/datepicker-period.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3702584640276144284" datatype="html">
+        <source>Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/datepicker/datepicker-period.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7977419999986662658" datatype="html">
+        <source>Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/datepicker/datepicker-period.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5163082276326180649" datatype="html">
+        <source>Mo|Tu|Wd|Th|Fr|Sa|Su</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/datepicker/datepicker-period.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3572884212296769600" datatype="html">
+        <source>Til Today|Til Yesterday|Til Weekend</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/datepicker/datepicker-period.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8354530551336040245" datatype="html">
+        <source>Define Period</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/datepicker/datepicker-period.ts</context>
+          <context context-type="linenumber">91</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2317720615569975293" datatype="html">

@@ -13,6 +13,7 @@ import {WhatsNewComponent} from '@/components/whats-new/whats-new.component';
 import {WelcomeComponent} from '@/components/welcome/welcome.component';
 import {BackendService} from '@/_services/backend.service';
 import {AppData, TypeUser, UserType} from '@/_model/app-data';
+import {PersonData} from '@/_model/person-data';
 
 class CustomTimeoutError extends Error {
   constructor() {
@@ -54,6 +55,7 @@ export class GlobalsService {
   }
   titles: any = {
     settings: $localize`Settings`,
+    plan: $localize`Plan`,
     dsgvo: $localize`Dataprotection`,
     help: $localize`Information`,
     impressum: $localize`Impressum`,
@@ -61,6 +63,7 @@ export class GlobalsService {
     whatsnew: $localize`Once upon a time...`
   };
   appData: AppData;
+  sitterFetching = false;
   private flags = '';
 
   constructor(public http: HttpClient,
@@ -110,6 +113,19 @@ export class GlobalsService {
 
   static get msgThemeXmas(): string {
     return $localize`:theme selection - christmas|:X-Mas`;
+  }
+
+  _sitterList: PersonData[];
+
+  get sitterList(): PersonData[] {
+    if (this._sitterList == null && !this.sitterFetching) {
+      this.sitterFetching = true;
+      this.bs.getSitterList((data) => {
+        this._sitterList = data;
+        this.sitterFetching = false;
+      });
+    }
+    return this._sitterList;
   }
 
   _isDebug = false;
@@ -222,6 +238,26 @@ export class GlobalsService {
       }
     }
     return ret;
+  }
+
+  get listPeriodShift(): PeriodShift[] {
+    return [
+      new PeriodShift($localize`Selected Period`, 0),
+      new PeriodShift($localize`One Month ago`, 1),
+      new PeriodShift($localize`Two Months ago`, 2),
+      new PeriodShift($localize`Three Months ago`, 3),
+      new PeriodShift($localize`Six Months ago`, 6),
+      new PeriodShift($localize`One Year ago`, 12)
+    ];
+  }
+
+  _currPeriodShift: PeriodShift;
+
+  get currPeriodShift(): PeriodShift {
+    if (this._currPeriodShift == null) {
+      this._currPeriodShift = this.listPeriodShift[0];
+    }
+    return this._currPeriodShift;
   }
 
   async loadSharedData() {
@@ -347,3 +383,9 @@ export class GlobalsService {
     return this.flags.indexOf(`|${key}|`) >= 0;
   }
 }
+
+export class PeriodShift {
+  constructor(public title: string, public months: number) {
+  }
+}
+

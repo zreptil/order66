@@ -1,18 +1,8 @@
 :host {
-  --headBack: var(--whatsnewHeadBack);
-  --headFore: var(--whatsnewHeadFore);
-  --bodyBack: var(--whatsnewBodyBack);
-  --bodyFore: var(--whatsnewBodyFore);
-  --accentBack: var(--whatsnewHeadBack);
-  --accentFore: var(--whatsnewHeadFore);
 }
 
 ::ng-deep body {
   --errorColor: white;
-}
-
-::ng-deep .dialog-box.welcome {
-  max-width: 680px !important;
 }
 
 h1 {

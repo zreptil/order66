@@ -35,6 +35,32 @@ function saveAppData()
   }
 }
 
+function loadSitterList() {
+  global $userFile;
+  $db = new SQLite3($userFile, SQLITE3_OPEN_READWRITE);
+  $query = $db->prepare('select * from users where (type & :type) = :type');
+  $query->bindValue(':type', TYPE_SITTER, SQLITE3_INTEGER);
+  $result = $query->execute();
+  $data = array();
+  while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+    $userFilename = 'db/'.userId($row['id']) . '.sqlite';
+    $userDb = new SQLite3($userFilename);
+    if (isset($userDb)) {
+      $appQuery = $userDb->prepare('select * from app where id=:id');
+      $appQuery->bindValue(':id', 1, SQLITE3_INTEGER);
+      $appResult = $appQuery->execute();
+      if ($appData = $appResult->fetchArray(SQLITE3_ASSOC)) {
+        $d = array();
+        $d['d'] = $appData;
+        $d['u'] = $row['id'];
+        $data[] = $d;
+      }
+      $userDb->close();
+    }
+  }
+  return json_encode($data);
+}
+
 function loadAppData($id)
 {
   global $userDb, $user;

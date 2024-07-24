@@ -1,0 +1,191 @@
+:host {
+  --headBack: var(--datepickerHeadBack);
+  --headFore: var(--datepickerHeadFore);
+  --bodyBack: var(--datepickerBodyBack);
+  --bodyFore: var(--datepickerBodyFore);
+
+  .mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
+    font-size: 0.8em;
+  }
+
+  ::ng-deep [mat-dialog-actions] {
+    display: flex;
+    flex-flow: row;
+    flex-shrink: 0;
+    justify-content: flex-end;
+  }
+
+  [cdkDrag] {
+    max-width: 41em;
+  }
+
+  .mat-button-disabled {
+    background-color: initial;
+  }
+}
+
+.shift {
+  padding: 1em 0.5em;
+  margin-right: 0.3em;
+
+  white-space: normal;
+  line-height: 1.5em;
+}
+
+[mat-dialog-title] {
+  p {
+    font-size: 80%;
+  }
+
+  max-height: 6em;
+}
+
+[mat-dialog-title].empty {
+  background-color: var(--datepickerHeadEmptyBack) !important;
+  color: var(--datepickerHeadEmptyFore) !important;
+}
+
+[mat-dialog-content] {
+  display: flex;
+  flex-flow: column;
+  padding: 1em;
+  font-size: 1.2em;
+}
+
+
+material-input {
+}
+
+div[header] {
+  display: flex;
+  flex-direction: row;
+  color: white;
+  justify-content: space-between;
+}
+
+div[footer] {
+  border-top: 1px solid var(--datepickerHeadBack);
+}
+
+.root {
+  padding: 1em;
+  font-size: 1.2em;
+  color: black;
+  overflow: hidden;
+}
+
+h1 {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
+.period-empty {
+  display: flex;
+  flex-flow: column;
+  gap: 0.2em;
+  line-height: 0.8em;
+
+  .title {
+  }
+
+  .info {
+    font-size: 75%;
+    font-weight: normal;
+  }
+}
+
+a, a:visited, a:active {
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--datepickerHeadBack);
+}
+
+.floating {
+  padding-top: 1em;
+  padding-left: 1em;
+  font-size: 75%;
+  opacity: 0.5;
+}
+
+.editcontrols {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  material-input {
+    width: 8em;
+  }
+}
+
+.shortcuts {
+  line-height: 2.2em;
+
+  .mdc-button {
+    font-size: 75%;
+  }
+
+  .mat-mdc-raised-button:not(:disabled) {
+    background-color: var(--datepickerBtnRaisedKeyBack);
+    color: var(--datepickerBtnRaisedKeyFore);
+  }
+
+  .mat-mdc-button:not(:disabled) {
+    color: var(--datepickerBtnRaisedKeyFore);
+  }
+
+  .toggle {
+  }
+}
+
+.shift.mat-mdc-button:not(:disabled) {
+  background-color: var(--datepickerBtnShiftKeyBack);
+  color: var(--datepickerBtnShiftKeyFore);
+  font-size: 75%;
+  border-radius: 0.5em;
+}
+
+div.month {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+material-button.ok {
+  height: 100%;
+}
+
+.controls {
+  display: flex;
+  flex-flow: column;
+
+  button {
+    margin-top: 0.2em;
+  }
+
+  .shift {
+    color: var(--datepickerBtnShiftKeyFore);
+  }
+}
+
+.prev.mdc-button,
+.next.mdc-button,
+.ok.mdc-button {
+  display: flex;
+  height: inherit;
+}
+
+[row] {
+  display: flex;
+  flex-flow: row;
+
+  .delete {
+    mat-icon {
+      margin: 0;
+    }
+  }
+}
+
+.is-debug {
+  background: var(--logDebugColor) !important;
+  color: var(--logDebugFore) !important;
+}

@@ -27,6 +27,10 @@ import {SettingsComponent} from '@/components/settings/settings.component';
 import {PersonFormComponent} from '@/controls/person-form/person-form.component';
 import {TypeOwnerComponent} from '@/components/type-owner/type-owner.component';
 import {TypeSitterComponent} from '@/components/type-sitter/type-sitter.component';
+import {PlanComponent} from '@/components/plan/plan.component';
+import {DatepickerComponent} from '@/controls/datepicker/datepicker.component';
+import {DatepickerDialogComponent} from '@/controls/datepicker/datepicker-dialog/datepicker-dialog.component';
+import {DatepickerMonthComponent} from '@/controls/datepicker/datepicker-month/datepicker-month.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +47,9 @@ import {TypeSitterComponent} from '@/components/type-sitter/type-sitter.componen
     ColorCfgComponent,
     ColorCfgDialogComponent,
     CloseButtonComponent,
+    DatepickerComponent,
+    DatepickerDialogComponent,
+    DatepickerMonthComponent,
     WhatsNewComponent,
     MainComponent,
     WelcomeComponent,
@@ -50,7 +57,8 @@ import {TypeSitterComponent} from '@/components/type-sitter/type-sitter.componen
     ImpressumComponent,
     PersonFormComponent,
     TypeOwnerComponent,
-    TypeSitterComponent
+    TypeSitterComponent,
+    PlanComponent
   ],
   bootstrap: [AppComponent], imports: [BrowserModule,
     ReactiveFormsModule,

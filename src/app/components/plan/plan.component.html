@@ -1,0 +1,47 @@
+<div cdkDrag cdkDragBoundary=".cdk-overlay-container"
+     cdkDragRootElement=".dialog-box.plan">
+  <div cdkDragHandle mat-dialog-title>
+    <mat-icon>flight_takeoff</mat-icon>
+    <h1>{{ globals.titles.plan }}</h1>
+    <app-close-button [data]="closeData"></app-close-button>
+  </div>
+  <mat-dialog-content>
+    <div row>
+      <app-datepicker (periodChange)="onPeriodChange($event)" [period]="data.period" [showLabel]="false"></app-datepicker>
+      <mat-form-field>
+        <mat-label i18n>Sitter</mat-label>
+        <mat-select [(value)]="data.sitter">
+          @for (sitter of globals.sitterList; track sitter.fkUser) {
+            <mat-option [value]="sitter.fkUser">{{ sitter.fullname }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div column>
+      <div row>
+        @for (dow of DatepickerPeriod.dowShortNames; track dow) {
+          <button day disabled mat-button>{{ dow }}</button>
+        }
+      </div>
+      @for (week of weeks; track week.key) {
+        <div row>
+          @for (day of week.days; track day.key) {
+            @if (day.day == null) {
+              <button mat-button day disabled></button>
+            } @else {
+              <button mat-button day>
+                {{ Utils.fmtDate(day.day.date, 'dd.MM') }}
+              </button>
+            }
+          }
+        </div>
+      }
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button [disabled]="data.period.isEmpty" [mat-dialog-close]="{btn: 'save', data: data}" i18n mat-button>
+      <mat-icon>save</mat-icon>
+      Save
+    </button>
+  </mat-dialog-actions>
+</div>

@@ -1,10 +1,10 @@
 :host {
-  --headBack: var(--whatsnewHeadBack);
-  --headFore: var(--whatsnewHeadFore);
-  --bodyBack: var(--whatsnewBodyBack);
-  --bodyFore: var(--whatsnewBodyFore);
-  --accentBack: var(--whatsnewHeadBack);
-  --accentFore: var(--whatsnewHeadFore);
+  --headBack: var(--settingsHeadBack);
+  --headFore: var(--settingsHeadFore);
+  --bodyBack: var(--settingsBodyBack);
+  --bodyFore: var(--settingsBodyFore);
+  --accentBack: var(--settingsHeadBack);
+  --accentFore: var(--settingsHeadFore);
 }
 
 ::ng-deep body {

@@ -4,7 +4,11 @@ import {Log} from '@/_services/log.service';
 export abstract class BaseData {
   id: number;
 
-  abstract get asJson(): any;
+  abstract get _asJson(): any;
+
+  get asJson(): any {
+    return {0: this.id, ...this._asJson};
+  }
 
   get forBackend(): string {
     return this.asString;

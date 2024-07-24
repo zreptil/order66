@@ -10,6 +10,7 @@ export class PersonData extends BaseData {
   address2: string;
   zip: string;
   city: string;
+  fkUser: number;
 
   constructor(json?: any) {
     super();
@@ -34,7 +35,7 @@ export class PersonData extends BaseData {
         Utils.join([this.zip, this.city], ' ')], ', ');
   }
 
-  override get asJson(): any {
+  override get _asJson(): any {
     return {
       a: this.firstname,
       b: this.lastname,

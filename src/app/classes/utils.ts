@@ -1,4 +1,5 @@
 import {Log} from '@/_services/log.service';
+import {DatepickerPeriod} from '@/controls/datepicker/datepicker-period';
 
 export class Utils {
   static get now(): Date {
@@ -148,9 +149,10 @@ export class Utils {
 
   static fmtDate(date: Date, fmt: string = null): string {
     if (fmt == null) {
-      fmt = $localize`dd.MM.yyyy`;
+      fmt = $localize`dd/MM/yyyy`;
     }
     let ret = fmt;
+    ret = ret.replace(/ddd/g, DatepickerPeriod.dowShortName(date));
     ret = ret.replace(/dd/g, Utils.pad(date?.getDate() ?? '--'));
     if (date == null) {
       ret = ret.replace(/MM/g, '--');

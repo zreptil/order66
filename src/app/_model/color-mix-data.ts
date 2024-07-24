@@ -12,7 +12,7 @@ export class ColorMix extends BaseData {
     this._fillFromJson({});
   }
 
-  get asJson(): any {
+  override get _asJson(): any {
     return {
       tl: this.tl?.asJson,
       tr: this.tr?.asJson,
