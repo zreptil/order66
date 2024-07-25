@@ -24,4 +24,21 @@
 mat-card {
   cursor: pointer;
   max-width: 32%;
+  max-height: calc(100vh / 2);
+}
+
+mat-card-header {
+  display: flex;
+  flex-flow: column;
+}
+
+mat-card-content {
+  padding-top: 0.5em;
+  margin-bottom: 0.5em;
+  overflow-y: auto;
+}
+
+[sitter] {
+  font-size: 70%;
+  color: rgba(0, 0, 0, 0.8);
 }

@@ -24,6 +24,10 @@
   }
 }
 
+.mat-mdc-dialog-title::before {
+  display: none;
+}
+
 .shift {
   padding: 1em 0.5em;
   margin-right: 0.3em;

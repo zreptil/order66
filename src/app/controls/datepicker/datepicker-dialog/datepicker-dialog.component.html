@@ -1,6 +1,7 @@
 <div cdkDrag cdkDragBoundary=".cdk-overlay-container"
      cdkDragRootElement=".dialog-box.datepickerdialog">
   <div [class]="classForTitle" cdkDragHandle mat-dialog-title>
+    <mat-icon>calendar_month</mat-icon>
     <h1 *ngIf="!data.period.isEmpty" i18n="title for datepicker dialog">Period</h1>
     <div *ngIf="data.period.isEmpty" class="period-empty">
       <div class="title" i18n="title for datepicker dialog when period empty">The period contains no evaluable days</div>

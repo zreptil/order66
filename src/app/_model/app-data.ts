@@ -33,15 +33,15 @@ export class AppData extends BaseData {
   override get _asJson(): any {
     return {
       a: this.person.asJson,
-      b: this.plans?.map((entry, index) => {
-        entry.id = index + 1;
-        return entry.asJson;
-      })
+      b: this.mapJsonArray(this.plans),
     };
   }
 
   override _fillFromJson(json: any, def?: any): void {
     this.person = new PersonData(json?.a ?? def?.person);
     this.plans = (json?.b ?? def?.plans)?.map((src: any) => new PlanData(src));
+    this.plans?.sort((a, b) => {
+      return a.period.start.getTime() - b.period.start.getTime();
+    })
   }
 }

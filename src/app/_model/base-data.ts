@@ -33,6 +33,13 @@ export abstract class BaseData {
     return `${json[key]}`;
   }
 
+  mapJsonArray(src: BaseData[]): any[] {
+    return src?.map((entry, index) => {
+      entry.id = index + 1;
+      return entry.asJson;
+    });
+  }
+
   fillFromBackend(src: string): void {
     this.fillFromString(src);
 //    this.fillFromString(id, Utils.decodeBase64(src));

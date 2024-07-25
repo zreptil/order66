@@ -26,7 +26,7 @@ export class DatepickerComponent implements OnInit {
   periodChange = new EventEmitter<DatepickerPeriod>();
   data = new DatepickerData();
 
-  constructor(public ms: MessageService) {
+  constructor(public msg: MessageService) {
     Log.todo('Beim Datepicker müssen noch die Eingabefelder für Start und Ende rein.');
   }
 
@@ -76,10 +76,8 @@ export class DatepickerComponent implements OnInit {
   }
 
   showDatePicker() {
-    // this.data.period = this.period;
     this.data.loadedPeriod = this.data.period.toString();
-    this.data.period.start = Utils.now;
-    this.ms.showPopup(DatepickerDialogComponent, 'datepicker', this.data).subscribe(result => {
+    this.msg.showPopup(DatepickerDialogComponent, 'datepicker', this.data).subscribe(result => {
       switch (result?.btn) {
         case 'save':
           this.period = this.data.period;

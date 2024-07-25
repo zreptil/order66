@@ -56,6 +56,7 @@ export class GlobalsService {
   titles: any = {
     settings: $localize`Settings`,
     plan: $localize`Plan`,
+    day: $localize`Daily Schedule`,
     dsgvo: $localize`Dataprotection`,
     help: $localize`Information`,
     impressum: $localize`Impressum`,
@@ -64,12 +65,13 @@ export class GlobalsService {
   };
   appData: AppData;
   sitterFetching = false;
+  saveImmediately = true;
   private flags = '';
 
   constructor(public http: HttpClient,
               public sync: SyncService,
               public ls: LanguageService,
-              public ms: MessageService,
+              public msg: MessageService,
               public bs: BackendService,
               public env: EnvironmentService) {
     GLOBALS = this;
@@ -83,12 +85,12 @@ export class GlobalsService {
           this.appData.usertype = data.type;
           this.currentUserType = this.usertypeList[0];
           if (this.storageVersion !== this.version) {
-            this.ms.showPopup(WhatsNewComponent, 'whatsnew', {});
+            this.msg.showPopup(WhatsNewComponent, 'whatsnew', {});
           } else {
             this.currentPage = 'main';
           }
         }, (_error) => {
-          this.ms.showPopup(WelcomeComponent, 'welcome', {});
+          this.msg.showPopup(WelcomeComponent, 'welcome', {});
         });
     });
   }
@@ -122,6 +124,7 @@ export class GlobalsService {
       this.sitterFetching = true;
       this.bs.getSitterList((data) => {
         this._sitterList = data;
+        this._sitterList.push(new PersonData({a: $localize`Toby`, b: $localize`Named`}));
         this.sitterFetching = false;
       });
     }
@@ -377,6 +380,25 @@ export class GlobalsService {
       }
     }
     return name;
+  }
+
+  saveImmediate(saveToAppData?: () => void, onDone?: () => void) {
+    if (this.saveImmediately) {
+      saveToAppData?.();
+      console.log('Nun gehts los', GLOBALS.appData);
+      this.bs.saveAppData(GLOBALS.appData,
+        (data) => {
+          GLOBALS.appData.fillFromJson(data.asJson);
+          GLOBALS.appData.usertype = data.usertype;
+          GLOBALS.currentUserType = GLOBALS.usertypeList[0];
+          GLOBALS.saveSharedData();
+          onDone?.();
+        },
+        (error) => {
+          console.error(error);
+          this.msg.error($localize`Error when saving data - ${error}`);
+        });
+    }
   }
 
   private may(key: string): boolean {

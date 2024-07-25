@@ -1,10 +1,10 @@
 import {BaseData} from '@/_model/base-data';
-import {ActionData} from '@/_model/action-data';
 import {Utils} from '@/classes/utils';
+import {TimeData} from '@/_model/time-data';
 
 export class DayData extends BaseData {
   date: Date;
-  actions: ActionData[];
+  timeRanges: TimeData[];
 
   constructor(json?: any) {
     super();
@@ -14,15 +14,24 @@ export class DayData extends BaseData {
   override get _asJson(): any {
     return {
       a: Utils.fmtDate(this.date, 'yyyyMMdd'),
-      b: this.actions?.map((entry, index) => {
-        entry.id = index + 1;
-        return entry.asJson;
-      })
+      b: this.mapJsonArray(this.timeRanges),
     };
   }
 
   override _fillFromJson(json: any, def?: any): void {
     this.date = Utils.parseDate(json?.a ?? def?.date);
-    this.actions = (json?.b ?? def?.actions)?.map((src: any) => new ActionData(src));
+    this.timeRanges = (json?.b ?? def?.actions)?.map((src: any) => new TimeData(src));
+    this.timeRanges ??= [];
+    while (this.timeRanges.length < 3) {
+      this.timeRanges.push(new TimeData({
+        0: this.timeRanges.length + 1,
+        a: this.timeRanges.length
+      }));
+    }
+    let type = 0;
+    this.timeRanges = this.timeRanges?.map(t => {
+      t.type = type++;
+      return t;
+    });
   }
 }

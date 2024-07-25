@@ -6,6 +6,7 @@
   --accentBack: var(--settingsHeadBack);
   --accentFore: var(--settingsHeadFore);
   --mat-select-panel-background-color: var(--headBack);
+  --mat-form-field-container-text-size: 14px;
 }
 
 ::ng-deep .mdc-menu-surface {
@@ -37,6 +38,8 @@ div[header] {
 }
 
 .mat-mdc-dialog-content {
+
+  min-width: 100px;
   padding: 1em !important;
   font-size: 1.2em;
   display: flex;
@@ -45,6 +48,7 @@ div[header] {
   [row] {
     display: flex;
     flex-flow: row;
+    align-items: center;
     gap: 0.2em;
     margin-bottom: 0.2em;
   }
@@ -160,4 +164,18 @@ a, a:visited, a:active {
 
 textarea {
   resize: none;
+}
+
+::ng-deep .mat-expansion-panel-body {
+  display: flex;
+  flex-flow: column;
+}
+
+[mat-button][text] {
+  width: 100%;
+  justify-content: flex-start;
+
+  ::ng-deep .mdc-button__label {
+    text-align: left;
+  }
 }

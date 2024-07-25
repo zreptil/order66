@@ -5,6 +5,7 @@ import {GLOBALS} from '@/_services/globals.service';
 
 export class PlanData extends BaseData {
   period: DatepickerPeriod;
+  info: string;
   sitter: number; // fkUser of PersonData
   days: DayData[];
 
@@ -14,7 +15,10 @@ export class PlanData extends BaseData {
   }
 
   get sitterData(): string {
-    const data = GLOBALS.sitterList?.find((sitter) => +sitter.fkUser === +this.sitter);
+    const data = GLOBALS.sitterList?.find((sitter) => sitter.fkUser === this.sitter);
+    if (data?.phone != null) {
+      return `${data.fullname} (${data.phone})`;
+    }
     return data?.fullname;
   }
 
@@ -22,10 +26,8 @@ export class PlanData extends BaseData {
     return {
       a: this.period.toString(),
       b: this.sitter,
-      c: this.days?.map((entry, index) => {
-        entry.id = index + 1;
-        return entry.asJson;
-      })
+      c: this.mapJsonArray(this.days),
+      d: this.info
     };
   }
 
@@ -33,5 +35,6 @@ export class PlanData extends BaseData {
     this.period = new DatepickerPeriod(json?.a ?? def?.period);
     this.sitter = json?.b ?? def?.sitter;
     this.days = (json?.c ?? def?.days)?.map((src: any) => new DayData(src));
+    this.info = json?.d ?? def?.info;
   }
 }

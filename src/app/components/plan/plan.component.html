@@ -1,20 +1,28 @@
 <div cdkDrag cdkDragBoundary=".cdk-overlay-container"
      cdkDragRootElement=".dialog-box.plan">
   <div cdkDragHandle mat-dialog-title>
-    <mat-icon>flight_takeoff</mat-icon>
+    <mat-icon>{{ mayEdit ? 'flight_takeoff' : 'flight_land' }}</mat-icon>
     <h1>{{ globals.titles.plan }}</h1>
     <app-close-button [data]="closeData"></app-close-button>
   </div>
   <mat-dialog-content>
     <div row>
-      <app-datepicker (periodChange)="onPeriodChange($event)" [period]="data.period" [showLabel]="false"></app-datepicker>
+      @if (mayEdit) {
+        <app-datepicker (periodChange)="onPeriodChange($event)" [period]="data.period" [showLabel]="false"></app-datepicker>
+      }
       <mat-form-field>
         <mat-label i18n>Sitter</mat-label>
-        <mat-select [(value)]="data.sitter">
+        <mat-select [(value)]="data.sitter" [disabled]="!mayEdit">
           @for (sitter of globals.sitterList; track sitter.fkUser) {
             <mat-option [value]="sitter.fkUser">{{ sitter.fullname }}</mat-option>
           }
         </mat-select>
+      </mat-form-field>
+    </div>
+    <div row>
+      <mat-form-field full-width>
+        <mat-label i18n>Information</mat-label>
+        <textarea [(ngModel)]="data.info" [disabled]="!mayEdit" matInput rows="4"></textarea>
       </mat-form-field>
     </div>
     <div column>
@@ -29,8 +37,8 @@
             @if (day.day == null) {
               <button mat-button day disabled></button>
             } @else {
-              <button mat-button day>
-                {{ Utils.fmtDate(day.day.date, 'dd.MM') }}
+              <button mat-button day (click)="clickDay($event, day)" [style]="styleForDay(day.day)">
+                {{ Utils.fmtDate(day.day.date, 'dd') }}
               </button>
             }
           }
@@ -39,9 +47,17 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button [disabled]="data.period.isEmpty" [mat-dialog-close]="{btn: 'save', data: data}" i18n mat-button>
-      <mat-icon>save</mat-icon>
-      Save
-    </button>
+    @if (mayEdit) {
+      <button [disabled]="data.period.isEmpty" [mat-dialog-close]="{btn: 'save', data: data}" i18n mat-button>
+        <mat-icon>save</mat-icon>
+        Save
+      </button>
+      @if (data.id >= 0) {
+        <button [mat-dialog-close]="{btn: 'delete', data: data}" mat-button>
+          <mat-icon>delete</mat-icon>
+          <span i18n>Delete</span>
+        </button>
+      }
+    }
   </mat-dialog-actions>
 </div>

@@ -29,6 +29,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit {
     person_address2: {label: $localize`Address Line 2`},
     person_zip: {label: $localize`ZIP`},
     person_city: {label: $localize`City`},
+    person_phone: {label: $localize`Phone`},
     usertype: {label: $localize`I am`},
   };
   @Input() startFocus: string;

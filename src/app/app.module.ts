@@ -31,6 +31,7 @@ import {PlanComponent} from '@/components/plan/plan.component';
 import {DatepickerComponent} from '@/controls/datepicker/datepicker.component';
 import {DatepickerDialogComponent} from '@/controls/datepicker/datepicker-dialog/datepicker-dialog.component';
 import {DatepickerMonthComponent} from '@/controls/datepicker/datepicker-month/datepicker-month.component';
+import {DayComponent} from '@/components/day/day.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import {DatepickerMonthComponent} from '@/controls/datepicker/datepicker-month/d
     PersonFormComponent,
     TypeOwnerComponent,
     TypeSitterComponent,
-    PlanComponent
+    PlanComponent,
+    DayComponent
   ],
   bootstrap: [AppComponent], imports: [BrowserModule,
     ReactiveFormsModule,

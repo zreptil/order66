@@ -36,6 +36,9 @@ html, body {
   --mat-menu-container-color: var(--mainHeadBack);
   --mat-menu-item-label-text-color: var(--mainHeadFore);
   --mat-menu-item-icon-color: var(----mat-menu-item-label-text-color);
+  --mdc-filled-text-field-disabled-input-text-color: rgba(0, 0, 0, 0.75);
+  --mdc-filled-text-field-disabled-label-text-color: rgba(0, 0, 0, 0.75);
+  --mdc-filled-text-field-disabled-container-color: rgba(0, 0, 0, 0);
 
   .mat-mdc-fab.mat-accent {
     --mdc-fab-container-color: var(--mainHeadBack);
@@ -831,4 +834,3 @@ form.oauth2 {
   background-color: var(--headBack);
   color: var(--headFore);
 }
-

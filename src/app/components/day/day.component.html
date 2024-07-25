@@ -1,0 +1,85 @@
+<div cdkDrag cdkDragBoundary=".cdk-overlay-container"
+     cdkDragRootElement=".dialog-box.day">
+  <div cdkDragHandle mat-dialog-title>
+    <mat-icon>schedule</mat-icon>
+    <h1>{{ Utils.fmtDate(data.day.date, 'ddd') }}, {{ Utils.fmtDate(data.day.date) }}</h1>
+    <app-close-button [data]="closeData"></app-close-button>
+  </div>
+  <mat-dialog-content>
+    <mat-accordion multi="true">
+      @for (time of data.day.timeRanges; track time.id; let idx = $index) {
+        @if (mayEdit || time.actions?.length > 0) {
+          <mat-expansion-panel expanded="false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{ time.typeName }}
+              </mat-panel-title>
+              <mat-panel-description>
+                {{ timeDescription(time) }}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            @for (action of time.actions; track action.id) {
+              <div row>
+                @if (mayEdit) {
+                  @if (edit.action === action.id && edit.time === time.id) {
+                    <button (click)="clickEditAction($event, action, time)" mat-icon-button>
+                      <mat-icon>save</mat-icon>
+                    </button>
+                    <mat-form-field full-width>
+                      <textarea [(ngModel)]="action.text" matInput rows="4" autofocus></textarea>
+                    </mat-form-field>
+                  } @else {
+                    <button (click)="clickEditAction($event, action, time)" text mat-button>
+                      {{ action.text }}
+                    </button>
+                    <button (click)="clickDeleteAction($event, action, time)" mat-icon-button>
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  }
+                } @else {
+                  <div>
+                    {{ action.text }}
+                  </div>
+                }
+              </div>
+            }
+            @if (mayEdit) {
+              <div row>
+                <button mat-button (click)="clickAddAction($event, time)">
+                  <mat-icon>add</mat-icon>
+                  <span i18n>Add Instruction</span>
+                </button>
+                @if (data.day.id > 1) {
+                  <button mat-button (click)="clickCopyAction($event, time)">
+                    <mat-icon>content_copy</mat-icon>
+                    <span i18n>Copy from previous Day</span>
+                  </button>
+                }
+              </div>
+            }
+          </mat-expansion-panel>
+        }
+      }
+      @if (data.day.timeRanges?.length < 3) {
+        <button (click)="clickAddTimerange($event)" mat-button>
+          <mat-icon>add</mat-icon>
+          <span i18n>Add Timerange</span>
+        </button>
+      }
+    </mat-accordion>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    @if (mayEdit) {
+      <button [mat-dialog-close]="{btn: 'save', data: data}" i18n mat-button>
+        <mat-icon>save</mat-icon>
+        Save
+      </button>
+      @if (data.day.id >= 0) {
+        <button [mat-dialog-close]="{btn: 'delete', data: data}" mat-button>
+          <mat-icon>delete</mat-icon>
+          <span i18n>Delete</span>
+        </button>
+      }
+    }
+  </mat-dialog-actions>
+</div>

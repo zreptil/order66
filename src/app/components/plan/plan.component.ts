@@ -1,11 +1,14 @@
 import {AfterViewInit, Component, Inject} from '@angular/core';
-import {GlobalsService} from '@/_services/globals.service';
+import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {CloseButtonData} from '@/controls/close-button/close-button-data';
 import {DatepickerPeriod} from '@/controls/datepicker/datepicker-period';
 import {Utils} from '@/classes/utils';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {PlanData} from '@/_model/plan-data';
 import {DayData} from '@/_model/day-data';
+import {MessageService} from '@/_services/message.service';
+import {DayComponent} from '@/components/day/day.component';
+import {TimeType} from '@/_model/time-data';
 
 @Component({
   selector: 'app-plan',
@@ -24,6 +27,7 @@ export class PlanComponent implements AfterViewInit {
   protected readonly Utils = Utils;
 
   constructor(public globals: GlobalsService,
+              public msg: MessageService,
               @Inject(MAT_DIALOG_DATA) public data: PlanData) {
     if (data.period?.start == null) {
       data.period.minDate = new Date();
@@ -32,20 +36,41 @@ export class PlanComponent implements AfterViewInit {
     this.onPeriodChange(data.period);
   }
 
+  get mayEdit(): boolean {
+    return Utils.isAfter(this.data?.period?.end, Utils.now);
+  }
+
   ngAfterViewInit(): void {
   }
 
   onPeriodChange(period: DatepickerPeriod) {
     this.data.period = period;
-    this.data.days = [];
+    this.data.days ??= [];
     let day = period.start;
     if (day == null) {
       return;
     }
     while (Utils.isOnOrBefore(day, period.end)) {
-      this.data.days.push(new DayData({a: Utils.fmtDate(day, 'yyyyMMdd')}));
+      const date = Utils.fmtDate(day, 'yyyyMMdd');
+      const found = this.data.days.find(d => Utils.fmtDate(d.date, 'yyyyMMdd') === date);
+      if (!found) {
+        this.data.days.push(new DayData({a: date}));
+      }
       day = Utils.addDateDays(day, 1);
     }
+    this.data.days = this.data.days.reduce((acc, day) => {
+      if (Utils.isOnOrAfter(day.date, period.start)
+        && Utils.isOnOrBefore(day.date, period.end)) {
+        acc.push(day);
+      }
+      return acc;
+    }, [] as DayData[]);
+    this.data.days.sort((a, b) => a.date.getTime() - b.date.getTime());
+    let i = 1;
+    this.data.days = this.data.days.map(d => {
+      d.id = i++;
+      return d;
+    });
     const weeks: any[] = [];
     let idx = Utils.getDow(period.start);
     let row: any = {key: -1, days: []};
@@ -66,5 +91,45 @@ export class PlanComponent implements AfterViewInit {
       }
     }
     this.weeks = weeks;
+  }
+
+  clickDay(evt: MouseEvent, day: any) {
+    evt.stopPropagation();
+    const data = new DayData();
+    data.fillFromJson(day.day.asJson);
+    this.msg.showPopup(DayComponent, 'day', {plan: this.data, day: data}).subscribe(result => {
+      if (result?.btn === 'save') {
+        const idx = this.data.days.findIndex(d => d.id === result.data.day.id);
+        if (idx >= 0) {
+          this.data.days[idx] = result.data.day;
+          this.onPeriodChange(this.data.period);
+        }
+        GLOBALS.saveImmediate(() => {
+          const idx = GLOBALS.appData.plans.findIndex(p => p.id === this.data.id);
+          if (idx >= 0) {
+            GLOBALS.appData.plans[idx] = this.data;
+          }
+        });
+      }
+    });
+  }
+
+  styleForDay(day: DayData): any {
+    const ret: string[] = ['white 0%'];
+    if (day.timeRanges?.some(t => t.type === TimeType.morning && t.actions?.length > 0)) {
+      ret.push('black 0%');
+    }
+    if (day.timeRanges?.some(t => t.type === TimeType.eventually && t.actions?.length > 0)) {
+      ret.push('aqua 33%, aqua 66%');
+    } else {
+      ret.push('white 33%, white 66%');
+    }
+    if (day.timeRanges?.some(t => t.type === TimeType.evening && t.actions?.length > 0)) {
+      ret.push('black 100%');
+    }
+    ret.push('white 100%');
+    return {
+      background: `linear-gradient(90deg, ${Utils.join(ret, ', ')})`
+    };
   }
 }

@@ -6,16 +6,11 @@
     <mat-card (click)="clickPlan(plan)">
       <mat-card-header>
         {{ plan.period.display }}
+        <div sitter><span i18n>Sitter</span>: {{ plan.sitterData }}</div>
       </mat-card-header>
       <mat-card-content>
-        {{ plan.sitterData }}
+        {{ plan.info }}
       </mat-card-content>
-      <mat-card-actions>
-        <button mat-button (click)="clickDelete($event, plan)">
-          <mat-icon>delete</mat-icon>
-          Delete
-        </button>
-      </mat-card-actions>
     </mat-card>
   }
 </div>

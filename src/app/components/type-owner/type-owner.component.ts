@@ -23,7 +23,7 @@ export class TypeOwnerComponent implements AfterViewInit {
 
   clickAdd(evt: MouseEvent) {
     evt.stopPropagation();
-    this.msg.showPopup(PlanComponent, 'plan', new PlanData()).subscribe(result => {
+    this.msg.showPopup(PlanComponent, 'plan', new PlanData({0: -1})).subscribe(result => {
       if (result?.btn === 'save') {
         GLOBALS.appData.plans ??= [];
         result.data.id = GLOBALS.appData.plans.length + 1;
@@ -50,41 +50,20 @@ export class TypeOwnerComponent implements AfterViewInit {
     this.msg.showPopup(PlanComponent, 'plan', data).subscribe(result => {
       if (result?.btn === 'save') {
         plan.fillFromJson(result.data.asJson);
-        this.bs.saveAppData(GLOBALS.appData,
-          (data) => {
-            GLOBALS.appData.fillFromJson(data.asJson);
-            GLOBALS.appData.usertype = data.usertype;
-            GLOBALS.currentUserType = GLOBALS.usertypeList[0];
-            GLOBALS.saveSharedData();
-            this.msg.closePopup();
-          },
-          (error) => {
-            console.error(error);
-            this.msg.error($localize`Error when saving data - ${error}`);
-          });
-      }
-    });
-  }
-
-  clickDelete(evt: MouseEvent, plan: PlanData) {
-    evt.stopPropagation();
-    this.msg.confirm($localize`Are you sure you want to delete this plan?`).subscribe(result => {
-      if (result?.btn === DialogResultButton.yes) {
-        const idx = GLOBALS.appData.plans.findIndex(entry => +entry.id === +plan.id);
-        if (idx >= 0) {
-          GLOBALS.appData.plans.splice(idx, 1);
-          this.bs.saveAppData(GLOBALS.appData,
-            (data) => {
-              GLOBALS.appData.fillFromJson(data.asJson);
-              GLOBALS.appData.usertype = data.usertype;
-              GLOBALS.currentUserType = GLOBALS.usertypeList[0];
-              GLOBALS.saveSharedData();
-            },
-            (error) => {
-              console.error(error);
-              this.msg.error($localize`Error when saving data - ${error}`);
-            });
-        }
+        GLOBALS.saveImmediate(() => {
+        }, () => {
+          this.msg.closePopup()
+        });
+      } else if (result?.btn === 'delete') {
+        this.msg.confirm($localize`Do you want to delete this plan?`).subscribe(result => {
+          if (result?.btn === DialogResultButton.yes) {
+            const idx = GLOBALS.appData.plans.findIndex(entry => +entry.id === +plan.id);
+            if (idx >= 0) {
+              GLOBALS.appData.plans.splice(idx, 1);
+              GLOBALS.saveImmediate();
+            }
+          }
+        });
       }
     });
   }

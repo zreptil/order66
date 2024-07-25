@@ -137,7 +137,7 @@ export class Utils {
 
   static parseDate(value: string): Date {
     let ret = null;
-    if (value.length === 8) {
+    if (value?.length === 8) {
       const y = parseInt(value.substring(0, 4));
       const m = parseInt(value.substring(4, 6)) - 1;
       const d = parseInt(value.substring(6, 8));
