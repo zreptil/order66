@@ -32,6 +32,8 @@ import {DatepickerComponent} from '@/controls/datepicker/datepicker.component';
 import {DatepickerDialogComponent} from '@/controls/datepicker/datepicker-dialog/datepicker-dialog.component';
 import {DatepickerMonthComponent} from '@/controls/datepicker/datepicker-month/datepicker-month.component';
 import {DayComponent} from '@/components/day/day.component';
+import {TasksComponent} from '@/components/tasks/tasks.component';
+import {TextareaAutoresizeDirective} from '@/_directives/textarea-autoresize.directive';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,8 @@ import {DayComponent} from '@/components/day/day.component';
     TypeOwnerComponent,
     TypeSitterComponent,
     PlanComponent,
-    DayComponent
+    DayComponent,
+    TasksComponent,
   ],
   bootstrap: [AppComponent], imports: [BrowserModule,
     ReactiveFormsModule,
@@ -68,7 +71,7 @@ import {DayComponent} from '@/components/day/day.component';
     MaterialModule,
     DragDropModule,
     LogComponent,
-    ProgressComponent], providers: [provideHttpClient(withInterceptorsFromDi())]
+    ProgressComponent, TextareaAutoresizeDirective], providers: [provideHttpClient(withInterceptorsFromDi())]
 })
 export class AppModule {
 }

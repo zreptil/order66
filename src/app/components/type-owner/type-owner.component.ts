@@ -4,18 +4,19 @@ import {MessageService} from '@/_services/message.service';
 import {PlanComponent} from '@/components/plan/plan.component';
 import {PlanData} from '@/_model/plan-data';
 import {BackendService} from '@/_services/backend.service';
-import {DialogResultButton} from '@/_model/dialog-data';
+import {TypeService} from '@/_services/type.service';
 
 @Component({
   selector: 'app-type-owner',
   templateUrl: './type-owner.component.html',
-  styleUrls: ['./type-owner.component.scss']
+  styleUrls: ['../type.component.scss']
 })
 export class TypeOwnerComponent implements AfterViewInit {
 
   constructor(public globals: GlobalsService,
               public bs: BackendService,
-              public msg: MessageService) {
+              public msg: MessageService,
+              public ts: TypeService) {
   }
 
   ngAfterViewInit(): void {
@@ -40,30 +41,6 @@ export class TypeOwnerComponent implements AfterViewInit {
             console.error(error);
             this.msg.error($localize`Error when saving data - ${error}`);
           });
-      }
-    });
-  }
-
-  clickPlan(plan: PlanData) {
-    const data = new PlanData();
-    data.fillFromJson(plan.asJson);
-    this.msg.showPopup(PlanComponent, 'plan', data).subscribe(result => {
-      if (result?.btn === 'save') {
-        plan.fillFromJson(result.data.asJson);
-        GLOBALS.saveImmediate(() => {
-        }, () => {
-          this.msg.closePopup()
-        });
-      } else if (result?.btn === 'delete') {
-        this.msg.confirm($localize`Do you want to delete this plan?`).subscribe(result => {
-          if (result?.btn === DialogResultButton.yes) {
-            const idx = GLOBALS.appData.plans.findIndex(entry => +entry.id === +plan.id);
-            if (idx >= 0) {
-              GLOBALS.appData.plans.splice(idx, 1);
-              GLOBALS.saveImmediate();
-            }
-          }
-        });
       }
     });
   }

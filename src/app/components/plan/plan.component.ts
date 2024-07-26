@@ -37,7 +37,7 @@ export class PlanComponent implements AfterViewInit {
   }
 
   get mayEdit(): boolean {
-    return Utils.isAfter(this.data?.period?.end, Utils.now);
+    return Utils.isAfter(this.data?.period?.end, Utils.now) || this.data?.period?.end == null;
   }
 
   ngAfterViewInit(): void {
@@ -116,16 +116,31 @@ export class PlanComponent implements AfterViewInit {
 
   styleForDay(day: DayData): any {
     const ret: string[] = ['white 0%'];
-    if (day.timeRanges?.some(t => t.type === TimeType.morning && t.actions?.length > 0)) {
-      ret.push('black 0%');
+    let time = day.timeRanges?.find(t => t.type === TimeType.morning && t.actions?.length > 0);
+    if (time != null) {
+      if (time.actions?.filter(a => a.done)?.length === time.actions?.length) {
+        ret.push('green 0%');
+      } else {
+        ret.push('black 0%');
+      }
     }
-    if (day.timeRanges?.some(t => t.type === TimeType.eventually && t.actions?.length > 0)) {
-      ret.push('aqua 33%, aqua 66%');
+    time = day.timeRanges?.find(t => t.type === TimeType.eventually && t.actions?.length > 0);
+    if (time != null) {
+      if (time.actions?.filter(a => a.done)?.length === time.actions?.length) {
+        ret.push('lime 33%, lime 66%');
+      } else {
+        ret.push('silver 33%, silver 66%');
+      }
     } else {
       ret.push('white 33%, white 66%');
     }
-    if (day.timeRanges?.some(t => t.type === TimeType.evening && t.actions?.length > 0)) {
-      ret.push('black 100%');
+    time = day.timeRanges?.find(t => t.type === TimeType.evening && t.actions?.length > 0);
+    if (time != null) {
+      if (time.actions?.filter(a => a.done)?.length === time.actions?.length) {
+        ret.push('green 100%');
+      } else {
+        ret.push('black 100%');
+      }
     }
     ret.push('white 100%');
     return {

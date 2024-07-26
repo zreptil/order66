@@ -15,7 +15,14 @@
                 {{ time.typeName }}
               </mat-panel-title>
               <mat-panel-description>
-                {{ timeDescription(time) }}
+                @if (time.actions?.length > 0) {
+                  {{ timeDescription(time) }}
+                } @else if (data.day.id > 1 || data.plan.id > 1) {
+                  <button mat-button (click)="clickCopyAction($event, time)">
+                    <mat-icon>content_copy</mat-icon>
+                    <span>{{ msgCopy }}</span>
+                  </button>
+                }
               </mat-panel-description>
             </mat-expansion-panel-header>
             @for (action of time.actions; track action.id) {
@@ -37,6 +44,9 @@
                     </button>
                   }
                 } @else {
+                  <div sitterCheck>
+                    <mat-icon [class]="classForDone(action)">{{ action.done ? 'done' : 'close' }}</mat-icon>
+                  </div>
                   <div>
                     {{ action.text }}
                   </div>
@@ -49,13 +59,9 @@
                   <mat-icon>add</mat-icon>
                   <span i18n>Add Instruction</span>
                 </button>
-                @if (data.day.id > 1) {
-                  <button mat-button (click)="clickCopyAction($event, time)">
-                    <mat-icon>content_copy</mat-icon>
-                    <span i18n>Copy from previous Day</span>
-                  </button>
-                }
               </div>
+            } @else if (!Utils.isEmpty(time.info)) {
+              <div sitterInfo>{{ time.info }}</div>
             }
           </mat-expansion-panel>
         }
@@ -74,12 +80,6 @@
         <mat-icon>save</mat-icon>
         Save
       </button>
-      @if (data.day.id >= 0) {
-        <button [mat-dialog-close]="{btn: 'delete', data: data}" mat-button>
-          <mat-icon>delete</mat-icon>
-          <span i18n>Delete</span>
-        </button>
-      }
     }
   </mat-dialog-actions>
 </div>

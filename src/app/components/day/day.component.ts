@@ -20,7 +20,7 @@ export class DayComponent implements AfterViewInit {
 
   closeData: CloseButtonData = {
     colorKey: 'settings',
-    showClose: !this.mayEdit
+    showClose: true
   };
   readonly DatepickerPeriod = DatepickerPeriod;
   edit = {action: -1, time: -1};
@@ -29,6 +29,14 @@ export class DayComponent implements AfterViewInit {
   constructor(public globals: GlobalsService,
               public msg: MessageService,
               @Inject(MAT_DIALOG_DATA) public data: { plan: PlanData, day: DayData }) {
+  }
+
+  get msgCopy(): string {
+    if (this.data?.day?.id > 1) {
+      return $localize`Copy from previous Day`;
+    }
+    return $localize`Copy from previous Plan`;
+
   }
 
   get mayEdit(): boolean {
@@ -97,13 +105,38 @@ export class DayComponent implements AfterViewInit {
 
   clickCopyAction(evt: MouseEvent, time: TimeData) {
     evt.stopPropagation();
-    const yesterday = this.data.plan.days.find(d => d.id === this.data.day.id - 1);
-    if (yesterday != null) {
-      time.actions = yesterday.timeRanges.find(t => t.type === time.type)?.actions?.map(a => {
-        const ret = new ActionData();
-        ret.fillFromJson(a.asJson);
-        return ret;
-      });
+    if (this.data.day.id > 1) {
+      const yesterday = this.data.plan.days.find(d => d.id === this.data.day.id - 1);
+      if (yesterday != null) {
+        time.actions = yesterday.timeRanges.find(t => t.type === time.type)?.actions?.map(a => {
+          const ret = new ActionData();
+          ret.fillFromJson(a.asJson);
+          ret.done = false;
+          return ret;
+        });
+      }
+    } else if (this.data.plan.id > 1) {
+      const lastPlan = GLOBALS.appData.plans.find(p => p.id === this.data.plan.id - 1);
+      if (lastPlan != null) {
+        const lastDay = lastPlan.days.reverse().find(d => d.timeRanges.some(t => t.type === time.type));
+        if (lastDay != null) {
+          time.actions = lastDay.timeRanges.find(t => t.type === time.type)?.actions?.map(a => {
+            const ret = new ActionData();
+            ret.fillFromJson(a.asJson);
+            ret.done = false;
+            return ret;
+          });
+        }
+      }
     }
+
+  }
+
+  classForDone(action: ActionData): string[] {
+    const ret: string[] = ['check'];
+    if (action.done) {
+      ret.push('done');
+    }
+    return ret;
   }
 }

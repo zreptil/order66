@@ -56,6 +56,7 @@ export class GlobalsService {
   titles: any = {
     settings: $localize`Settings`,
     plan: $localize`Plan`,
+    tasks: $localize`Tasks`,
     day: $localize`Daily Schedule`,
     dsgvo: $localize`Dataprotection`,
     help: $localize`Information`,
@@ -261,6 +262,13 @@ export class GlobalsService {
       this._currPeriodShift = this.listPeriodShift[0];
     }
     return this._currPeriodShift;
+  }
+
+  loadAppData() {
+    this.bs.loadAppData((data) => {
+      this.appData.fillFromJson(data.asJson);
+      this.currentUserType = this.usertypeList[0];
+    });
   }
 
   async loadSharedData() {

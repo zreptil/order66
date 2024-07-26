@@ -1,0 +1,52 @@
+<div cdkDrag cdkDragBoundary=".cdk-overlay-container"
+     cdkDragRootElement=".dialog-box.tasks">
+  <div cdkDragHandle mat-dialog-title>
+    <mat-icon>{{ 'task' }}</mat-icon>
+    <h1>{{ globals.titles.tasks }}</h1>
+    <app-close-button [data]="closeData"></app-close-button>
+  </div>
+  <mat-dialog-content>
+    <mat-accordion multi="true">
+      @for (day of data.p.days; track day.id; let idx = $index) {
+        <mat-expansion-panel [expanded]="Utils.isSameDay(day.date, Utils.now) || true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ Utils.fmtDate(day.date) }}
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-accordion multi="true">
+            @for (time of day.timeRanges; track time.id; let idx = $index) {
+              @if (time.actions?.length > 0) {
+                <mat-expansion-panel tasks [expanded]="isCurrentTimeRange(day.date, time)">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      {{ time.typeName }}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      {{ timeDescription(time) }}
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  @for (action of time.actions; track action.id) {
+                    <mat-checkbox [(ngModel)]="action.done">{{ action.text }}</mat-checkbox>
+                  }
+                  <mat-form-field appearance="outline" sitterInfo>
+                    <mat-label>Info</mat-label>
+                    <textarea [(ngModel)]="time.info" appTextareaAutoresize autofocus matInput></textarea>
+                  </mat-form-field>
+                </mat-expansion-panel>
+              }
+            }
+          </mat-accordion>
+        </mat-expansion-panel>
+      }
+    </mat-accordion>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button [mat-dialog-close]="{btn: 'save', data: data}" i18n mat-button>
+      <mat-icon>save</mat-icon>
+      Save
+    </button>
+  </mat-dialog-actions>
+</div>

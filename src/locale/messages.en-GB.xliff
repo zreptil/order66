@@ -24,11 +24,15 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/plan/plan.component.html</context>
-          <context context-type="linenumber">12</context>
+          <context context-type="linenumber">14</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/type-owner/type-owner.component.html</context>
           <context context-type="linenumber">9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/type-sitter/type-sitter.component.html</context>
+          <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5037437391296624618" datatype="html">
@@ -39,11 +43,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">61</context>
+          <context context-type="linenumber">62</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/plan/plan.component.html</context>
-          <context context-type="linenumber">22</context>
+          <context context-type="linenumber">24</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8720977247725652816" datatype="html">
@@ -433,7 +437,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">64</context>
+          <context context-type="linenumber">65</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8645499116170704011" datatype="html">
@@ -518,39 +522,46 @@
           <context context-type="linenumber">58</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="6904866445262015585" datatype="html">
+        <source>Tasks</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="4118544540439207596" datatype="html">
         <source>Daily Schedule</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">60</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4759312981227880392" datatype="html">
         <source>Dataprotection</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">60</context>
+          <context context-type="linenumber">61</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1547876271716599756" datatype="html">
         <source>Impressum</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">62</context>
+          <context context-type="linenumber">63</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6799896755931667405" datatype="html">
         <source>Welcome to Order66</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">63</context>
+          <context context-type="linenumber">64</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7646507470496958959" datatype="html">
         <source>Own</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">98</context>
+          <context context-type="linenumber">99</context>
         </context-group>
         <note priority="1" from="meaning">theme selection - own</note>
       </trans-unit>
@@ -558,7 +569,7 @@
         <source>Automatic</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">109</context>
+          <context context-type="linenumber">110</context>
         </context-group>
         <note priority="1" from="meaning">theme selection - automatic</note>
       </trans-unit>
@@ -566,7 +577,7 @@
         <source>Standard</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">113</context>
+          <context context-type="linenumber">114</context>
         </context-group>
         <note priority="1" from="meaning">theme selection - standard</note>
       </trans-unit>
@@ -574,7 +585,7 @@
         <source>X-Mas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">117</context>
+          <context context-type="linenumber">118</context>
         </context-group>
         <note priority="1" from="meaning">theme selection - christmas</note>
       </trans-unit>
@@ -582,70 +593,70 @@
         <source>Toby</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">127</context>
+          <context context-type="linenumber">128</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1347314874934649541" datatype="html">
         <source>Named</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">127</context>
+          <context context-type="linenumber">128</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4937238701328708875" datatype="html">
         <source>Selected Period</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">248</context>
+          <context context-type="linenumber">249</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6479681338512278715" datatype="html">
         <source>One Month ago</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">249</context>
+          <context context-type="linenumber">250</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4634686543910917221" datatype="html">
         <source>Two Months ago</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">250</context>
+          <context context-type="linenumber">251</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3391680301204048086" datatype="html">
         <source>Three Months ago</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">251</context>
+          <context context-type="linenumber">252</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1494116721319611637" datatype="html">
         <source>Six Months ago</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">252</context>
+          <context context-type="linenumber">253</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7792248046138362602" datatype="html">
         <source>One Year ago</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">253</context>
+          <context context-type="linenumber">254</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6899006172769799970" datatype="html">
         <source>There was no answer within <x id="PH" equiv-text="params.timeout / 1000"/> seconds at <x id="PH_1" equiv-text="url"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">364</context>
+          <context context-type="linenumber">372</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4043771269711020744" datatype="html">
         <source>Error when saving data - <x id="PH" equiv-text="error"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">399</context>
+          <context context-type="linenumber">407</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/settings/settings.component.ts</context>
@@ -653,7 +664,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/type-owner/type-owner.component.ts</context>
-          <context context-type="linenumber">41</context>
+          <context context-type="linenumber">42</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7351700212933699939" datatype="html">
@@ -717,6 +728,13 @@
           <context context-type="linenumber">147</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="7950628794077434472" datatype="html">
+        <source>Do you want to delete this plan?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/type.service.ts</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="5592728170528035191" datatype="html">
         <source><x id="PH" equiv-text="hours"/>:<x id="PH_1" equiv-text="Utils.pad(-minutes % 60)"/> hours ago</source>
         <context-group purpose="location">
@@ -756,75 +774,87 @@
         <source>Add Instruction</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/day/day.component.html</context>
-          <context context-type="linenumber">48,49</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="7203057817374567802" datatype="html">
-        <source>Copy from previous Day</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/day/day.component.html</context>
-          <context context-type="linenumber">53,54</context>
+          <context context-type="linenumber">60,61</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4363495726471870539" datatype="html">
         <source>Add Timerange</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/day/day.component.html</context>
-          <context context-type="linenumber">62,63</context>
+          <context context-type="linenumber">72,73</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7134732939442782683" datatype="html">
         <source><x id="START_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;mat-icon&gt;"/>save<x id="CLOSE_TAG_MAT_ICON" ctype="x-mat_icon" equiv-text="&lt;/mat-icon&gt;"/> Save </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/day/day.component.html</context>
-          <context context-type="linenumber">69,71</context>
+          <context context-type="linenumber">80,82</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/plan/plan.component.html</context>
-          <context context-type="linenumber">49,51</context>
+          <context context-type="linenumber">52,54</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/settings/settings.component.html</context>
           <context context-type="linenumber">27,29</context>
         </context-group>
-      </trans-unit>
-      <trans-unit id="7022070615528435141" datatype="html">
-        <source>Delete</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/day/day.component.html</context>
-          <context context-type="linenumber">75,76</context>
+          <context context-type="sourcefile">src/app/components/tasks/tasks.component.html</context>
+          <context context-type="linenumber">48,50</context>
         </context-group>
+      </trans-unit>
+      <trans-unit id="7203057817374567802" datatype="html">
+        <source>Copy from previous Day</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/plan/plan.component.html</context>
-          <context context-type="linenumber">55,56</context>
+          <context context-type="sourcefile">src/app/components/day/day.component.ts</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7263126157332672329" datatype="html">
+        <source>Copy from previous Plan</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/day/day.component.ts</context>
+          <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6173899997476755699" datatype="html">
         <source>No Instructions</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/day/day.component.ts</context>
-          <context context-type="linenumber">60</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/tasks/tasks.component.ts</context>
+          <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
       <trans-unit id="105911275367514489" datatype="html">
         <source>1 Instruction</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/day/day.component.ts</context>
-          <context context-type="linenumber">61</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/tasks/tasks.component.ts</context>
+          <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4064794797202909354" datatype="html">
         <source><x id="PH" equiv-text="time.actions?.length"/> Instructions</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/day/day.component.ts</context>
-          <context context-type="linenumber">62</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/tasks/tasks.component.ts</context>
+          <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6146948203161944025" datatype="html">
         <source>Do you want to delete this Instruction?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/day/day.component.ts</context>
-          <context context-type="linenumber">68</context>
+          <context context-type="linenumber">80</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3797778920049399855" datatype="html">
@@ -832,6 +862,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/main/main.component.html</context>
           <context context-type="linenumber">44,45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7022070615528435141" datatype="html">
+        <source>Delete</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/plan/plan.component.html</context>
+          <context context-type="linenumber">58,59</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4360072995007239979" datatype="html">
@@ -937,13 +974,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/controls/person-form/person-form.component.ts</context>
           <context context-type="linenumber">31</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="7950628794077434472" datatype="html">
-        <source>Do you want to delete this plan?</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/type-owner/type-owner.component.ts</context>
-          <context context-type="linenumber">58</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1437726284917476348" datatype="html">

@@ -300,6 +300,12 @@ html {
         font-size: 1.4em;
         font-weight: normal;
       }
+
+      @media (max-width: 33em) {
+        h1 {
+          font-size: 1em;
+        }
+      }
     }
 
     [mat-dialog-content] {

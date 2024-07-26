@@ -13,6 +13,7 @@ export class TimeData extends BaseData {
   ];
   type: number;
   actions: ActionData[];
+  info: string;
 
   constructor(json?: any) {
     super();
@@ -27,11 +28,13 @@ export class TimeData extends BaseData {
     return {
       a: this.type,
       b: this.mapJsonArray(this.actions),
+      c: this.info
     };
   }
 
   override _fillFromJson(json: any, def?: any): void {
     this.type = json?.a ?? def?.type;
     this.actions = (json?.b ?? def?.actions)?.map((src: any) => new ActionData(src));
+    this.info = json?.c ?? def?.info;
   }
 }

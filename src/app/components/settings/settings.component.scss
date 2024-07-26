@@ -95,12 +95,6 @@ mat-dialog-actions {
 }
 
 
-@media(max-width: 33em) {
-  div[mat-dialog-title] {
-    flex-direction: column !important;
-  }
-}
-
 div[row] {
   display: flex;
   flex-flow: row;

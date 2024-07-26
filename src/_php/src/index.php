@@ -17,6 +17,10 @@ $code = 200;
 
 if ($cmd == 'loadAppData') {
   include_once 'data-app.php';
+  if (isset($raw['userid'])) {
+    $userFilename = 'db/'.userId($raw['userid']) . '.sqlite';
+    $userDb = new SQLite3($userFilename);
+  }
   $ret = loadAppData($raw['id']);
   $ret = substr($ret,0,strlen($ret)-1)
   .',"perm":"'. $user['permissions'] .'"'
@@ -28,6 +32,10 @@ if ($cmd == 'loadAppData') {
   exit;
 } else if ($cmd == 'saveAppData') {
   include_once 'data-app.php';
+  if (isset($raw['userid'])) {
+    $userFilename = 'db/'.userId($raw['userid']) . '.sqlite';
+    $userDb = new SQLite3($userFilename);
+  }
   saveAppData();
   $ret = loadAppData($raw['id']);
   header('Content-Type: application/json');
@@ -38,6 +46,14 @@ if ($cmd == 'loadAppData') {
   $ret = loadSitterList();
   header('Content-Type: application/json');
   echo($ret);
+  exit;
+} else if ($cmd == 'loadOwnerData') {
+  include_once 'data-app.php';
+  $ret = array();
+  $ret['data'] = loadOwnerData();
+  $ret['ui'] = $user['id'];
+  header('Content-Type: application/json');
+  echo(json_encode($ret));
   exit;
 }
 

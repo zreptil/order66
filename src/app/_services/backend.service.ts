@@ -6,6 +6,9 @@ import {Utils} from '@/classes/utils';
 import {GLOBALS} from '@/_services/globals.service';
 import {AppData} from '@/_model/app-data';
 import {PersonData} from '@/_model/person-data';
+import {PlanData} from '@/_model/plan-data';
+
+export type SitterPlan = { ui: number, ai: number, pi: number, p: PlanData };
 
 @Injectable({
   providedIn: 'root'
@@ -116,6 +119,76 @@ export class BackendService {
       })
   }
 
+  saveSitterPlan(plan: SitterPlan, onDone: (data: SitterPlan) => void, onError?: (error: any) => void): void {
+    this.query({cmd: 'loadAppData', id: 1, userid: plan.ui}).subscribe({
+      next: (response: any) => {
+        const appData = new AppData();
+        appData.fillFromBackend(response.data);
+        if (appData.plans?.length < plan.pi) {
+          onError?.(`error when loading appData of user ${plan.ui}`);
+          return;
+        }
+        appData.plans[plan.pi] = plan.p;
+        this.query({cmd: 'saveAppData', userid: plan.ui, id: appData.id, data: appData.forBackend, usertype: appData.usertype})
+          .subscribe({
+            next: (response: any) => {
+              const ret = new AppData();
+              ret.fillFromBackend(response.data);
+              ret.usertype = response.usertype;
+              plan.p = ret.plans[plan.pi];
+              onDone(plan);
+            },
+            error: error => {
+              console.error(error);
+              onError?.(error);
+            }
+          });
+      },
+      error: error => {
+        console.error(error);
+        onError?.(error);
+      }
+    });
+  }
+
+  getSitterPlans(onDone: (data: SitterPlan[]) => void, onError?: (error: any) => void) {
+    // get all appData from all owners
+    this.query({cmd: 'loadOwnerData'})
+      .subscribe({
+        next: (response: any) => {
+          const ret: SitterPlan[] = [];
+          // response contains
+          // data: list of {d: {id: appData-Id, data: appData}, u: userId of appData)
+          // ui: user id of the current user
+          for (const src of JSON.parse(response.data)) {
+            const appData = new AppData();
+            appData.fillFromBackend(src.d.data);
+            // now get all plans of the appData where
+            // the sitter is the current user
+            if (appData.plans != null) {
+              let idx = 0;
+              for (const plan of appData.plans) {
+                if (plan.sitter === response.ui) {
+                  ret.push({
+                    ui: response.ui,
+                    ai: src.d.id,
+                    pi: idx,
+                    p: plan
+                  });
+                }
+                idx++;
+              }
+            }
+          }
+          onDone(ret);
+        },
+        error: error => {
+          console.error(error);
+          onError?.(error);
+        }
+      });
+  }
+
   loadAppData(onDone: (data: AppData) => void, onError?: (error: any) => void): void {
     this.query({cmd: 'loadAppData', id: 1})
       .subscribe({
@@ -133,45 +206,6 @@ export class BackendService {
   }
 
   saveAppData(data: AppData, onDone: (data: AppData) => void, onError?: (error: any) => void): void {
-    // const list: any[] = [];
-    // for (let i = 0; i < 10000; i++) {
-    //   list.push(data.person);
-    // }
-    // (data as any).test = list;
-    // console.log(data.forBackend);
-//       $query = 'insert into plan (start, end) values ('
-//         . forSql(20240711) . ',' . forSql(20240721) . ');'
-//         . 'insert into plan (start, end) values ('
-//         . forSql(20240808) . ',' . forSql(20240816) . ');';
-//       $result = $userDb->exec($query);
-//       $query = 'insert into textblock (type, text) values ('
-//         . forSql(0) . ','
-//         . forSql('Boots, Emma, Tyson und Marley bekommen zusammen eine ganze 400g Dose in ihren Schüsseln', true) . ');'
-//         . 'insert into textblock (type, text) values ('
-//         . forSql(0) . ','
-//         . forSql('Für Ohneschwanz eine Aluschale vor die Eingangstüre stellen. Und wenn Felix da ist, eine Schale im Carport neben dem Igel-Holzhaus platzieren. Bitte die Schalen beim Gehen in den Restmüll schmeissen.', true) . ');'
-//         . 'insert into textblock (type, text) values ('
-//         . forSql(1) . ','
-//         . forSql('Graue Restmülltonne rausstellen.', true) . ');'
-//         . 'insert into textblock (type, text) values ('
-//         . forSql(1) . ','
-//         . forSql('Graue Restmülltonne reinstellen.', true) . ');'
-//         . 'insert into textblock (type, text) values ('
-//         . forSql(0) . ','
-//         . forSql('Eier aus dem Stall rein holen.', true) . ');'
-//         . 'insert into textblock (type, text) values ('
-//         . forSql(0) . ','
-//         . forSql('Bei den Hühnern im Aussengehege das Wasser auffüllen.', true) . ');'
-//         . 'insert into textblock (type, text) values ('
-//         . forSql(0) . ','
-//         . forSql('Bei den Hühnern im Aussengehege das Wasser auffüllen.', true) . ');'
-//         . 'insert into textblock (type, text) values ('
-//         . forSql(1) . ','
-//         . forSql('Braune Biotonne rausstellen.', true) . ');'
-//         . 'insert into textblock (type, text) values ('
-//         . forSql(1) . ','
-//         . forSql('Braune Biotonne reinstellen.', true) . ');';
-    //*
     this.query({cmd: 'saveAppData', id: data.id, data: data.forBackend, usertype: data.usertype})
       .subscribe({
         next: (response: any) => {
@@ -185,7 +219,6 @@ export class BackendService {
           onError?.(error);
         }
       });
-    // */
   }
 
   logout(): void {
