@@ -119,7 +119,7 @@ export class PlanComponent implements AfterViewInit {
   clickTasks(evt: MouseEvent) {
     evt.stopPropagation();
     const data: SitterPlan = {ui: 0, ai: 0, pi: null, p: this.data};
-    this.msg.showPopup(TasksComponent, 'task', data).subscribe(result => {
+    this.msg.showPopup(TasksComponent, 'tasks', data).subscribe(result => {
       if (result?.btn === 'save') {
         this.data.fillFromJson(result.data.p.asJson);
         GLOBALS.saveImmediate(() => {
