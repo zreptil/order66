@@ -36,8 +36,6 @@ export class TypeSitterComponent implements AfterViewInit {
   }
 
   clickPlan(plan: SitterPlan) {
-    // const data = new PlanData();
-    // data.fillFromJson(plan.plan.asJson);
     this.msg.showPopup(TasksComponent, 'tasks', plan).subscribe(result => {
       if (result?.btn === 'save') {
         this.bs.saveSitterPlan(result.data,

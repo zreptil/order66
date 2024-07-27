@@ -12,6 +12,7 @@ export class PersonData extends BaseData {
   city: string;
   phone: string;
   fkUser: number;
+  tasksAsCalendar = false;
 
   constructor(json?: any) {
     super();
@@ -45,7 +46,8 @@ export class PersonData extends BaseData {
       e: this.address2,
       f: this.zip,
       g: this.city,
-      h: this.phone
+      h: this.phone,
+      i: this.tasksAsCalendar
     };
   }
 
@@ -58,5 +60,6 @@ export class PersonData extends BaseData {
     this.zip = json?.f ?? def?.zip;
     this.city = json?.g ?? def?.city;
     this.phone = json?.h ?? def?.phone;
+    this.tasksAsCalendar = json?.i ?? def?.tasksAsCalendar;
   }
 }

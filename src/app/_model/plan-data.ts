@@ -2,12 +2,14 @@ import {BaseData} from '@/_model/base-data';
 import {DatepickerPeriod} from '@/controls/datepicker/datepicker-period';
 import {DayData} from '@/_model/day-data';
 import {GLOBALS} from '@/_services/globals.service';
+import {Utils} from '@/classes/utils';
 
 export class PlanData extends BaseData {
   period: DatepickerPeriod;
   info: string;
   sitter: number; // fkUser of PersonData
   days: DayData[];
+  past: number;
 
   constructor(json?: any) {
     super();
@@ -36,5 +38,10 @@ export class PlanData extends BaseData {
     this.sitter = json?.b ?? def?.sitter;
     this.days = (json?.c ?? def?.days)?.map((src: any) => new DayData(src));
     this.info = json?.d ?? def?.info;
+    this.days?.sort((a, b) => {
+      return a.date.getTime() - b.date.getTime();
+    })
+    // calculate number of days the plan lays in the past
+    this.past = (Utils.now.getTime() - this.period.end?.getTime()) / (24 * 60 * 60000);
   }
 }

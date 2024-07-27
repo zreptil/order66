@@ -3,7 +3,7 @@
 </button>
 <div content>
   @for (plan of globals.appData.plans; track plan.id) {
-    <mat-card (click)="ts.clickPlan(plan)">
+    <mat-card (click)="ts.clickPlan(plan)" [style]="styleForCard(plan)">
       <mat-card-header>
         {{ plan.period.display }}
         <div sitter><span i18n>Sitter</span>: {{ plan.sitterData }}</div>

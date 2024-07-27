@@ -80,6 +80,13 @@
         <mat-icon>save</mat-icon>
         Save
       </button>
+    } @else {
+      <div style="display:flex;flex-flow:row;gap:0.5em;align-items:center">
+        <mat-icon class="check">close</mat-icon>
+        Todo
+        <mat-icon class="check done">done</mat-icon>
+        Done
+      </div>
     }
   </mat-dialog-actions>
 </div>

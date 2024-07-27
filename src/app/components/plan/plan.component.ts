@@ -9,6 +9,8 @@ import {DayData} from '@/_model/day-data';
 import {MessageService} from '@/_services/message.service';
 import {DayComponent} from '@/components/day/day.component';
 import {TimeType} from '@/_model/time-data';
+import {TasksComponent} from '@/components/tasks/tasks.component';
+import {SitterPlan} from '@/_services/backend.service';
 
 @Component({
   selector: 'app-plan',
@@ -114,6 +116,22 @@ export class PlanComponent implements AfterViewInit {
     });
   }
 
+  clickTasks(evt: MouseEvent) {
+    evt.stopPropagation();
+    const data: SitterPlan = {ui: 0, ai: 0, pi: null, p: this.data};
+    this.msg.showPopup(TasksComponent, 'task', data).subscribe(result => {
+      if (result?.btn === 'save') {
+        this.data.fillFromJson(result.data.p.asJson);
+        GLOBALS.saveImmediate(() => {
+          const idx = GLOBALS.appData.plans.findIndex(p => p.id === this.data.id);
+          if (idx >= 0) {
+            GLOBALS.appData.plans[idx] = this.data;
+          }
+        });
+      }
+    });
+  }
+
   styleForDay(day: DayData): any {
     const ret: string[] = ['white 0%'];
     let time = day.timeRanges?.find(t => t.type === TimeType.morning && t.actions?.length > 0);
@@ -121,7 +139,7 @@ export class PlanComponent implements AfterViewInit {
       if (time.actions?.filter(a => a.done)?.length === time.actions?.length) {
         ret.push('green 0%');
       } else {
-        ret.push('black 0%');
+        ret.push('var(--bodyBack) 0%');
       }
     }
     time = day.timeRanges?.find(t => t.type === TimeType.eventually && t.actions?.length > 0);
@@ -139,12 +157,13 @@ export class PlanComponent implements AfterViewInit {
       if (time.actions?.filter(a => a.done)?.length === time.actions?.length) {
         ret.push('green 100%');
       } else {
-        ret.push('black 100%');
+        ret.push('var(--bodyBack) 100%');
       }
     }
     ret.push('white 100%');
     return {
-      background: `linear-gradient(90deg, ${Utils.join(ret, ', ')})`
+      background: `linear-gradient(90deg, ${Utils.join(ret, ', ')})`,
+      border: '1px solid rgba(0,0,0,0.3)'
     };
   }
 }

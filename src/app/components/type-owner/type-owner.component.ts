@@ -44,4 +44,12 @@ export class TypeOwnerComponent implements AfterViewInit {
       }
     });
   }
+
+  styleForCard(plan: PlanData): any {
+    const ret: any = {};
+    if (plan.past > 3) {
+      ret.opacity = 1 - (plan.past / 14);
+    }
+    return ret;
+  }
 }

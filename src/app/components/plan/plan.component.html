@@ -10,41 +10,63 @@
       @if (mayEdit) {
         <app-datepicker (periodChange)="onPeriodChange($event)" [period]="data.period" [showLabel]="false"></app-datepicker>
       }
-      <mat-form-field>
-        <mat-label i18n>Sitter</mat-label>
-        <mat-select [(value)]="data.sitter" [disabled]="!mayEdit">
-          @for (sitter of globals.sitterList; track sitter.fkUser) {
-            <mat-option [value]="sitter.fkUser">{{ sitter.fullname }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      @if (globals.appData.person.tasksAsCalendar) {
+        <mat-form-field subscriptSizing="dynamic">
+          <mat-label i18n>Sitter</mat-label>
+          <mat-select [(value)]="data.sitter" [disabled]="!mayEdit">
+            @for (sitter of globals.sitterList; track sitter.fkUser) {
+              <mat-option [value]="sitter.fkUser">{{ sitter.fullname }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      }
     </div>
     <div row>
       <mat-form-field full-width>
         <mat-label i18n>Information</mat-label>
-        <textarea [(ngModel)]="data.info" [disabled]="!mayEdit" matInput rows="4"></textarea>
+        <textarea [(ngModel)]="data.info" [disabled]="!mayEdit" appTextareaAutoresize matInput></textarea>
       </mat-form-field>
     </div>
-    <div column>
+    @if (!globals.appData.person.tasksAsCalendar) {
       <div row>
-        @for (dow of DatepickerPeriod.dowShortNames; track dow) {
-          <button day disabled mat-button>{{ dow }}</button>
-        }
-      </div>
-      @for (week of weeks; track week.key) {
-        <div row>
-          @for (day of week.days; track day.key) {
-            @if (day.day == null) {
-              <button mat-button day disabled></button>
-            } @else {
-              <button mat-button day (click)="clickDay($event, day)" [style]="styleForDay(day.day)">
-                {{ Utils.fmtDate(day.day.date, 'dd') }}
-              </button>
+        <button (click)="clickTasks($event)" mat-raised-button>
+          <mat-icon>task</mat-icon>
+          <span i18n>Tasks</span>
+        </button>
+        <span i18n>for</span>
+        <mat-form-field subscriptSizing="dynamic">
+          <!--        <mat-label i18n>Sitter</mat-label>-->
+          <mat-select [(value)]="data.sitter" [disabled]="!mayEdit">
+            @for (sitter of globals.sitterList; track sitter.fkUser) {
+              <mat-option [value]="sitter.fkUser">{{ sitter.fullname }}</mat-option>
             }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    }
+    <mat-slide-toggle [(ngModel)]="globals.appData.person.tasksAsCalendar" i18n>Tasks as Calendar</mat-slide-toggle>
+    @if (globals.appData.person.tasksAsCalendar) {
+      <div column>
+        <div row>
+          @for (dow of DatepickerPeriod.dowShortNames; track dow) {
+            <button day disabled mat-button>{{ dow }}</button>
           }
         </div>
-      }
-    </div>
+        @for (week of weeks; track week.key) {
+          <div row>
+            @for (day of week.days; track day.key) {
+              @if (day.day == null) {
+                <button mat-button day disabled></button>
+              } @else {
+                <button mat-button day (click)="clickDay($event, day)" [style]="styleForDay(day.day)">
+                  {{ Utils.fmtDate(day.day.date, 'dd') }}
+                </button>
+              }
+            }
+          </div>
+        }
+      </div>
+    }
   </mat-dialog-content>
   <mat-dialog-actions>
     @if (mayEdit) {
@@ -58,6 +80,11 @@
           <span i18n>Delete</span>
         </button>
       }
+    } @else {
+      <div row>
+        <mat-icon>verified</mat-icon>
+        <span i18n>Completed</span>
+      </div>
     }
   </mat-dialog-actions>
 </div>

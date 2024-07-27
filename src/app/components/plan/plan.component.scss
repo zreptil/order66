@@ -42,13 +42,6 @@ div[header] {
   display: flex;
   flex-flow: column;
 
-  [row] {
-    display: flex;
-    flex-flow: row;
-    gap: 0.2em;
-    margin-bottom: 0.2em;
-  }
-
   [column] {
     display: flex;
     flex-flow: column;
@@ -160,4 +153,12 @@ a, a:visited, a:active {
 
 textarea {
   resize: none;
+}
+
+[row] {
+  display: flex;
+  align-items: center;
+  flex-flow: row;
+  gap: 0.2em;
+  margin-bottom: 0.2em;
 }

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing Script&display=swap');
+
 :host {
   --headBack: var(--settingsHeadBack);
   --headFore: var(--settingsHeadFore);
@@ -45,6 +47,7 @@ div[header] {
   [row] {
     display: flex;
     flex-flow: row;
+    align-items: center;
     gap: 0.2em;
     margin-bottom: 0.2em;
   }
@@ -66,6 +69,16 @@ div[header] {
 
   button[day][disabled] {
     background-color: transparent;
+  }
+
+  [mat-button][text] {
+    height: initial;
+    width: 100%;
+    justify-content: flex-start;
+
+    ::ng-deep .mdc-button__label {
+      text-align: left;
+    }
   }
 }
 
@@ -169,6 +182,22 @@ textarea {
   }
 }
 
+[sitterCheck] {
+  font-family: Dancing Script, sans-serif;
+  color: blue;
+}
+
 [sitterInfo] {
+  font-family: Dancing Script, sans-serif;
+  font-size: 1.5em;
+  color: blue;
   margin-top: 1em;
+}
+
+.check {
+  color: maroon;
+}
+
+.check.done {
+  color: green;
 }
