@@ -10,10 +10,11 @@
     "i18n-12-extract-and-upload-english": "npm run i18n-01-extract && npm run i18n-02-upload-english",
     "i18n": "npm run i18n-01-extract && npm run i18n-03-create-messages",
     "ng": "ng",
+    "start-all": "npm-run-all --parallel backend start",
     "start": "ng serve --port 66 --open",
     "test": "ng test",
     "watch": "ng build --watch --configuration development",
-    "backend": "C:\\Users\\msn\\PhpstormProjects\\php8.3.9\\php.exe -S localhost:80 -t C:\\Users\\msn\\WebstormProjects\\order66\\src\\_php\\src",
+    "backend": "cmd /c C:\\Users\\msn\\PhpstormProjects\\php8.3.9\\php.exe -S localhost:80 -t C:\\Users\\msn\\WebstormProjects\\order66\\src\\_php\\src",
     "phpliteadmin": "C:\\Users\\msn\\PhpstormProjects\\php8.3.9\\php.exe -S localhost:81 -t C:\\Users\\msn\\WebstormProjects\\order66\\src\\_php"
   },
   "dependencies": {
@@ -58,6 +59,7 @@
     "@types/ws": "8.5.4",
     "jasmine-core": "~4.5.0",
     "npm-build-zip": "^1.0.3",
+    "npm-run-all": "^4.1.5",
     "typescript": "~5.4.5"
   },
   "engines": {

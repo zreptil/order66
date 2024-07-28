@@ -27,6 +27,13 @@ mat-card {
   max-height: calc(100vh / 2);
 }
 
+@media (max-width: 500px) {
+  mat-card {
+    max-width: initial;
+    width: 100%;
+  }
+}
+
 mat-card-header {
   display: flex;
   flex-flow: column;
