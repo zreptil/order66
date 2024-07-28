@@ -393,7 +393,6 @@ export class GlobalsService {
   saveImmediate(saveToAppData?: () => void, onDone?: () => void) {
     if (this.saveImmediately) {
       saveToAppData?.();
-      console.log('Nun gehts los', GLOBALS.appData);
       this.bs.saveAppData(GLOBALS.appData,
         (data) => {
           GLOBALS.appData.fillFromJson(data.asJson);

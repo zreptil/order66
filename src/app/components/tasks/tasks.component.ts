@@ -127,12 +127,13 @@ export class TasksComponent implements AfterViewInit {
       if (lastPlan != null) {
         const lastDay = lastPlan.days.reverse().find(d => d.timeRanges.some(t => t.type === time.type));
         if (lastDay != null) {
-          time.actions = lastDay.timeRanges.find(t => t.type === time.type)?.actions?.map(a => {
-            const ret = new ActionData();
-            ret.fillFromJson(a.asJson);
-            ret.done = false;
-            return ret;
-          });
+          time.actions = lastDay.timeRanges
+            .find(t => t.type === time.type)?.actions?.map(a => {
+              const ret = new ActionData();
+              ret.fillFromJson(a.asJson);
+              ret.done = false;
+              return ret;
+            });
         }
       }
     }
@@ -145,4 +146,12 @@ export class TasksComponent implements AfterViewInit {
     }
     return ret;
   }
+
+  msgCopy(day: DayData): string {
+    if (day?.id > 1) {
+      return $localize`Copy from previous Day`;
+    }
+    return $localize`Copy from previous Plan`;
+  }
+
 }

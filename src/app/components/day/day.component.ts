@@ -36,7 +36,6 @@ export class DayComponent implements AfterViewInit {
       return $localize`Copy from previous Day`;
     }
     return $localize`Copy from previous Plan`;
-
   }
 
   get mayEdit(): boolean {

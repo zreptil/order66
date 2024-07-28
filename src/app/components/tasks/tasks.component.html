@@ -25,7 +25,14 @@
                       {{ time.typeName }}
                     </mat-panel-title>
                     <mat-panel-description>
-                      {{ timeDescription(time) }}
+                      @if (time.actions?.length > 0 || !mayEdit(day)) {
+                        {{ timeDescription(time) }}
+                      } @else if (day.id > 1 || data.p.id > 1) {
+                        <button mat-button (click)="clickCopyAction($event, day, time)">
+                          <mat-icon>content_copy</mat-icon>
+                          <span>{{ msgCopy(day) }}</span>
+                        </button>
+                      }
                     </mat-panel-description>
                   </mat-expansion-panel-header>
                   @for (action of time.actions; track action.id) {
