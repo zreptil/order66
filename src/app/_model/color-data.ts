@@ -14,7 +14,7 @@ export class ColorData extends BaseData {
   type: 'standard' | 'rgb' = 'standard';
 
   constructor(public value: number[], public opacity = 1.0) {
-    super();
+    super({});
     if (!Array.isArray(value)) {
       this.value = [255, 255, 255];
     }

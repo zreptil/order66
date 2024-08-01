@@ -93,7 +93,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.focusUsername(750);
+    this.focusUsername(200);
   }
 
   ngOnInit() {
@@ -140,7 +140,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
       this.bs.login(this.form.value.username, this.form.value.password,
         (data) => {
           GLOBALS.appData = data.data;
-          GLOBALS.appData.permissions = data.u?.permissions?.split(',');
+          GLOBALS.appData.permissions = data.u?.permissions?.split(',').map((entry: string) => +entry);
           GLOBALS.appData.usertype = data.type;
           GLOBALS.currentUserType = GLOBALS.usertypeList[0];
           GLOBALS.saveSharedData();

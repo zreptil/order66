@@ -82,7 +82,7 @@ export class GlobalsService {
         (data) => {
           this.appData = new AppData();
           this.appData.fillFromBackend(data.data);
-          this.appData.permissions = data.perm?.split(',');
+          this.appData.permissions = data.perm?.split(',').map((entry: string) => +entry);
           this.appData.usertype = data.type;
           this.currentUserType = this.usertypeList[0];
           if (this.storageVersion !== this.version) {

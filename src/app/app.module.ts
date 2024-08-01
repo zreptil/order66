@@ -34,6 +34,7 @@ import {DatepickerMonthComponent} from '@/controls/datepicker/datepicker-month/d
 import {DayComponent} from '@/components/day/day.component';
 import {TasksComponent} from '@/components/tasks/tasks.component';
 import {TextareaAutoresizeDirective} from '@/_directives/textarea-autoresize.directive';
+import {TypeAdminComponent} from '@/components/type-admin/type-admin.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import {TextareaAutoresizeDirective} from '@/_directives/textarea-autoresize.dir
     PersonFormComponent,
     TypeOwnerComponent,
     TypeSitterComponent,
+    TypeAdminComponent,
     PlanComponent,
     DayComponent,
     TasksComponent,

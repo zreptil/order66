@@ -1,6 +1,7 @@
 import {BaseData} from '@/_model/base-data';
 import {PersonData} from '@/_model/person-data';
 import {PlanData} from '@/_model/plan-data';
+import {EnumPermission} from '@/components/type-admin/type-admin.component';
 
 export enum UserType {
   Admin = 1 << 0,
@@ -21,13 +22,12 @@ export class AppData extends BaseData {
     }
 
   usertype: UserType;
-  permissions: string[];
+  permissions: number[];
   person: PersonData;
   plans: PlanData[];
 
   constructor(json?: any) {
-    super();
-    this.fillFromJson(json);
+    super(json);
   }
 
   override get _asJson(): any {
@@ -43,5 +43,9 @@ export class AppData extends BaseData {
     this.plans?.sort((a, b) => {
       return a.period.start.getTime() - b.period.start.getTime();
     })
+  }
+
+  may(perm: EnumPermission): boolean {
+    return this.usertype === UserType.Admin || this.permissions?.indexOf(perm) >= 0;
   }
 }

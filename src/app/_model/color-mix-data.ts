@@ -8,8 +8,7 @@ export class ColorMix extends BaseData {
   br: ColorData;
 
   constructor() {
-    super();
-    this._fillFromJson({});
+    super({});
   }
 
   override get _asJson(): any {

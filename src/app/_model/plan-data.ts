@@ -12,8 +12,7 @@ export class PlanData extends BaseData {
   past: number;
 
   constructor(json?: any) {
-    super();
-    this.fillFromJson(json);
+    super(json);
   }
 
   get sitterData(): string {

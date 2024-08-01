@@ -11,6 +11,7 @@ import {DayComponent} from '@/components/day/day.component';
 import {TimeType} from '@/_model/time-data';
 import {TasksComponent} from '@/components/tasks/tasks.component';
 import {SitterPlan} from '@/_services/backend.service';
+import {EnumPermission} from '@/components/type-admin/type-admin.component';
 
 @Component({
   selector: 'app-plan',
@@ -27,6 +28,7 @@ export class PlanComponent implements AfterViewInit {
   weeks: any[];
   readonly DatepickerPeriod = DatepickerPeriod;
   protected readonly Utils = Utils;
+  protected readonly EnumPermission = EnumPermission;
 
   constructor(public globals: GlobalsService,
               public msg: MessageService,

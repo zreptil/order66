@@ -16,8 +16,7 @@ export class TimeData extends BaseData {
   info: string;
 
   constructor(json?: any) {
-    super();
-    this.fillFromJson(json);
+    super(json);
   }
 
   get typeName(): string {

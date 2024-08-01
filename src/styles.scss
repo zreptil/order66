@@ -34,6 +34,7 @@ html, body {
   --mdc-filled-text-field-error-hover-active-indicator-color: var(--errorColor);
   --mdc-filled-text-field-error-hover-label-text-color: var(--errorColor);
   --mat-menu-container-color: var(--mainHeadBack);
+  --mat-divider-color: var(--mainHeadFore);
   --mat-menu-item-label-text-color: var(--mainHeadFore);
   --mat-menu-item-icon-color: var(----mat-menu-item-label-text-color);
   --mdc-filled-text-field-disabled-input-text-color: rgba(0, 0, 0, 0.75);
@@ -78,6 +79,13 @@ html, body {
     --mdc-switch-selected-focus-handle-color: var(--accentBack);
     --mdc-switch-selected-hover-handle-color: var(--accentBack);
     --mdc-switch-selected-pressed-handle-color: var(--accentBack);
+    --mdc-switch-unselected-focus-state-layer-color: var(--accentBack);
+    --mdc-switch-unselected-handle-color: var(--accentBack);
+    --mdc-switch-unselected-hover-state-layer-color: var(--accentBack);
+    --mdc-switch-unselected-pressed-state-layer-color: var(--accentBack);
+    --mdc-switch-unselected-focus-handle-color: var(--accentBack);
+    --mdc-switch-unselected-hover-handle-color: var(--accentBack);
+    --mdc-switch-unselected-pressed-handle-color: var(--accentBack);
     --mdc-switch-selected-focus-track-color: rgba(255, 255, 255, 0.5);
     --mdc-switch-selected-hover-track-color: rgba(255, 255, 255, 0.5);
     --mdc-switch-selected-pressed-track-color: rgba(255, 255, 255, 0.5);

@@ -1,0 +1,32 @@
+<div content>
+  @for (user of userList; track user.id) {
+    <!--        <mat-card (click)="clickPlan(plan)">-->
+    <mat-card>
+      <mat-card-header admin>
+        {{ user.username }}
+      </mat-card-header>
+      <mat-card-content>
+        @if (isAdmin(user)) {
+          <div i18n>The user may do everything</div>
+        } @else {
+          <div i18n>The user may do the following:</div>
+          <div perm>
+            @for (perm of permissionList; track perm.id) {
+              <mat-slide-toggle [ngModel]="user.permissions.indexOf(perm.id) >= 0" (change)="togglePermission(user, perm.id)">{{ perm.label }}</mat-slide-toggle>
+            }
+          </div>
+        }
+      </mat-card-content>
+      <mat-card-actions>
+        @if (!isAdmin(user)) {
+          <button mat-icon-button (click)="clickDelete($event, user)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        }
+        <button mat-icon-button (click)="clickResetPwd($event, user)">
+          <mat-icon>key_off</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  }
+</div>

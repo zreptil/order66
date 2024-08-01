@@ -4,6 +4,10 @@ import {Log} from '@/_services/log.service';
 export abstract class BaseData {
   id: number;
 
+  constructor(json: any) {
+    this.fillFromJson(json);
+  }
+
   abstract get _asJson(): any;
 
   get asJson(): any {

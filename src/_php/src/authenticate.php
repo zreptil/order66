@@ -119,7 +119,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         unset($user['token']);
       }
       unset($user['pwd']);
-      $userFilename = 'db/'.userId($user['id']) . '.sqlite';
+      $userFilename = 'db/' . userId($user['id']) . '.sqlite';
       include('setupSingleUser.php');
       if ($isRegister && isset($userDb)) {
         // write registration information to db
@@ -156,4 +156,34 @@ if (!isset($userDb)) {
   }
   header('HTTP/1.0 403 Forbidden');
   exit;
+}
+
+function loadUserList()
+{
+  global $userFile;
+  $db = new SQLite3($userFile, SQLITE3_OPEN_READWRITE);
+  $query = $db->prepare('select * from users');
+  $result = $query->execute();
+  $data = array();
+  while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+    $perm = explode(',', $row['permissions'] ?? '');
+    $d = array();
+    $d['0'] = $row['id'];
+    $d['a'] = $row['username'];
+    $d['b'] = $perm;
+    $d['c'] = $row['type'];
+    $data[] = $d;
+  }
+  return json_encode($data);
+}
+
+function saveUser()
+{
+  global $userFile, $data;
+  $d = json_decode($data);
+  $db = new SQLite3($userFile, SQLITE3_OPEN_READWRITE);
+  $query = $db->prepare('update users set permissions=:permissions where id=:id');
+  $query->bindValue(':permissions', implode(',', $d->{'b'}), SQLITE3_TEXT);
+  $query->bindValue(':id', $d->{'0'}, SQLITE3_INTEGER);
+  $query->execute();
 }

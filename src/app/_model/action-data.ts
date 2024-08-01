@@ -5,8 +5,7 @@ export class ActionData extends BaseData {
   done: boolean;
 
   constructor(json?: any) {
-    super();
-    this.fillFromJson(json);
+    super(json);
   }
 
   override get _asJson(): any {

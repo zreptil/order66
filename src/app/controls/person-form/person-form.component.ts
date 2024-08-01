@@ -71,7 +71,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.setFocus(500);
+    this.setFocus(100);
   }
 
   ngOnInit() {

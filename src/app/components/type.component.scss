@@ -3,8 +3,8 @@
   --headFore: var(--whatsnewHeadFore);
   --bodyBack: var(--whatsnewBodyBack);
   --bodyFore: var(--whatsnewBodyFore);
-  --accentBack: var(--whatsnewHeadBack);
-  --accentFore: var(--whatsnewHeadFore);
+  --accentBack: var(--mainHeadBack);
+  --accentFore: var(--mainHeadFore);
 
   [content] {
     padding: 0.5em;
@@ -39,13 +39,26 @@ mat-card-header {
   flex-flow: column;
 }
 
+mat-card-header[admin] {
+  font-variant: petite-caps;
+  font-weight: bold;
+}
+
 mat-card-content {
   padding-top: 0.5em;
   margin-bottom: 0.5em;
   overflow-y: auto;
+  height: 100%;
 }
 
 [sitter] {
   font-size: 70%;
   color: rgba(0, 0, 0, 0.8);
+}
+
+[perm] {
+  display: flex;
+  flex-flow: column;
+  margin-top: 0.5em;
+  line-height: 2em;
 }

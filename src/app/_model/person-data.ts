@@ -15,8 +15,7 @@ export class PersonData extends BaseData {
   tasksAsCalendar = false;
 
   constructor(json?: any) {
-    super();
-    this.fillFromJson(json);
+    super(json);
   }
 
   get fullname(): string {

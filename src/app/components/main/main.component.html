@@ -1,12 +1,8 @@
-<!--
-<button (click)="checkDB()">Mach mal</button>
-<textarea style="width:90vw;height:80vh">{{checkDB()}}</textarea>
--->
 <div mainpanel>
   <div toolbar>
     <div>
       @if (globals.appData?.person?.fullname != null) {
-        {{ globals.appData?.person?.fullname }} -
+        {{ globals.appData?.person?.fullname }}
         @for (type of globals.usertypeList; track type.value) {
           <button mat-button [class]="classForType(type)" (click)="clickType(type)">{{ type.label }}</button>
         }
@@ -25,12 +21,6 @@
           <img alt="dropbox" src="../../../assets/images/dropbox.png">
         </ng-container>
       </button -->
-      <button (click)="onClick('whatsnew')" id="whatsnew" mat-icon-button>
-        <mat-icon>info_outline</mat-icon>
-      </button>
-      <button (click)="onClick('impressum')" id="impressum" mat-icon-button>
-        <mat-icon>account_balance</mat-icon>
-      </button>
       <button *ngIf="bs.token != null" [matMenuTriggerFor]="userMenu" mat-icon-button>
         <mat-icon>person</mat-icon>
       </button>
@@ -39,6 +29,15 @@
           <mat-icon>settings</mat-icon>
           <span i18n>Settings</span>
         </button>
+        <button (click)="onClick('whatsnew')" id="whatsnew" mat-menu-item>
+          <mat-icon>info_outline</mat-icon>
+          <span i18n>Once upon a time...</span>
+        </button>
+        <button (click)="onClick('impressum')" id="impressum" mat-menu-item>
+          <mat-icon>account_balance</mat-icon>
+          <span i18n>Impressum</span>
+        </button>
+        <mat-divider></mat-divider>
         <button (click)="onClick('logout')" mat-menu-item>
           <mat-icon>logout</mat-icon>
           <span i18n>Logout</span>
@@ -56,6 +55,8 @@
           <app-type-owner></app-type-owner>
         } @else if (globals.currentUserType?.value === UserType.Sitter) {
           <app-type-sitter></app-type-sitter>
+        } @else if (globals.currentUserType?.value === UserType.Admin) {
+          <app-type-admin></app-type-admin>
         } @else {
           <app-impressum *ngIf="globals.currentPage==='impressum'"></app-impressum>
           <app-welcome *ngIf="globals.currentPage==='welcome'"></app-welcome>

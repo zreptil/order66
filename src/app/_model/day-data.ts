@@ -7,8 +7,7 @@ export class DayData extends BaseData {
   timeRanges: TimeData[];
 
   constructor(json?: any) {
-    super();
-    this.fillFromJson(json);
+    super(json);
   }
 
   override get _asJson(): any {

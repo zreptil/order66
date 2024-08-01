@@ -7,6 +7,7 @@ import {GLOBALS} from '@/_services/globals.service';
 import {AppData} from '@/_model/app-data';
 import {PersonData} from '@/_model/person-data';
 import {PlanData} from '@/_model/plan-data';
+import {UserData} from '@/_model/user-data';
 
 export type SitterPlan = { ui: number, ai: number, pi: number, p: PlanData };
 
@@ -189,14 +190,43 @@ export class BackendService {
       });
   }
 
+  loadUserList(onDone: (data: UserData[]) => void, onError?: (error: any) => void): void {
+    this.query({cmd: 'loadUserList'})
+      .subscribe({
+        next: (response: any) => {
+          const ret: UserData[] = [];
+          for (const src of response) {
+            ret.push(new UserData(src));
+          }
+          onDone(ret);
+        },
+        error: error => {
+          console.error(error);
+          onError?.(error);
+        }
+      });
+  }
+
   loadAppData(onDone: (data: AppData) => void, onError?: (error: any) => void): void {
     this.query({cmd: 'loadAppData', id: 1})
       .subscribe({
         next: (response: any) => {
           const ret = new AppData();
           ret.fillFromBackend(response.data);
-          ret.permissions = response.perm.split(',');
+          ret.permissions = response.perm.split(',').map((entry: string) => +entry);
           onDone(ret);
+        },
+        error: error => {
+          console.error(error);
+          onError?.(error);
+        }
+      });
+  }
+
+  saveUser(data: UserData, onError?: (error: any) => void): void {
+    this.query({cmd: 'saveUser', id: data.id, data: data.forBackend})
+      .subscribe({
+        next: (_response: any) => {
         },
         error: error => {
           console.error(error);

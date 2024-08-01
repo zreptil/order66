@@ -14,26 +14,25 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS'
 include 'authenticate.php';
 
 $code = 200;
-
 if ($cmd == 'loadAppData') {
   include_once 'data-app.php';
   if (isset($raw['userid'])) {
-    $userFilename = 'db/'.userId($raw['userid']) . '.sqlite';
+    $userFilename = 'db/' . userId($raw['userid']) . '.sqlite';
     $userDb = new SQLite3($userFilename);
   }
   $ret = loadAppData($raw['id']);
-  $ret = substr($ret,0,strlen($ret)-1)
-  .',"perm":"'. $user['permissions'] .'"'
-  .',"type":'.($user['type'] ?? 0)
-  .',"ru":'.$remainingUsers
-  .'}';
+  $ret = substr($ret, 0, strlen($ret) - 1)
+    . ',"perm":"' . $user['permissions'] . '"'
+    . ',"type":' . ($user['type'] ?? 0)
+    . ',"ru":' . $remainingUsers
+    . '}';
   header('Content-Type: application/json');
   echo($ret);
   exit;
 } else if ($cmd == 'saveAppData') {
   include_once 'data-app.php';
   if (isset($raw['userid'])) {
-    $userFilename = 'db/'.userId($raw['userid']) . '.sqlite';
+    $userFilename = 'db/' . userId($raw['userid']) . '.sqlite';
     $userDb = new SQLite3($userFilename);
   }
   saveAppData();
@@ -54,6 +53,12 @@ if ($cmd == 'loadAppData') {
   $ret['ui'] = $user['id'];
   header('Content-Type: application/json');
   echo(json_encode($ret));
+  exit;
+} else if ($cmd == 'loadUserList') {
+  echo(loadUserList());
+  exit;
+} else if ($cmd == 'saveUser') {
+  saveUser();
   exit;
 }
 
