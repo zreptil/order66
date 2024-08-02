@@ -2,7 +2,6 @@ import {AfterViewInit, Component, HostListener, OnInit} from '@angular/core';
 import {DropboxService} from '@/_services/sync/dropbox.service';
 import {CloseButtonData} from '@/controls/close-button/close-button-data';
 import {GLOBALS, GlobalsService} from '@/_services/globals.service';
-import {MatFormFieldAppearance} from '@angular/material/form-field';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {PersonData} from '@/_model/person-data';
 import {BackendService} from '@/_services/backend.service';
@@ -23,7 +22,6 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
   username: string;
   password: string;
   hide = true;
-  appearance: MatFormFieldAppearance = 'fill';
   form?: FormGroup;
   usertype: number;
   controls: any = {

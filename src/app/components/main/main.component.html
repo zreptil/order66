@@ -3,8 +3,10 @@
     <div>
       @if (globals.appData?.person?.fullname != null) {
         {{ globals.appData?.person?.fullname }}
-        @for (type of globals.usertypeList; track type.value) {
-          <button mat-button [class]="classForType(type)" (click)="clickType(type)">{{ type.label }}</button>
+        @if (globals.usertypeList?.length > 1) {
+          @for (type of globals.usertypeList; track type.value) {
+            <button mat-button [class]="classForType(type)" (click)="clickType(type)">{{ type.label }}</button>
+          }
         }
       }
     </div>
@@ -21,13 +23,19 @@
           <img alt="dropbox" src="../../../assets/images/dropbox.png">
         </ng-container>
       </button -->
-      <button *ngIf="bs.token != null" [matMenuTriggerFor]="userMenu" mat-icon-button>
-        <mat-icon>person</mat-icon>
-      </button>
+      @if (bs.token != null) {
+        <button [matMenuTriggerFor]="userMenu" mat-icon-button>
+          <mat-icon>person</mat-icon>
+        </button>
+      }
       <mat-menu #userMenu="matMenu">
         <button (click)="onClick('settings')" mat-menu-item>
           <mat-icon>settings</mat-icon>
           <span i18n>Settings</span>
+        </button>
+        <button (click)="msg.changePassword()" mat-menu-item>
+          <mat-icon>key</mat-icon>
+          <span i18n>Password</span>
         </button>
         <button (click)="onClick('whatsnew')" id="whatsnew" mat-menu-item>
           <mat-icon>info_outline</mat-icon>

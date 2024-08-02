@@ -45,4 +45,29 @@ export class TypeSitterComponent implements AfterViewInit {
       }
     });
   }
+
+  classForPlan(plan: SitterPlan): string[] {
+    const ret: string[] = [];
+    const check = new Date(2024, 7, 9).getTime();
+    const start = plan.p.period.start.getTime();
+    const end = plan.p.period.end.getTime();
+    if (check >= start && check <= end) {
+      ret.push('current');
+    }
+    return ret;
+  }
+
+  isTime(plan: SitterPlan, diff: number) {
+//    const check = new Date(2024, 7, 9).getTime();
+    const check = new Date().getTime();
+    const start = plan.p.period.start.getTime();
+    const end = plan.p.period.end.getTime();
+    if (diff < 0) {
+      return check < start;
+    }
+    if (diff > 0) {
+      return check > end;
+    }
+    return check >= start && check <= end;
+  }
 }

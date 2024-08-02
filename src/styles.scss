@@ -40,6 +40,13 @@ html, body {
   --mdc-filled-text-field-disabled-input-text-color: rgba(0, 0, 0, 0.75);
   --mdc-filled-text-field-disabled-label-text-color: rgba(0, 0, 0, 0.75);
   --mdc-filled-text-field-disabled-container-color: rgba(0, 0, 0, 0);
+  --mdc-filled-text-field-input-text-color: var(--bodyFore);
+  --mdc-filled-text-field-label-text-color: var(--bodyFore);
+  --mdc-filled-text-field-hover-label-text-color: var(--bodyFore);
+
+  .mat-mdc-dialog-title::before {
+    display: none;
+  }
 
   .mat-mdc-fab.mat-accent {
     --mdc-fab-container-color: var(--mainHeadBack);

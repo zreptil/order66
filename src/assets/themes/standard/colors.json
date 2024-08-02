@@ -52,5 +52,9 @@
   "datepickerDowActiveBack": "#006064",
   "datepickerDowActiveFore": "#aed581",
   "datepickerDowInactiveBack": "#db4437",
-  "datepickerDowInactiveFore": "#eda29b"
+  "datepickerDowInactiveFore": "#eda29b",
+  "passwordHeadBack": "maroon",
+  "passwordHeadFore": "pink",
+  "passwordBodyBack": "maroon",
+  "passwordBodyFore": "pink"
 }

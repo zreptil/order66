@@ -25,6 +25,13 @@ mat-card {
   cursor: pointer;
   max-width: 32%;
   max-height: calc(100vh / 2);
+  opacity: 0.7;
+}
+
+mat-card.current {
+  //border: 2px solid black;
+  //background: #ccc;
+  opacity: 1;
 }
 
 @media (max-width: 500px) {
@@ -61,4 +68,15 @@ mat-card-content {
   flex-flow: column;
   margin-top: 0.5em;
   line-height: 2em;
+}
+
+[row] {
+  display: flex;
+  flex-flow: row;
+  gap: 0.3em;
+}
+
+[column] {
+  display: flex;
+  flex-flow: column;
 }

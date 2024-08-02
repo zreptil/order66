@@ -60,6 +60,9 @@ if ($cmd == 'loadAppData') {
 } else if ($cmd == 'saveUser') {
   saveUser();
   exit;
+} else if ($cmd == 'changePwd') {
+  changePwd();
+  exit;
 }
 
 function mapRow($src, $map)

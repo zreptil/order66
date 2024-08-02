@@ -10,6 +10,7 @@ import {TimeData, TimeType} from '@/_model/time-data';
 import {DayData} from '@/_model/day-data';
 import {ActionData} from '@/_model/action-data';
 import {DialogResultButton} from '@/_model/dialog-data';
+import {EnumPermission} from '@/components/type-admin/type-admin.component';
 
 @Component({
   selector: 'app-plan',
@@ -26,7 +27,9 @@ export class TasksComponent implements AfterViewInit {
   weeks: any[];
   readonly DatepickerPeriod = DatepickerPeriod;
   edit = {action: -1, time: -1};
+  _mayEdit = false;
   protected readonly Utils = Utils;
+  protected readonly EnumPermission = EnumPermission;
 
   constructor(public globals: GlobalsService,
               public msg: MessageService,
@@ -41,6 +44,9 @@ export class TasksComponent implements AfterViewInit {
   }
 
   mayEdit(day?: DayData): boolean {
+    if (this._mayEdit) {
+      return true;
+    }
     if (day == null) {
       return Utils.isAfter(this.data?.p?.period?.end ?? Utils.now, Utils.now);
     }
@@ -153,5 +159,4 @@ export class TasksComponent implements AfterViewInit {
     }
     return $localize`Copy from previous Plan`;
   }
-
 }

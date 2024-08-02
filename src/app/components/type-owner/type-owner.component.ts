@@ -48,7 +48,7 @@ export class TypeOwnerComponent implements AfterViewInit {
   styleForCard(plan: PlanData): any {
     const ret: any = {};
     if (plan.past > 3) {
-      ret.opacity = 1 - (plan.past / 14);
+      ret.opacity = Math.max(1 - (plan.past / 14), 0.1);
     }
     return ret;
   }

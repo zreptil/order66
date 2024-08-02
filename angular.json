@@ -113,7 +113,8 @@
         "@schematics/angular:component": {
           "module": "app",
           "skipTests": true,
-          "style": "scss"
+          "style": "scss",
+          "standalone": false
         },
         "@schematics/angular:directive": {
           "module": "app",

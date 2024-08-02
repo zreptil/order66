@@ -40,8 +40,9 @@ export class PlanComponent implements AfterViewInit {
     this.onPeriodChange(data.period);
   }
 
+  _mayEdit = false;
   get mayEdit(): boolean {
-    return Utils.isAfter(this.data?.period?.end, Utils.now) || this.data?.period?.end == null;
+    return this._mayEdit || Utils.isAfter(this.data?.period?.end, Utils.now) || this.data?.period?.end == null;
   }
 
   ngAfterViewInit(): void {

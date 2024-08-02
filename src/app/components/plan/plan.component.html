@@ -85,7 +85,7 @@
         <mat-icon>verified</mat-icon>
         <span i18n>Completed</span>
         @if (globals.appData.may(EnumPermission.editCompletedPlans)) {
-          <button mat-icon-button>
+          <button mat-icon-button (click)="_mayEdit = !_mayEdit">
             <mat-icon>edit</mat-icon>
           </button>
         }

@@ -84,6 +84,27 @@ export class BackendService {
     });
   }
 
+  changePassword(pwdOld: string, pwdNew: string, onDone: () => void, onError?: (error: any) => void): void {
+    Utils.hash(pwdOld).then((hashOld: string) => {
+      Utils.hash(pwdNew).then((hashNew: string) => {
+        this.query({cmd: 'changePwd', po: hashOld, pn: hashNew}, this.token)
+          .subscribe({
+            next: _response => {
+              onDone?.();
+            },
+            error: error => {
+              if (error.error.ec === 404) {
+                error = $localize`Old password is wrong`;
+              } else {
+                error = error.error.em;
+              }
+              onError?.(error);
+            }
+          });
+      });
+    });
+  }
+
   getSitterList(onDone: (data: PersonData[]) => void, onError?: (error: any) => void): void {
     this.query({cmd: 'loadSitterList'}, this.token)
       .subscribe({

@@ -26,8 +26,8 @@
       </div>
       <form [formGroup]="form">
         <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'username'}"></ng-container>
-        <mat-form-field [appearance]="appearance" [formGroup]="form">
-          <mat-label i18n>Password</mat-label>
+        <mat-form-field [appearance]="globals.appearance" [formGroup]="form">
+          <mat-label>{{ controls.password.label }}</mat-label>
           <input [type]="hide ? 'password' : 'text'" formControlName="password" id="password" matInput/>
           <button
             (click)="clickHide($event)"
@@ -78,7 +78,7 @@
 </div>
 
 <ng-template #formFieldTemplate let-name="name">
-  <mat-form-field [appearance]="appearance" [formGroup]="form">
+  <mat-form-field [appearance]="globals.appearance" [formGroup]="form">
     <mat-label>{{ controls[name]?.label }}</mat-label>
     <input [formControlName]="name" [id]="name" matInput>
     <!-- mat-error *ngIf="form.get(name)?.invalid && !form.get(name)?.untouched">

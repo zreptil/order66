@@ -14,6 +14,7 @@ import {WelcomeComponent} from '@/components/welcome/welcome.component';
 import {BackendService} from '@/_services/backend.service';
 import {AppData, TypeUser, UserType} from '@/_model/app-data';
 import {PersonData} from '@/_model/person-data';
+import {MatFormFieldAppearance} from '@angular/material/form-field';
 
 class CustomTimeoutError extends Error {
   constructor() {
@@ -46,6 +47,7 @@ export class GlobalsService {
   _syncType: oauth2SyncType;
   oauth2AccessToken: string = null;
   ownTheme: any;
+  appearance: MatFormFieldAppearance = 'fill';
   currentUserType: TypeUser;
   themeList: any = {
     null: GlobalsService.msgThemeAuto,
@@ -55,6 +57,7 @@ export class GlobalsService {
   }
   titles: any = {
     settings: $localize`Settings`,
+    password: $localize`Passwordchange`,
     plan: $localize`Plan`,
     tasks: $localize`Tasks`,
     day: $localize`Daily Schedule`,

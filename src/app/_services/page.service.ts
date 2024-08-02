@@ -42,7 +42,7 @@ export class PageService {
     }
   }
 
-  initForm(key: string, src: ControlList, data: any, adjustData?: (data: any) => void): PageDef {
+  initForm(key: string, src: ControlList, data?: any, adjustData?: (data: any) => void): PageDef {
     if (Utils.isEmpty(key)) {
       return null;
     }

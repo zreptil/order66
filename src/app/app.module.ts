@@ -35,6 +35,7 @@ import {DayComponent} from '@/components/day/day.component';
 import {TasksComponent} from '@/components/tasks/tasks.component';
 import {TextareaAutoresizeDirective} from '@/_directives/textarea-autoresize.directive';
 import {TypeAdminComponent} from '@/components/type-admin/type-admin.component';
+import {PasswordChangeComponent} from './components/password-change/password-change.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import {TypeAdminComponent} from '@/components/type-admin/type-admin.component';
     PlanComponent,
     DayComponent,
     TasksComponent,
+    PasswordChangeComponent,
   ],
   bootstrap: [AppComponent], imports: [BrowserModule,
     ReactiveFormsModule,
