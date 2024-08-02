@@ -140,7 +140,8 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
       this.bs.login(this.form.value.username, this.form.value.password,
         (data) => {
           GLOBALS.appData = data.data;
-          GLOBALS.appData.permissions = data.u?.permissions?.split(',').map((entry: string) => +entry);
+          GLOBALS.appData.permissions = data.perm?.split(',').map((entry: string) => +entry);
+          console.log(GLOBALS.appData);
           GLOBALS.appData.usertype = data.type;
           GLOBALS.currentUserType = GLOBALS.usertypeList[0];
           GLOBALS.saveSharedData();
@@ -171,7 +172,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
         (error) => {
           console.error(error);
           if (error.status === 409) {
-            this.msg.error($localize`The user with the name "${this.form.value.username}" already exists`);
+            this.msg.error($localize`The user with the name @${this.form.value.username}@ already exists`);
           }
         });
     }
