@@ -272,12 +272,22 @@ export class BackendService {
       });
   }
 
-  logout(): void {
-    this.token = null;
-    GLOBALS.appData = null;
-    GLOBALS.currentPage = null;
-    GLOBALS.currentUserType = null;
-    GLOBALS.saveSharedData();
+  logout(onDone: () => void, onError?: (error: any) => void): void {
+    this.query({cmd: 'logout'})
+      .subscribe({
+        next: (_response: any) => {
+          this.token = null;
+          GLOBALS.appData = null;
+          GLOBALS.currentPage = null;
+          GLOBALS.currentUserType = null;
+          GLOBALS.saveSharedData();
+          onDone?.();
+        },
+        error: error => {
+          console.error(error);
+          onError?.(error);
+        }
+      });
   }
 
   private query(body: any, token = this.token): Observable<any> {
