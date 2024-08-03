@@ -11,10 +11,6 @@
       }
     </div>
     <div>
-      <button (click)="globals.isDebug = !globals.isDebug" *ngIf="globals.mayDebug" id="debug" mat-icon-button>
-        <mat-icon *ngIf="!globals.isDebug">bug_report</mat-icon>
-        <mat-icon *ngIf="globals.isDebug">pest_control</mat-icon>
-      </button>
       <!-- button (click)="sync.toggleSyncDropbox()" id="sync" mat-icon-button>
         <ng-container *ngIf="!sync.hasSync">
           <mat-icon>sync_disabled</mat-icon>
@@ -23,35 +19,35 @@
           <img alt="dropbox" src="../../../assets/images/dropbox.png">
         </ng-container>
       </button -->
-      @if (bs.token != null) {
+      <app-close-button [data]="closeData"></app-close-button>
+      @if (!Utils.isEmpty(bs.token)) {
         <button [matMenuTriggerFor]="userMenu" mat-icon-button>
           <mat-icon>person</mat-icon>
         </button>
+        <mat-menu #userMenu="matMenu">
+          <button (click)="onClick('settings')" mat-menu-item>
+            <mat-icon>settings</mat-icon>
+            <span i18n>Settings</span>
+          </button>
+          <button (click)="onClick('password')" mat-menu-item>
+            <mat-icon>key</mat-icon>
+            <span i18n>Password</span>
+          </button>
+          <button (click)="onClick('whatsnew')" id="whatsnew" mat-menu-item>
+            <mat-icon>info_outline</mat-icon>
+            <span i18n>Once upon a time...</span>
+          </button>
+          <button (click)="onClick('impressum')" id="impressum" mat-menu-item>
+            <mat-icon>account_balance</mat-icon>
+            <span i18n>Impressum</span>
+          </button>
+          <mat-divider></mat-divider>
+          <button (click)="onClick('logout')" mat-menu-item>
+            <mat-icon>logout</mat-icon>
+            <span i18n>Logout</span>
+          </button>
+        </mat-menu>
       }
-      <mat-menu #userMenu="matMenu">
-        <button (click)="onClick('settings')" mat-menu-item>
-          <mat-icon>settings</mat-icon>
-          <span i18n>Settings</span>
-        </button>
-        <button (click)="msg.changePassword()" mat-menu-item>
-          <mat-icon>key</mat-icon>
-          <span i18n>Password</span>
-        </button>
-        <button (click)="onClick('whatsnew')" id="whatsnew" mat-menu-item>
-          <mat-icon>info_outline</mat-icon>
-          <span i18n>Once upon a time...</span>
-        </button>
-        <button (click)="onClick('impressum')" id="impressum" mat-menu-item>
-          <mat-icon>account_balance</mat-icon>
-          <span i18n>Impressum</span>
-        </button>
-        <mat-divider></mat-divider>
-        <button (click)="onClick('logout')" mat-menu-item>
-          <mat-icon>logout</mat-icon>
-          <span i18n>Logout</span>
-        </button>
-      </mat-menu>
-      <app-close-button [data]="closeData"></app-close-button>
     </div>
   </div>
   <div>

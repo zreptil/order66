@@ -9,6 +9,7 @@ import {CloseButtonData} from '@/controls/close-button/close-button-data';
 import {BackendService} from '@/_services/backend.service';
 import {SettingsComponent} from '@/components/settings/settings.component';
 import {TypeUser, UserType} from '@/_model/app-data';
+import {Utils} from '@/classes/utils';
 
 @Component({
   selector: 'app-main',
@@ -21,6 +22,7 @@ export class MainComponent {
     showClose: false
   };
   readonly UserType = UserType;
+  protected readonly Utils = Utils;
 
   constructor(public globals: GlobalsService,
               public msg: MessageService,
@@ -42,6 +44,9 @@ export class MainComponent {
 
   onClick(key: string) {
     switch (key) {
+      case 'password':
+        this.msg.changePassword();
+        break;
       case 'whatsnew':
         this.msg.showPopup(WhatsNewComponent, 'whatsnew', {});
         break;
@@ -55,9 +60,10 @@ export class MainComponent {
         this.msg.showPopup(SettingsComponent, 'settings', {});
         break;
       case 'logout':
-        this.bs.logout();
-        GLOBALS.saveSharedData();
-        this.msg.showPopup(WelcomeComponent, 'welcome', {});
+        this.bs.logout(() => {
+          GLOBALS.saveSharedData();
+          this.msg.showPopup(WelcomeComponent, 'welcome', {});
+        });
         break;
     }
   }
