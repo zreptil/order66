@@ -147,6 +147,11 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
       }
     }
   }
+  if ($cmd == 'logout') {
+    $query = $db->prepare('update users set token=null where id=:id');
+    $query->bindValue(':id', $user['id'], SQLITE3_INTEGER);
+    $query->execute();
+  }
   $db->close();
 }
 
