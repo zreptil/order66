@@ -18,6 +18,10 @@ export class CloseButtonComponent {
               @Optional() public dialogRef: MatDialogRef<any>) {
   }
 
+  get classForDebug(): string {
+    return GLOBALS.isDebug ? 'debug' : '';
+  }
+
   get showColorCfg(): boolean {
     return GLOBALS.editColors && this.data.colorKey != null;
   }
