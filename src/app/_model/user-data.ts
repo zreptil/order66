@@ -13,7 +13,7 @@ export class UserData extends BaseData {
   override get _asJson(): any {
     return {
       a: this.username,
-      b: this.permissions.filter(entry => (+entry ?? 0) !== 0),
+      b: this.permissions.filter(entry => (+(entry ?? 0)) !== 0),
       c: this.usertype,
     };
   }
