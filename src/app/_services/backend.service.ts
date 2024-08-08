@@ -105,8 +105,8 @@ export class BackendService {
     });
   }
 
-  getSitterList(onDone: (data: PersonData[]) => void, onError?: (error: any) => void): void {
-    this.query({cmd: 'loadSitterList'}, this.token)
+  getPersonList(type: number, onDone: (data: PersonData[]) => void, onError?: (error: any) => void): void {
+    this.query({cmd: 'loadPersonList', type: type}, this.token)
       .subscribe({
         next: response => {
           const ret: PersonData[] = [];
@@ -192,7 +192,7 @@ export class BackendService {
               for (const plan of appData.plans) {
                 if (plan.sitter === response.ui) {
                   ret.push({
-                    ui: response.ui,
+                    ui: src.u,
                     ai: src.d.id,
                     pi: idx,
                     p: plan

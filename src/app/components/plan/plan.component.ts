@@ -124,7 +124,7 @@ export class PlanComponent implements AfterViewInit {
     const data: SitterPlan = {ui: 0, ai: 0, pi: null, p: this.data};
     this.msg.showPopup(TasksComponent, 'tasks', data).subscribe(result => {
       if (result?.btn === 'save') {
-        this.data.fillFromJson(result.data.p.asJson);
+        // this.data = new PlanData(result.data.p.asJson);
         GLOBALS.saveImmediate(() => {
           const idx = GLOBALS.appData.plans.findIndex(p => p.id === this.data.id);
           if (idx >= 0) {

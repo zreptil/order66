@@ -268,6 +268,18 @@ export class Utils {
     return later?.getTime() > earlier?.getTime();
   }
 
+  static isBeforeDate(earlier: Date, later: Date): boolean {
+    const e = new Date(earlier.getFullYear(), earlier.getMonth(), earlier.getDate(), 0, 0, 0, 0);
+    const l = new Date(later.getFullYear(), later.getMonth(), later.getDate(), 0, 0, 0, 0);
+    return e?.getTime() < l?.getTime();
+  }
+
+  static isAfterDate(earlier: Date, later: Date): boolean {
+    const e = new Date(earlier.getFullYear(), earlier.getMonth(), earlier.getDate(), 0, 0, 0, 0);
+    const l = new Date(later.getFullYear(), later.getMonth(), later.getDate(), 0, 0, 0, 0);
+    return e?.getTime() > l?.getTime();
+  }
+
   static isBefore(earlier: Date, later: Date): boolean {
     return earlier?.getTime() < later?.getTime();
   }

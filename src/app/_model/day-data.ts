@@ -13,13 +13,13 @@ export class DayData extends BaseData {
   override get _asJson(): any {
     return {
       a: Utils.fmtDate(this.date, 'yyyyMMdd'),
-      b: this.mapJsonArray(this.timeRanges),
+      b: this.mapArrayToJson(this.timeRanges),
     };
   }
 
   override _fillFromJson(json: any, def?: any): void {
     this.date = Utils.parseDate(json?.a ?? def?.date);
-    this.timeRanges = (json?.b ?? def?.actions)?.map((src: any) => new TimeData(src));
+    this.timeRanges = this.mapArrayToModel(json?.b ?? def?.actions, TimeData);
     this.timeRanges ??= [];
     while (this.timeRanges.length < 3) {
       this.timeRanges.push(new TimeData({

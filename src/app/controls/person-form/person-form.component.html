@@ -1,4 +1,4 @@
-<form *ngIf="page != null" [formGroup]="page?.form">
+<form *ngIf="ps.page(pageName) != null" [formGroup]="ps.page(pageName)?.form">
   @if (!hasUsertype(1)) {
     <mat-chip-listbox aria-label="usertype" multiple>
       <div label>{{ controls.usertype.label }}</div>
@@ -22,14 +22,16 @@
   <br>
   <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'person_zip'}"></ng-container>
   <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'person_city'}"></ng-container>
+  <br>
+  <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'person_imgurUsername'}"></ng-container>
 </form>
-<div *ngIf="page == null" i18n page-error>
+<div *ngIf="ps.page(pageName) == null" i18n page-error>
   The form is missing some information
 </div>
 
 <ng-template #formFieldTemplate let-name="name">
-  <mat-form-field [appearance]="appearance" [formGroup]="page.form">
-    <mat-label>{{ controls[name]?.label }}</mat-label>
+  <mat-form-field [appearance]="ps.appearance" [formGroup]="ps.page(pageName).form">
+    <mat-label>{{ ps.page(pageName).controls[name]?.label }}</mat-label>
     <input [formControlName]="name" [id]="name" matInput>
     <!-- mat-error *ngIf="form.get(name)?.invalid && !form.get(name)?.untouched">
       <ng-container *ngIf="form.get(name)?.errors?.['required']" i18n>{{ controls[name]?.label }} is required</ng-container>

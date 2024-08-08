@@ -8,7 +8,6 @@ import {GLOBALS} from '@/_services/globals.service';
 export class EnvironmentService {
   isProduction: boolean = false;
   OAUTH2_CLIENT_ID: string = null;
-  GOOGLE_API_KEY: string = null;
   DROPBOX_APP_KEY: string = null;
   backendUrl: string = null;
   settingsFilename: string = null;

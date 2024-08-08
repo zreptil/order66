@@ -2,6 +2,8 @@ import {BaseData} from '@/_model/base-data';
 import {PersonData} from '@/_model/person-data';
 import {PlanData} from '@/_model/plan-data';
 import {EnumPermission} from '@/components/type-admin/type-admin.component';
+import {GLOBALS} from '@/_services/globals.service';
+import {Utils} from '@/classes/utils';
 
 export enum UserType {
   Admin = 1 << 0,
@@ -30,16 +32,20 @@ export class AppData extends BaseData {
     super(json);
   }
 
+  get filteredPlans(): PlanData[] {
+    return this.plans?.filter(e => GLOBALS.showCompleted || Utils.isAfter(e.period.end, Utils.now)) ?? [];
+  }
+
   override get _asJson(): any {
     return {
       a: this.person.asJson,
-      b: this.mapJsonArray(this.plans),
+      b: this.mapArrayToJson(this.plans),
     };
   }
 
   override _fillFromJson(json: any, def?: any): void {
     this.person = new PersonData(json?.a ?? def?.person);
-    this.plans = (json?.b ?? def?.plans)?.map((src: any) => new PlanData(src));
+    this.plans = this.mapArrayToModel(json?.b ?? def?.plans, PlanData);
     this.plans?.sort((a, b) => {
       return a.period.start.getTime() - b.period.start.getTime();
     })

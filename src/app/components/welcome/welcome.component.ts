@@ -139,7 +139,6 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
         (data) => {
           GLOBALS.appData = data.data;
           GLOBALS.appData.permissions = data.perm?.split(',').map((entry: string) => +entry);
-          console.log(GLOBALS.appData);
           GLOBALS.appData.usertype = data.type;
           GLOBALS.currentUserType = GLOBALS.usertypeList[0];
           GLOBALS.saveSharedData();

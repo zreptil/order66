@@ -27,7 +27,7 @@ export class PlanData extends BaseData {
     return {
       a: this.period.toString(),
       b: this.sitter,
-      c: this.mapJsonArray(this.days),
+      c: this.mapArrayToJson(this.days),
       d: this.info
     };
   }
@@ -35,7 +35,7 @@ export class PlanData extends BaseData {
   override _fillFromJson(json: any, def?: any): void {
     this.period = new DatepickerPeriod(json?.a ?? def?.period);
     this.sitter = json?.b ?? def?.sitter;
-    this.days = (json?.c ?? def?.days)?.map((src: any) => new DayData(src));
+    this.days = this.mapArrayToModel(json?.c ?? def?.days, DayData);
     this.info = json?.d ?? def?.info;
     this.days?.sort((a, b) => {
       return a.date.getTime() - b.date.getTime();

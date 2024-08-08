@@ -2,7 +2,7 @@
   <mat-icon>add</mat-icon>
 </button>
 <div content>
-  @for (plan of globals.appData.plans; track plan.id) {
+  @for (plan of globals.appData.filteredPlans; track plan.id) {
     <mat-card (click)="ts.clickPlan(plan)" [style]="styleForCard(plan)">
       <mat-card-header>
         {{ plan.period.display }}

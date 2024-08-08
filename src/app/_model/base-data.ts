@@ -37,11 +37,16 @@ export abstract class BaseData {
     return `${json[key]}`;
   }
 
-  mapJsonArray(src: BaseData[]): any[] {
+  mapArrayToJson(src: BaseData[]): any[] {
     return src?.map((entry, index) => {
       entry.id = index + 1;
       return entry.asJson;
     });
+  }
+
+  mapArrayToModel<T extends BaseData>(src: any[], ctor: new(json?: any) => T): T[] {
+    const ret = src?.map((src: any) => new ctor(src)) ?? [];
+    return ret.filter(e => e != null && Utils.isNumeric(`${e.id}`));
   }
 
   fillFromBackend(src: string): void {

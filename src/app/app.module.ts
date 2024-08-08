@@ -36,6 +36,9 @@ import {TasksComponent} from '@/components/tasks/tasks.component';
 import {TextareaAutoresizeDirective} from '@/_directives/textarea-autoresize.directive';
 import {TypeAdminComponent} from '@/components/type-admin/type-admin.component';
 import {PasswordChangeComponent} from './components/password-change/password-change.component';
+import {DsgvoComponent} from '@/components/dsgvo/dsgvo.component';
+import {LinkPictureComponent} from './components/upload-image/link-picture.component';
+import {HideMissingImageDirective} from '@/_directives/hide-missing-image.directive';
 
 @NgModule({
   declarations: [
@@ -60,6 +63,7 @@ import {PasswordChangeComponent} from './components/password-change/password-cha
     WelcomeComponent,
     SettingsComponent,
     ImpressumComponent,
+    DsgvoComponent,
     PersonFormComponent,
     TypeOwnerComponent,
     TypeSitterComponent,
@@ -68,14 +72,21 @@ import {PasswordChangeComponent} from './components/password-change/password-cha
     DayComponent,
     TasksComponent,
     PasswordChangeComponent,
+    LinkPictureComponent,
   ],
-  bootstrap: [AppComponent], imports: [BrowserModule,
+  bootstrap: [AppComponent],
+  imports: [
+    BrowserModule,
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
     DragDropModule,
     LogComponent,
-    ProgressComponent, TextareaAutoresizeDirective], providers: [provideHttpClient(withInterceptorsFromDi())]
+    ProgressComponent,
+    TextareaAutoresizeDirective,
+    HideMissingImageDirective
+  ],
+  providers: [provideHttpClient(withInterceptorsFromDi())]
 })
 export class AppModule {
 }

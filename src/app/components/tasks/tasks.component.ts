@@ -11,6 +11,8 @@ import {DayData} from '@/_model/day-data';
 import {ActionData} from '@/_model/action-data';
 import {DialogResultButton} from '@/_model/dialog-data';
 import {EnumPermission} from '@/components/type-admin/type-admin.component';
+import {LinkPictureComponent} from '@/components/upload-image/link-picture.component';
+import {PictureData} from '@/_model/picture-data';
 
 @Component({
   selector: 'app-plan',
@@ -40,6 +42,10 @@ export class TasksComponent implements AfterViewInit {
     return this.data.pi != null;
   }
 
+  isToday(date: Date): boolean {
+    return Utils.isToday(date);
+  }
+
   ngAfterViewInit(): void {
   }
 
@@ -48,9 +54,9 @@ export class TasksComponent implements AfterViewInit {
       return true;
     }
     if (day == null) {
-      return Utils.isAfter(this.data?.p?.period?.end ?? Utils.now, Utils.now);
+      return Utils.isOnOrAfter(this.data?.p?.period?.end ?? Utils.now, Utils.now);
     }
-    return Utils.isAfter(day?.date ?? Utils.now, Utils.now);
+    return Utils.isOnOrAfter(day?.date ?? Utils.now, Utils.now);
   }
 
   timeDescription(time: TimeData) {
@@ -59,23 +65,6 @@ export class TasksComponent implements AfterViewInit {
       1: $localize`1 Instruction`,
       other: $localize`${time.actions?.length} Instructions`,
     });
-  }
-
-  isCurrentTimeRange(date: Date, time: TimeData) {
-    const now = Utils.now;
-    if (Utils.isBefore(date, now)) {
-      return true;
-    } else if (Utils.isSameDay(date, now)) {
-      switch (time.type) {
-        case TimeType.morning:
-          return now.getHours() < 12;
-        case TimeType.evening:
-          return now.getHours() >= 12;
-        case TimeType.eventually:
-          return true;
-      }
-    }
-    return false;
   }
 
   clickAddAction(evt: MouseEvent, time: TimeData) {
@@ -97,21 +86,36 @@ export class TasksComponent implements AfterViewInit {
     }
   }
 
+  saveImmediate(day: DayData): void {
+    GLOBALS.saveImmediate(() => {
+      const plan = GLOBALS.appData.plans.find(p => p.id === this.data.p.id);
+      if (plan != null) {
+        const idx = plan.days.findIndex(d => d.id === day.id);
+        if (idx >= 0) {
+          plan.days[idx] = day;
+        }
+      }
+    });
+  }
+
+  clickDeleteTimeActions(evt: MouseEvent, day: DayData, time: TimeData) {
+    evt.stopPropagation();
+    const msg = $localize`Do you want to delete all Instructions from ${Utils.fmtDate(day.date)} ${time.typeName}?`;
+    this.msg.confirm(msg).subscribe(result => {
+      if (result?.btn === DialogResultButton.yes) {
+        time.actions = [];
+        this.saveImmediate(day);
+      }
+    });
+  }
+
   clickDeleteAction(evt: MouseEvent, day: DayData, action: ActionData, time: TimeData) {
     evt.stopPropagation();
-    let msg = $localize`Do you want to delete this Instruction?`;
+    const msg = $localize`Do you want to delete this Instruction?`;
     this.msg.confirm(msg).subscribe(result => {
       if (result?.btn === DialogResultButton.yes) {
         time.actions.splice(time.actions.findIndex(a => a.id === action.id), 1);
-        GLOBALS.saveImmediate(() => {
-          const plan = GLOBALS.appData.plans.find(p => p.id === this.data.p.id);
-          if (plan != null) {
-            const idx = plan.days.findIndex(d => d.id === day.id);
-            if (idx >= 0) {
-              plan.days[idx] = day;
-            }
-          }
-        });
+        this.saveImmediate(day);
       }
     });
   }
@@ -145,10 +149,12 @@ export class TasksComponent implements AfterViewInit {
     }
   }
 
-  classForDone(action: ActionData): string[] {
+  classForDone(action: ActionData, day: DayData): string[] {
     const ret: string[] = ['check'];
     if (action.done) {
       ret.push('done');
+    } else if (!this.isToday(day.date)) {
+      ret.push('notdone');
     }
     return ret;
   }
@@ -158,5 +164,78 @@ export class TasksComponent implements AfterViewInit {
       return $localize`Copy from previous Day`;
     }
     return $localize`Copy from previous Plan`;
+  }
+
+  isDayExpanded(day: DayData): boolean {
+    return !this.isSitter || Utils.isSameDay(day.date, Utils.now);
+  }
+
+  isTimeExpanded(day: DayData, time: TimeData) {
+    const now = Utils.now;
+    if ((day as any).forceOpen) {
+      return true;
+    }
+    if (Utils.isBefore(day.date, now)) {
+      return true;
+    } else if (Utils.isSameDay(day.date, now)) {
+      switch (time.type) {
+        case TimeType.morning:
+          return now.getHours() < 12;
+        case TimeType.evening:
+          return now.getHours() >= 12;
+        case TimeType.eventually:
+          return true;
+      }
+    }
+    return !this.isSitter;
+  }
+
+  expandDay(isOpen: boolean, day: DayData) {
+    (day as any).forceOpen = isOpen;
+  }
+
+  clickAddImage(evt: MouseEvent, day: DayData, time: TimeData) {
+    const data = new PictureData();
+    this.msg.showPopup(LinkPictureComponent, 'settings', data).subscribe(result => {
+      if (result?.btn === DialogResultButton.ok) {
+        const picture = new PictureData(result.data.asJson);
+        time.pictures.push(picture);
+        time.fillFromJson(time.asJson);
+      }
+    })
+  }
+
+  clickDeleteTimeImage(evt: MouseEvent, day: DayData, time: TimeData, picture: PictureData) {
+    const msg = $localize`Delete the picture from ${Utils.fmtDate(day.date)} ${time.typeName}?`;
+    const idx = time.pictures.findIndex(e => +e.id === +picture.id);
+    if (idx >= 0) {
+      this.msg.confirm(msg).subscribe(result => {
+        if (result?.btn === DialogResultButton.yes) {
+          delete (time.pictures[idx]);
+          time.fillFromJson(time.asJson);
+        }
+      });
+    }
+  }
+
+  iconForDone(action: ActionData, day: DayData) {
+    if (action.done) {
+      return 'done';
+    }
+    if (this.isToday(day?.date)) {
+      return 'check_box_outline_blank';
+    }
+    return 'close';
+  }
+
+  clickEditTimeImage(evt: MouseEvent, day: DayData, time: TimeData, image: PictureData) {
+    this.msg.showPopup(LinkPictureComponent, 'settings', image).subscribe(result => {
+      if (result?.btn === DialogResultButton.ok) {
+        const idx = time.pictures.findIndex(e => +e.id === +image.id);
+        if (idx >= 0) {
+          time.pictures[idx].fillFromJson(result.data.asJson);
+        }
+      }
+    })
   }
 }

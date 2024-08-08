@@ -79,4 +79,46 @@ mat-card-content {
 [column] {
   display: flex;
   flex-flow: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+[icons] {
+  margin-top: 1em;
+  flex-wrap: wrap;
+
+  [container] {
+    position: relative;
+    height: 24px;
+    width: 24px;
+  }
+
+  mat-icon {
+    //border: 1px solid red;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  [past] {
+    opacity: 0.5;
+  }
+
+  [overlay] {
+    --size: 30px;
+    //border: 2px solid lime;
+    font-weight: bold;
+    font-size: var(--size);
+    width: var(--size);
+    height: var(--size);
+  }
+
+  [done] {
+    color: lime;
+  }
+
+  [todo] {
+    color: red;
+  }
 }

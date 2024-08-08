@@ -1,5 +1,5 @@
 <div content>
-  @for (plan of plans; track plan.p.id) {
+  @for (plan of plans; track planId(plan)) {
     <mat-card (click)="clickPlan(plan)" [class]="classForPlan(plan)">
       <mat-card-header row>
         @if (isTime(plan, -1)) {
@@ -11,11 +11,35 @@
         }
         <div column>
           {{ plan.p.period.display }}
-          <div sitter><span i18n>Sitter</span>: {{ plan.p.sitterData }}</div>
+          <div sitter><span i18n>Owner</span>: {{ globals.ownerData(plan) }}</div>
         </div>
       </mat-card-header>
       <mat-card-content>
-        {{ plan.p.info }}
+        <div column>
+          <span>{{ plan.p.info }}</span>
+          <!--          @if (isTime(plan, -1) || isTime(plan, 0)) {-->
+          <div row icons>{{ now }}
+            @for (day of plan.p.days; track day.id) {
+              @for (time of day.timeRanges; track time.id) {
+                @if (time.actions?.length > 0) {
+                  <div container>
+                    @if (isPast(day)) {
+                      <mat-icon past>{{ time.typeIcon }}</mat-icon>
+                      @if (isTimeRangeDone(time)) {
+                        <mat-icon overlay done>done</mat-icon>
+                      } @else {
+                        <mat-icon overlay todo>close</mat-icon>
+                      }
+                    } @else {
+                      <mat-icon>{{ time.typeIcon }}</mat-icon>
+                    }
+                  </div>
+                }
+              }|
+            }
+          </div>
+          <!--          }-->
+        </div>
       </mat-card-content>
     </mat-card>
   }

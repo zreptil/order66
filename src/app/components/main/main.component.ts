@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {SyncService} from '@/_services/sync/sync.service';
 import {MessageService} from '@/_services/message.service';
@@ -10,24 +10,28 @@ import {BackendService} from '@/_services/backend.service';
 import {SettingsComponent} from '@/components/settings/settings.component';
 import {TypeUser, UserType} from '@/_model/app-data';
 import {Utils} from '@/classes/utils';
+import {DsgvoComponent} from '@/components/dsgvo/dsgvo.component';
+import {EnvironmentService} from '@/_services/environment.service';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent {
+export class MainComponent implements OnInit {
   closeData: CloseButtonData = {
     colorKey: 'main',
     showClose: false
   };
   readonly UserType = UserType;
+  user: any;
   protected readonly Utils = Utils;
 
   constructor(public globals: GlobalsService,
               public msg: MessageService,
               public bs: BackendService,
-              public sync: SyncService) {
+              public sync: SyncService,
+              public env: EnvironmentService) {
   }
 
   get classForHeader(): string[] {
@@ -36,6 +40,9 @@ export class MainComponent {
       ret.push('debug');
     }
     return ret;
+  }
+
+  ngOnInit(): void {
   }
 
   clickLocalTitle() {
@@ -52,6 +59,9 @@ export class MainComponent {
         break;
       case 'impressum':
         this.msg.showPopup(ImpressumComponent, 'impressum', {});
+        break;
+      case 'dsgvo':
+        this.msg.showPopup(DsgvoComponent, 'dsgvo', {});
         break;
       case 'welcome':
         this.msg.showPopup(WelcomeComponent, 'welcome', {});

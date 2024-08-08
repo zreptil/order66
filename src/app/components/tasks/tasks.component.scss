@@ -187,17 +187,75 @@ textarea {
   color: blue;
 }
 
-[sitterInfo] {
+[sitterInfo], [sitterImageInfo] {
   font-family: Dancing Script, sans-serif;
   font-size: 1.5em;
   color: blue;
-  margin-top: 1em;
 }
 
-.check {
+[sitterInfo] {
+  margin: 1em 0;
+}
+
+[sitterImageInfo] {
+  margin-top: 0.2em;
+  font-size: 1em;
+}
+
+.check.notdone {
   color: maroon;
 }
 
 .check.done {
   color: green;
+}
+
+mat-panel-title {
+  mat-icon {
+    margin-right: 0.5em;
+  }
+}
+
+[images] {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+
+  div[image] {
+    width: 30%;
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 100%;
+    }
+
+    [controls] {
+      position: absolute;
+      opacity: 0;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.2s linear;
+
+      button {
+        background: black;
+        color: white;
+
+        mat-icon {
+        }
+      }
+    }
+
+  }
+
+  div[image]:hover {
+    [controls] {
+      opacity: 1;
+    }
+  }
+
 }

@@ -23,6 +23,11 @@
     position: relative;
     padding: 0 1em;
 
+    mat-slide-toggle {
+      --mat-switch-label-text-color: var(--headFore);
+      margin-left: 1em;
+    }
+
     button:first-child {
       margin-left: 0.75em;
     }

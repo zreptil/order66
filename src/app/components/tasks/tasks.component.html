@@ -2,31 +2,48 @@
      cdkDragRootElement=".dialog-box.tasks">
   <div cdkDragHandle mat-dialog-title>
     <mat-icon>{{ 'task' }}</mat-icon>
-    <h1>{{ globals.titles.tasks }}</h1>
+    @if (isSitter) {
+      <h1>{{ globals.ownerData(data) }}</h1>
+    } @else {
+      <h1>{{ globals.titles.tasks }}</h1>
+    }
     <app-close-button [data]="closeData"></app-close-button>
   </div>
   <mat-dialog-content>
     <mat-accordion multi="true">
       @for (day of data.p.days; track day.id; let idx = $index) {
-        <mat-expansion-panel [expanded]="Utils.isSameDay(day.date, Utils.now) || true">
+        <mat-expansion-panel [expanded]="isDayExpanded(day)" (expandedChange)="expandDay($event, day)">
           <mat-expansion-panel-header>
             <mat-panel-title>
               {{ Utils.fmtDate(day.date, 'ddd') }}, {{ Utils.fmtDate(day.date) }}
             </mat-panel-title>
             <mat-panel-description>
+              @for (time of day.timeRanges; track time.id) {
+                @if (time.actions?.length > 0) {
+                  <mat-icon>{{ time.typeIcon }}</mat-icon>
+                } @else {
+                  <mat-icon></mat-icon>
+                }
+              }
             </mat-panel-description>
           </mat-expansion-panel-header>
           <mat-accordion multi="true">
             @for (time of day.timeRanges; track time.id; let idx = $index) {
               @if (time.actions?.length > 0 || (!isSitter && mayEdit(day))) {
-                <mat-expansion-panel tasks [expanded]="isCurrentTimeRange(day.date, time)">
+                <mat-expansion-panel tasks [expanded]="isTimeExpanded(day, time)">
                   <mat-expansion-panel-header>
                     <mat-panel-title>
+                      <mat-icon>{{ time.typeIcon }}</mat-icon>
                       {{ time.typeName }}
                     </mat-panel-title>
                     <mat-panel-description>
                       @if (time.actions?.length > 0 || !mayEdit(day)) {
                         {{ timeDescription(time) }}
+                        @if (mayEdit(day)) {
+                          <button mat-icon-button (click)="clickDeleteTimeActions($event, day, time)">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        }
                       } @else if (day.id > 1 || data.p.id > 1) {
                         <button mat-button (click)="clickCopyAction($event, day, time)">
                           <mat-icon>content_copy</mat-icon>
@@ -49,16 +66,16 @@
                               <textarea [(ngModel)]="action.text" matInput rows="4" autofocus></textarea>
                             </mat-form-field>
                           } @else {
-                            <button (click)="clickEditAction($event, action, time)" text mat-button>
-                              {{ action.text }}
-                            </button>
                             <button (click)="clickDeleteAction($event, day, action, time)" mat-icon-button>
                               <mat-icon>delete</mat-icon>
+                            </button>
+                            <button (click)="clickEditAction($event, action, time)" text mat-button>
+                              {{ action.text }}
                             </button>
                           }
                         } @else {
                           <div sitterCheck>
-                            <mat-icon [class]="classForDone(action)">{{ action.done ? 'done' : 'close' }}</mat-icon>
+                            <mat-icon [class]="classForDone(action, day)">{{ iconForDone(action, day) }}</mat-icon>
                           </div>
                           <div>
                             {{ action.text }}
@@ -73,10 +90,47 @@
                       <mat-label>Info</mat-label>
                       <textarea [(ngModel)]="time.info" appTextareaAutoresize autofocus matInput></textarea>
                     </mat-form-field>
+                    <div images>
+                      @for (image of time.pictures; track image.id) {
+                        <div image>
+                          <img alt="image" [src]="image.url">
+                          <div controls>
+                            <button mat-icon-button (click)="clickEditTimeImage($event, day, time, image)">
+                              <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button (click)="clickDeleteTimeImage($event, day, time, image)">
+                              <mat-icon>delete</mat-icon>
+                            </button>
+                            <button mat-icon-button (click)="globals.openLink(image.url)">
+                              <mat-icon>open_in_new</mat-icon>
+                            </button>
+                          </div>
+                          @if (!Utils.isEmpty(image.info)) {
+                            <div>{{ image.info }}</div>
+                          }
+                        </div>
+                      }
+                    </div>
+                    <button mat-button (click)="clickAddImage($event, day, time)">
+                      <mat-icon>add</mat-icon>
+                      <span>Add Image</span>
+                    </button>
                   } @else if (!Utils.isEmpty(time.info)) {
                     <div sitterInfo>{{ time.info }}</div>
                   }
-                  @if (mayEdit(day)) {
+                  @if (!isSitter) {
+                    <div images>
+                      @for (image of time.pictures; track image.id) {
+                        <div image>
+                          <img alt="image" [src]="image.url">
+                          @if (!Utils.isEmpty(image.info)) {
+                            <div sitterImageInfo>{{ image.info }}</div>
+                          }
+                        </div>
+                      }
+                    </div>
+                  }
+                  @if (mayEdit(day) && !isSitter) {
                     <div row>
                       <button mat-button (click)="clickAddAction($event, time)">
                         <mat-icon>add</mat-icon>

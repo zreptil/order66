@@ -70,7 +70,7 @@ export class SyncService {
     return this.ms.confirm(msg,
       new DialogParams({image: 'assets/images/dropbox.png'})).pipe(map(result => {
       const ret = new Oauth2pkce();
-      ret.doSignin = result.btn === DialogResultButton.yes;
+      ret.doSignin = result?.btn === DialogResultButton.yes;
       ret.isDebug = GLOBALS.mayDebug;
       if (ret.doSignin) {
         this._syncType = oauth2SyncType.dropbox;
@@ -98,7 +98,7 @@ export class SyncService {
       const params = new DialogParams();
       params.image = 'assets/images/dropbox.png';
       this.ms.confirm($localize`Do you want to unsync with Dropbox?`, params).subscribe(result => {
-        if (result.btn == DialogResultButton.yes) {
+        if (result?.btn == DialogResultButton.yes) {
           this.dbs.disconnect();
           this.syncType = oauth2SyncType.none;
         }

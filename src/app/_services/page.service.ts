@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {FormControl, FormGroup, ValidatorFn} from '@angular/forms';
 import {Utils} from '@/classes/utils';
+import {MatFormFieldAppearance} from '@angular/material/form-field';
 
 export type ControlList = { [key: string]: ControlDef };
 
@@ -21,22 +22,29 @@ export class PageDef {
   providedIn: 'root'
 })
 export class PageService {
+  appearance: MatFormFieldAppearance = 'fill';
   private pages: { [key: string]: PageDef } = {};
 
   constructor() {
   }
 
+  page(key: string): PageDef {
+    return this.pages[key];
+  }
+
+  writeFormValue(pageKey: string, ctrlKey: string, value: any) {
+    const page = this.page(pageKey);
+    if (page != null) {
+      page.form?.controls[ctrlKey]?.setValue(value);
+      this._writeValue(pageKey, ctrlKey, value);
+    }
+  }
+
   writeData(key: string) {
     const page = this.pages[key];
     if (page != null) {
-      for (const subkey of Object.keys(page.controls)) {
-        const parts = subkey.split('_');
-        const value = page.form.controls[subkey].value;
-        if (parts.length === 1) {
-          page.data[subkey] = value;
-        } else {
-          page.data[parts[0]][parts[1]] = value;
-        }
+      for (const ctrlKey of Object.keys(page.controls)) {
+        this._writeValue(key, ctrlKey, page.form.controls[ctrlKey]?.value);
       }
       page.adjustData?.(page.data);
     }
@@ -71,5 +79,18 @@ export class PageService {
 
   deleteForm(key: string) {
     delete this.pages[key];
+  }
+
+  private _writeValue(pageKey: string, ctrlKey: string, value: any) {
+    const page = this.page(pageKey);
+    if (page != null) {
+      page.data ??= {};
+      const parts = ctrlKey.split('_');
+      if (parts.length === 1) {
+        page.data[ctrlKey] = value;
+      } else {
+        page.data[parts[0]][parts[1]] = value;
+      }
+    }
   }
 }

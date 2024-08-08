@@ -11,7 +11,7 @@ import {EnvironmentService} from '@/_services/environment.service';
 import {MessageService} from '@/_services/message.service';
 import {WhatsNewComponent} from '@/components/whats-new/whats-new.component';
 import {WelcomeComponent} from '@/components/welcome/welcome.component';
-import {BackendService} from '@/_services/backend.service';
+import {BackendService, SitterPlan} from '@/_services/backend.service';
 import {AppData, TypeUser, UserType} from '@/_model/app-data';
 import {PersonData} from '@/_model/person-data';
 import {MatFormFieldAppearance} from '@angular/material/form-field';
@@ -65,11 +65,14 @@ export class GlobalsService {
     help: $localize`Information`,
     impressum: $localize`Impressum`,
     welcome: $localize`Welcome to Order66`,
-    whatsnew: $localize`Once upon a time...`
+    whatsnew: $localize`Once upon a time...`,
+    linkPicture: $localize`Link Picture`
   };
   appData: AppData;
   sitterFetching = false;
+  ownerFetching = false;
   saveImmediately = true;
+  showCompleted = false;
   private flags = '';
 
   constructor(public http: HttpClient,
@@ -126,13 +129,27 @@ export class GlobalsService {
   get sitterList(): PersonData[] {
     if (this._sitterList == null && !this.sitterFetching) {
       this.sitterFetching = true;
-      this.bs.getSitterList((data) => {
+      this.bs.getPersonList(UserType.Sitter, (data) => {
         this._sitterList = data;
         this._sitterList.push(new PersonData({a: $localize`Toby`, b: $localize`Named`}));
         this.sitterFetching = false;
       });
     }
     return this._sitterList;
+  }
+
+  _ownerList: PersonData[];
+
+  get ownerList(): PersonData[] {
+    if (this._ownerList == null && !this.ownerFetching) {
+      this.ownerFetching = true;
+      this.bs.getPersonList(UserType.Owner, (data) => {
+        this._ownerList = data;
+        this._ownerList.push(new PersonData({a: $localize`Toby`, b: $localize`Named`}));
+        this.ownerFetching = false;
+      });
+    }
+    return this._ownerList;
   }
 
   _isDebug = false;
@@ -267,6 +284,18 @@ export class GlobalsService {
     return this._currPeriodShift;
   }
 
+  ownerData(plan: SitterPlan): string {
+    const data = GLOBALS.ownerList?.find((owner) =>
+      owner.fkUser === plan.ui);
+    if (data?.phone != null) {
+      return `${data.fullname} (${data.phone})`;
+    }
+    if (data?.city != null) {
+      return `${data.fullname} (${data.address})`;
+    }
+    return data?.fullname;
+  }
+
   loadAppData() {
     this.bs.loadAppData((data) => {
       this.appData.fillFromJson(data.asJson);
@@ -399,6 +428,7 @@ export class GlobalsService {
       this.bs.saveAppData(GLOBALS.appData,
         (data) => {
           GLOBALS.appData.fillFromJson(data.asJson);
+          console.log(GLOBALS.appData);
           GLOBALS.appData.usertype = data.usertype;
           GLOBALS.currentUserType = GLOBALS.usertypeList[0];
           GLOBALS.saveSharedData();
@@ -409,6 +439,10 @@ export class GlobalsService {
           this.msg.error($localize`Error when saving data - ${error}`);
         });
     }
+  }
+
+  openLink(url: string) {
+    window.open(url, '_blank');
   }
 
   private may(key: string): boolean {

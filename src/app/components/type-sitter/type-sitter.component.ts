@@ -4,6 +4,10 @@ import {MessageService} from '@/_services/message.service';
 import {TypeService} from '@/_services/type.service';
 import {BackendService, SitterPlan} from '@/_services/backend.service';
 import {TasksComponent} from '@/components/tasks/tasks.component';
+import {ActionData} from '@/_model/action-data';
+import {TimeData} from '@/_model/time-data';
+import {DayData} from '@/_model/day-data';
+import {Utils} from '@/classes/utils';
 
 @Component({
   selector: 'app-type-sitter',
@@ -29,7 +33,15 @@ export class TypeSitterComponent implements AfterViewInit {
           this._planList = [];
         });
     }
-    return this._planList ?? [];
+    return this._planList?.filter(e => GLOBALS.showCompleted || Utils.isAfter(e.p.period.end, Utils.now)) ?? [];
+  }
+
+  get now(): Date {
+    return Utils.now;
+  }
+
+  planId(plan: SitterPlan): string {
+    return `${plan.ui}-${plan.p.id}`;
   }
 
   ngAfterViewInit(): void {
@@ -42,6 +54,8 @@ export class TypeSitterComponent implements AfterViewInit {
           (_data: SitterPlan) => {
             GLOBALS.loadAppData();
           });
+      } else {
+        this._planList = null;
       }
     });
   }
@@ -69,5 +83,13 @@ export class TypeSitterComponent implements AfterViewInit {
       return check > end;
     }
     return check >= start && check <= end;
+  }
+
+  isTimeRangeDone(time: TimeData) {
+    return !time.actions.some((e: ActionData) => !e.done);
+  }
+
+  isPast(day: DayData) {
+    return Utils.isBeforeDate(day.date, Utils.now);
   }
 }
