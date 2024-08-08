@@ -1,0 +1,50 @@
+:host {
+  --headBack: var(--settingsHeadBack);
+  --headFore: var(--settingsHeadFore);
+  --bodyBack: var(--settingsBodyBack);
+  --bodyFore: var(--settingsBodyFore);
+  --accentBack: var(--settingsHeadBack);
+  --accentFore: var(--settingsHeadFore);
+}
+
+::ng-deep .dialog-box.settings {
+  min-width: calc(100vw * 0.75) !important;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+[icon] {
+  width: 24px;
+}
+
+.mat-mdc-dialog-content > :first-child {
+  margin-top: 1em;
+}
+
+::ng-deep .mat-mdc-text-field-wrapper {
+  flex: none;
+}
+
+[photoinfo] {
+  display: flex;
+  flex-flow: column;
+
+  [line] {
+    display: flex;
+    align-items: center;
+  }
+}
+
+[row] {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+
+  img {
+    width: 20%;
+    height: 100%;
+    margin-right: 0.2em;
+  }
+}

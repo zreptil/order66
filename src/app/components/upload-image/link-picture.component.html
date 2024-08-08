@@ -1,0 +1,36 @@
+<div cdkDrag cdkDragBoundary=".cdk-overlay-container"
+     cdkDragRootElement=".dialog-box.settings">
+  <div cdkDragHandle mat-dialog-title>
+    <mat-icon>settings</mat-icon>
+    <h1>{{ globals.titles.linkPicture }}</h1>
+    <app-close-button [data]="closeData"></app-close-button>
+  </div>
+  <mat-dialog-content>
+    <div row>
+      <img alt="picture" hideMissingImage src="{{imageSrc}}">
+      <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'url'}"></ng-container>
+      <button (click)="clickPaste($event)" mat-icon-button>
+        <mat-icon>content_paste</mat-icon>
+      </button>
+    </div>
+    <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'info'}"></ng-container>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button [matDialogClose]="dialogResult" mat-button>
+      <mat-icon>save</mat-icon>
+      <span i18n>Save</span>
+    </button>
+    <button (click)="clickImgur($event)" mat-button>
+      <span i18n>imgur</span>
+      <img alt="icon for imgur" icon src="https://imgur.com/images/favicon.png">
+    </button>
+  </mat-dialog-actions>
+</div>
+
+<ng-template #formFieldTemplate let-name="name">
+  <mat-form-field [appearance]="ps.appearance" [formGroup]="ps.page(pageName).form">
+    <mat-label>{{ ps.page(pageName).controls[name]?.label }}</mat-label>
+    <input [formControlName]="name" [id]="name" matInput>
+  </mat-form-field>
+</ng-template>
+
