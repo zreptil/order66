@@ -40,9 +40,9 @@ if ($cmd == 'loadAppData') {
   header('Content-Type: application/json');
   echo($ret);
   exit;
-} else if ($cmd == 'loadSitterList') {
+} else if ($cmd == 'loadPersonList') {
   include_once 'data-app.php';
-  $ret = loadSitterList();
+  $ret = loadPersonList();
   header('Content-Type: application/json');
   echo($ret);
   exit;
