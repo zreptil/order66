@@ -1,6 +1,7 @@
 import {Directive, ElementRef, HostListener} from '@angular/core';
 
 @Directive({
+  standalone: true,
   selector: '[hideMissingImage]'
 })
 export class HideMissingImageDirective {
@@ -9,12 +10,11 @@ export class HideMissingImageDirective {
 
   @HostListener('error')
   private onError() {
-    this.el.nativeElement.style.display = 'none';
+    setTimeout(() => this.el.nativeElement.style.display = 'none');
   }
 
   @HostListener('load')
   private onLoad() {
-    this.el.nativeElement.style.display = 'initial';
+    setTimeout(() => this.el.nativeElement.style.display = 'initial');
   }
-
 }
