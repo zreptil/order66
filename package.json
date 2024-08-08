@@ -11,7 +11,7 @@
     "i18n": "npm run i18n-01-extract && npm run i18n-03-create-messages",
     "ng": "ng",
     "start-all": "npm-run-all --parallel backend start",
-    "start": "ng serve --port 66 --open",
+    "start": "ng serve --port 66 --open --ssl --ssl-key server.key --ssl-cert server.crt",
     "test": "ng test",
     "watch": "ng build --watch --configuration development",
     "backend": "cmd /c C:\\Users\\msn\\PhpstormProjects\\php8.3.9\\php.exe -S localhost:80 -t C:\\Users\\msn\\WebstormProjects\\order66\\src\\_php\\src",
@@ -61,9 +61,5 @@
     "npm-build-zip": "^1.0.3",
     "npm-run-all": "^4.1.5",
     "typescript": "~5.4.5"
-  },
-  "engines": {
-    "node": ">=14.0.0",
-    "npm": ">=7.0.0"
   }
 }

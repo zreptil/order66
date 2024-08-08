@@ -50,3 +50,6 @@ Thumbs.db
 /nightrep (translations).zip
 /nightrep (english) (translations).zip
 /package-lock.json
+/server.crt
+/server.csr
+/server.key
