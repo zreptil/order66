@@ -1,0 +1,19 @@
+<div container>
+  @if (time.actions?.length > 0 || !hideOnEmptyActions) {
+    @if (isPast(day)) {
+      <mat-icon past>{{ time.typeIcon }}</mat-icon>
+      @if (isTimeRangeDone(time)) {
+        <mat-icon overlay done>done</mat-icon>
+      } @else {
+        <mat-icon overlay todo>close</mat-icon>
+      }
+    } @else {
+      <mat-icon>{{ time.typeIcon }}</mat-icon>
+      @if (isTimeRangeDone(time)) {
+        <mat-icon overlay done>done</mat-icon>
+      }
+    }
+  } @else if (hideOnEmptyActions) {
+    <mat-icon></mat-icon>
+  }
+</div>
