@@ -41,8 +41,19 @@ export class PlanComponent implements AfterViewInit {
   }
 
   _mayEdit = false;
+
   get mayEdit(): boolean {
-    return this._mayEdit || Utils.isAfter(this.data?.period?.end, Utils.now) || this.data?.period?.end == null;
+    return this._mayEdit
+      || Utils.isAfter(this.data?.period?.end, Utils.now) || this.data?.period?.end == null;
+  }
+
+  get activeTitle(): string {
+    return this.data.period.display;
+  }
+
+  get isActive(): boolean {
+    return Utils.isOnOrAfter(Utils.now, this.data?.period?.start)
+      && Utils.isOnOrBefore(Utils.now, this.data?.period?.end);
   }
 
   ngAfterViewInit(): void {

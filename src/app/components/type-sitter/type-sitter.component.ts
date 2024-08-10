@@ -86,7 +86,7 @@ export class TypeSitterComponent implements AfterViewInit {
   }
 
   isTimeRangeDone(time: TimeData) {
-    return !time.actions.some((e: ActionData) => !e.done);
+    return !time.actions.some((e: ActionData) => !(e.done ?? false));
   }
 
   isPast(day: DayData) {

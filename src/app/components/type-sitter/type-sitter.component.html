@@ -1,3 +1,6 @@
+<mat-slide-toggle [(ngModel)]="globals.showCompleted" completed>
+  <mat-label i18n>Show completed</mat-label>
+</mat-slide-toggle>
 <div content>
   @for (plan of plans; track planId(plan)) {
     <mat-card (click)="clickPlan(plan)" [class]="classForPlan(plan)">
@@ -18,22 +21,26 @@
         <div column>
           <span>{{ plan.p.info }}</span>
           <!--          @if (isTime(plan, -1) || isTime(plan, 0)) {-->
-          <div row icons>{{ now }}
+          <div row icons>
             @for (day of plan.p.days; track day.id) {
               @for (time of day.timeRanges; track time.id) {
                 @if (time.actions?.length > 0) {
-                  <div container>
-                    @if (isPast(day)) {
-                      <mat-icon past>{{ time.typeIcon }}</mat-icon>
-                      @if (isTimeRangeDone(time)) {
-                        <mat-icon overlay done>done</mat-icon>
-                      } @else {
-                        <mat-icon overlay todo>close</mat-icon>
-                      }
-                    } @else {
-                      <mat-icon>{{ time.typeIcon }}</mat-icon>
-                    }
-                  </div>
+                  <!--                  <div container>-->
+                  <app-time-icon [time]="time" [day]="day"></app-time-icon>
+                  <!--                    @if (isPast(day)) {-->
+                    <!--                      <mat-icon past>{{ time.typeIcon }}</mat-icon>-->
+                    <!--                      @if (isTimeRangeDone(time)) {-->
+                    <!--                        <mat-icon overlay done>done</mat-icon>-->
+                    <!--                      } @else {-->
+                    <!--                        <mat-icon overlay todo>close</mat-icon>-->
+                    <!--                      }-->
+                    <!--                    } @else {-->
+                    <!--                      <mat-icon>{{ time.typeIcon }}</mat-icon>-->
+                    <!--                      @if (isTimeRangeDone(time)) {-->
+                    <!--                        <mat-icon overlay done>done</mat-icon>-->
+                    <!--                      }-->
+                    <!--                    }-->
+                    <!--                  </div>-->
                 }
               }|
             }

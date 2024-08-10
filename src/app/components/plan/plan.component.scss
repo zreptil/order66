@@ -25,6 +25,12 @@
   display: none;
 }
 
+.mat-mdc-dialog-title {
+  h1 {
+    margin: 0 1em;
+  }
+}
+
 div[header] {
   display: flex;
   flex-flow: row;
@@ -161,4 +167,12 @@ textarea {
   flex-flow: row;
   gap: 0.2em;
   margin-bottom: 0.2em;
+}
+
+@media (max-width: 500px) {
+  .mat-mdc-dialog-title {
+    h1 {
+      font-size: 0.8em;
+    }
+  }
 }

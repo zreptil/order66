@@ -1,4 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing Script&display=swap');
+@use '@angular/material' as mat;
+@import url('https://fonts.googleapis.com/css2?family=Kalam&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Patrick Hand&display=swap');
+
+[sitterCheck], [sitterInfo], [sitterImageInfo] {
+  font-family: Patrick Hand, sans-serif;
+  color: blue;
+}
 
 :host {
   --headBack: var(--settingsHeadBack);
@@ -8,6 +15,26 @@
   --accentBack: var(--settingsHeadBack);
   --accentFore: var(--settingsHeadFore);
   --mat-select-panel-background-color: var(--headBack);
+}
+
+.mat-mdc-dialog-title {
+  line-height: 1em;
+
+  [title] {
+    display: flex;
+    flex-flow: column;
+    flex: 1;
+    margin-left: 1em;
+    justify-content: center;
+
+    [owner] {
+      font-size: 1em;
+    }
+
+    [info] {
+      font-size: 0.7em;
+    }
+  }
 }
 
 ::ng-deep .mdc-menu-surface {
@@ -182,15 +209,8 @@ textarea {
   }
 }
 
-[sitterCheck] {
-  font-family: Dancing Script, sans-serif;
-  color: blue;
-}
-
 [sitterInfo], [sitterImageInfo] {
-  font-family: Dancing Script, sans-serif;
   font-size: 1.5em;
-  color: blue;
 }
 
 [sitterInfo] {
@@ -200,6 +220,10 @@ textarea {
 [sitterImageInfo] {
   margin-top: 0.2em;
   font-size: 1em;
+}
+
+.current {
+  font-weight: bold;
 }
 
 .check.notdone {
@@ -217,17 +241,22 @@ mat-panel-title {
 }
 
 [images] {
-  display: flex;
-  flex-flow: row;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 
-  div[image] {
-    width: 30%;
+  button[image] {
+    min-height: 10em;
+    justify-content: center;
+    border: 2px dashed rgba(0, 0, 0, 0.4);
+  }
+
+  [image] {
+    padding: 0.2em;
     position: relative;
     display: flex;
     flex-flow: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 
     img {
       width: 100%;
@@ -249,7 +278,6 @@ mat-panel-title {
         }
       }
     }
-
   }
 
   div[image]:hover {
@@ -257,5 +285,42 @@ mat-panel-title {
       opacity: 1;
     }
   }
+}
 
+@media (max-width: 500px) {
+  .mat-mdc-dialog-title {
+    font-size: 1em;
+  }
+  [images] {
+    grid-template-columns: 1fr;
+
+    div[image] {
+      margin: 0.5em 0;
+      @include mat.elevation(2);
+    }
+  }
+
+  mat-panel-title {
+    [label] {
+      display: none;
+    }
+  }
+  mat-panel-description {
+    [label] {
+      display: none;
+    }
+
+    button {
+      font-size: 0.7em;
+      line-height: 1em;
+
+      mat-icon {
+        width: 24px;
+        height: 24px;
+        margin: 0;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
 }

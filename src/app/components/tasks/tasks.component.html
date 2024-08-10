@@ -3,9 +3,12 @@
   <div cdkDragHandle mat-dialog-title>
     <mat-icon>{{ 'task' }}</mat-icon>
     @if (isSitter) {
-      <h1>{{ globals.ownerData(data) }}</h1>
+      <div title>
+        <div owner>{{ globals.ownerName(data) }}</div>
+        <div info>{{ globals.ownerInfo(data) }}</div>
+      </div>
     } @else {
-      <h1>{{ globals.titles.tasks }}</h1>
+      <div title>{{ globals.titles.tasks }}</div>
     }
     <app-close-button [data]="closeData"></app-close-button>
   </div>
@@ -13,17 +16,13 @@
     <mat-accordion multi="true">
       @for (day of data.p.days; track day.id; let idx = $index) {
         <mat-expansion-panel [expanded]="isDayExpanded(day)" (expandedChange)="expandDay($event, day)">
-          <mat-expansion-panel-header>
+          <mat-expansion-panel-header [class]="classForDay(day)">
             <mat-panel-title>
               {{ Utils.fmtDate(day.date, 'ddd') }}, {{ Utils.fmtDate(day.date) }}
             </mat-panel-title>
             <mat-panel-description>
               @for (time of day.timeRanges; track time.id) {
-                @if (time.actions?.length > 0) {
-                  <mat-icon>{{ time.typeIcon }}</mat-icon>
-                } @else {
-                  <mat-icon></mat-icon>
-                }
+                <app-time-icon [time]="time" [day]="day" hideOnEmptyActions="true"></app-time-icon>
               }
             </mat-panel-description>
           </mat-expansion-panel-header>
@@ -34,11 +33,11 @@
                   <mat-expansion-panel-header>
                     <mat-panel-title>
                       <mat-icon>{{ time.typeIcon }}</mat-icon>
-                      {{ time.typeName }}
+                      <div label>{{ time.typeName }}</div>
                     </mat-panel-title>
                     <mat-panel-description>
                       @if (time.actions?.length > 0 || !mayEdit(day)) {
-                        {{ timeDescription(time) }}
+                        <div label>{{ timeDescription(time) }}</div>
                         @if (mayEdit(day)) {
                           <button mat-icon-button (click)="clickDeleteTimeActions($event, day, time)">
                             <mat-icon>delete</mat-icon>
@@ -65,10 +64,24 @@
                             <mat-form-field full-width>
                               <textarea [(ngModel)]="action.text" matInput rows="4" autofocus></textarea>
                             </mat-form-field>
+                          } @else if (action.done && !_mayEdit) {
+                            <div sitterCheck>
+                              <mat-icon [class]="classForDone(action, day)">{{ iconForDone(action, day) }}</mat-icon>
+                            </div>
+                            <div>
+                              {{ action.text }}
+                            </div>
                           } @else {
                             <button (click)="clickDeleteAction($event, day, action, time)" mat-icon-button>
                               <mat-icon>delete</mat-icon>
                             </button>
+                            @if ($last) {
+                              <button mat-icon-button disabled></button>
+                            } @else {
+                              <button mat-icon-button (click)="clickActionMove($event, day, action, time)">
+                                <mat-icon>arrow_drop_down</mat-icon>
+                              </button>
+                            }
                             <button (click)="clickEditAction($event, action, time)" text mat-button>
                               {{ action.text }}
                             </button>
@@ -93,8 +106,13 @@
                     <div images>
                       @for (image of time.pictures; track image.id) {
                         <div image>
-                          <img alt="image" [src]="image.url">
+                          <img alt="image" [src]="image.url" header>
                           <div controls>
+                            @if (!$first) {
+                              <button mat-icon-button (click)="clickImageMove($event, day, time, image, -1)">
+                                <mat-icon>arrow_left</mat-icon>
+                              </button>
+                            }
                             <button mat-icon-button (click)="clickEditTimeImage($event, day, time, image)">
                               <mat-icon>edit</mat-icon>
                             </button>
@@ -104,25 +122,35 @@
                             <button mat-icon-button (click)="globals.openLink(image.url)">
                               <mat-icon>open_in_new</mat-icon>
                             </button>
+                            @if (!$last) {
+                              <button mat-icon-button (click)="clickImageMove($event, day, time, image, 1)">
+                                <mat-icon>arrow_right</mat-icon>
+                              </button>
+                            }
                           </div>
                           @if (!Utils.isEmpty(image.info)) {
-                            <div>{{ image.info }}</div>
+                            <div footer>{{ image.info }}</div>
                           }
                         </div>
                       }
+                      <button image mat-button (click)="clickAddImage($event, day, time)">
+                        <mat-icon>add</mat-icon>
+                        <span>Add Image</span>
+                      </button>
                     </div>
-                    <button mat-button (click)="clickAddImage($event, day, time)">
-                      <mat-icon>add</mat-icon>
-                      <span>Add Image</span>
-                    </button>
                   } @else if (!Utils.isEmpty(time.info)) {
-                    <div sitterInfo>{{ time.info }}</div>
+                    <div sitterInfo [innerHtml]="timeInfo(time)"></div>
                   }
                   @if (!isSitter) {
                     <div images>
                       @for (image of time.pictures; track image.id) {
                         <div image>
                           <img alt="image" [src]="image.url">
+                          <div controls>
+                            <button mat-icon-button (click)="globals.openLink(image.url)">
+                              <mat-icon>open_in_new</mat-icon>
+                            </button>
+                          </div>
                           @if (!Utils.isEmpty(image.info)) {
                             <div sitterImageInfo>{{ image.info }}</div>
                           }
@@ -152,6 +180,11 @@
         <mat-icon>save</mat-icon>
         Save
       </button>
+      @if (globals.appData.may(EnumPermission.editCompletedPlans)) {
+        <button mat-icon-button (click)="_mayEdit = !_mayEdit">
+          <mat-icon>edit</mat-icon>
+        </button>
+      }
     } @else {
       <div style="display:flex;flex-flow:row;gap:0.5em;align-items:center">
         <mat-icon class="check">close</mat-icon>

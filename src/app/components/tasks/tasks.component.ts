@@ -53,10 +53,16 @@ export class TasksComponent implements AfterViewInit {
     if (this._mayEdit) {
       return true;
     }
+    let ret: boolean;
     if (day == null) {
-      return Utils.isOnOrAfter(this.data?.p?.period?.end ?? Utils.now, Utils.now);
+      ret = Utils.isOnOrAfter(this.data?.p?.period?.end ?? Utils.now, Utils.now);
+    } else {
+      ret = Utils.isOnOrAfter(day?.date ?? Utils.now, Utils.now);
     }
-    return Utils.isOnOrAfter(day?.date ?? Utils.now, Utils.now);
+    if (ret) {
+      ret = !day?.timeRanges?.some(t => t.actions?.some(a => a.done));
+    }
+    return ret;
   }
 
   timeDescription(time: TimeData) {
@@ -100,7 +106,7 @@ export class TasksComponent implements AfterViewInit {
 
   clickDeleteTimeActions(evt: MouseEvent, day: DayData, time: TimeData) {
     evt.stopPropagation();
-    const msg = $localize`Do you want to delete all Instructions from ${Utils.fmtDate(day.date)} ${time.typeName}?`;
+    const msg = $localize`Do you want to delete all Instructions from ${Utils.fmtDate(day.date)}&nbsp;${time.typeName}?`;
     this.msg.confirm(msg).subscribe(result => {
       if (result?.btn === DialogResultButton.yes) {
         time.actions = [];
@@ -237,5 +243,37 @@ export class TasksComponent implements AfterViewInit {
         }
       }
     })
+  }
+
+  timeInfo(time: TimeData) {
+    console.log(time.info);
+    let ret = time?.info;
+    ret = ret.replace(/\n/g, '<br>');
+    return ret;
+  }
+
+  clickImageMove(evt: MouseEvent, day: DayData, time: TimeData, image: PictureData, diff: number) {
+    const idx = time.pictures.findIndex(e => e.id === image.id);
+    if (idx >= 0) {
+      time.pictures.splice(idx, 1);
+      time.pictures.splice(idx + diff, 0, image);
+    }
+  }
+
+  classForDay(day: DayData): string[] {
+    const ret: string[] = [];
+    if (Utils.isToday(day.date)) {
+      ret.push('current');
+    }
+    return ret;
+
+  }
+
+  clickActionMove(evt: MouseEvent, day: DayData, action: ActionData, time: TimeData) {
+    const idx = time.actions.findIndex(e => e.id === action.id);
+    if (idx >= 0) {
+      time.actions.splice(idx, 1);
+      time.actions.splice(idx + 1, 0, action);
+    }
   }
 }

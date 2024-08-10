@@ -39,6 +39,7 @@ import {PasswordChangeComponent} from './components/password-change/password-cha
 import {DsgvoComponent} from '@/components/dsgvo/dsgvo.component';
 import {LinkPictureComponent} from './components/upload-image/link-picture.component';
 import {HideMissingImageDirective} from '@/_directives/hide-missing-image.directive';
+import {TimeIconComponent} from './controls/time-icon/time-icon.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import {HideMissingImageDirective} from '@/_directives/hide-missing-image.direct
     TasksComponent,
     PasswordChangeComponent,
     LinkPictureComponent,
+    TimeIconComponent,
   ],
   bootstrap: [AppComponent],
   imports: [

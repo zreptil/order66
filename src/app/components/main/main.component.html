@@ -8,9 +8,6 @@
             <button mat-button [class]="classForType(type)" (click)="clickType(type)">{{ type.label }}</button>
           }
         }
-        <mat-slide-toggle [(ngModel)]="globals.showCompleted">
-          <mat-label i18n>Show completed</mat-label>
-        </mat-slide-toggle>
       }
     </div>
     <div>

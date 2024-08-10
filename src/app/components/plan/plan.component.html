@@ -1,13 +1,13 @@
 <div cdkDrag cdkDragBoundary=".cdk-overlay-container"
      cdkDragRootElement=".dialog-box.plan">
   <div cdkDragHandle mat-dialog-title>
-    <mat-icon>{{ mayEdit ? 'flight_takeoff' : 'flight_land' }}</mat-icon>
-    <h1>{{ globals.titles.plan }}</h1>
+    <mat-icon>{{ isActive ? 'flight' : (mayEdit ? 'flight_takeoff' : 'flight_land') }}</mat-icon>
+    <h1>{{ isActive ? activeTitle : globals.titles.plan }}</h1>
     <app-close-button [data]="closeData"></app-close-button>
   </div>
   <mat-dialog-content>
     <div row>
-      @if (mayEdit) {
+      @if (mayEdit && !isActive) {
         <app-datepicker (periodChange)="onPeriodChange($event)" [period]="data.period" [showLabel]="false"></app-datepicker>
       }
       @if (globals.appData.person.tasksAsCalendar) {

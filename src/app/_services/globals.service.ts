@@ -83,6 +83,10 @@ export class GlobalsService {
               public env: EnvironmentService) {
     GLOBALS = this;
     this.loadWebData();
+    const elem = document.querySelector('head>title');
+    if (elem != null && this.isLocal) {
+      elem.innerHTML = `${elem.innerHTML} (local)`;
+    }
     this.loadSharedData().then(_ => {
       this.bs.loginByToken(
         (data) => {
@@ -285,15 +289,33 @@ export class GlobalsService {
   }
 
   ownerData(plan: SitterPlan): string {
-    const data = GLOBALS.ownerList?.find((owner) =>
-      owner.fkUser === plan.ui);
+    const data = GLOBALS.ownerList?.find(
+      (owner) => owner.fkUser === plan.ui);
     if (data?.phone != null) {
       return `${data.fullname} (${data.phone})`;
     }
     if (data?.city != null) {
       return `${data.fullname} (${data.address})`;
     }
-    return data?.fullname;
+    return `${data?.fullname}`;
+  }
+
+  ownerName(plan: SitterPlan): string {
+    const data = GLOBALS.ownerList?.find(
+      (owner) => owner.fkUser === plan.ui);
+    return `${data?.fullname}`;
+  }
+
+  ownerInfo(plan: SitterPlan): string {
+    const data = GLOBALS.ownerList?.find(
+      (owner) => owner.fkUser === plan.ui);
+    if (data?.phone != null) {
+      return `${data.phone}`;
+    }
+    if (data?.city != null) {
+      return `${data.address}`;
+    }
+    return '';
   }
 
   loadAppData() {

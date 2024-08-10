@@ -25,7 +25,10 @@
         <span i18n>To use this app you need to login</span>
       </div>
       <form [formGroup]="form">
-        <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'username'}"></ng-container>
+        <mat-form-field [appearance]="globals.appearance" [formGroup]="form">
+          <mat-label>{{ controls['username']?.label }}</mat-label>
+          <input autocapitalize="none" autocomplete="off" formControlName="username" id="username" matInput>
+        </mat-form-field>
         <mat-form-field [appearance]="globals.appearance" [formGroup]="form">
           <mat-label>{{ controls.password.label }}</mat-label>
           <input [type]="hide ? 'password' : 'text'" formControlName="password" id="password" matInput/>
@@ -81,10 +84,6 @@
   <mat-form-field [appearance]="globals.appearance" [formGroup]="form">
     <mat-label>{{ controls[name]?.label }}</mat-label>
     <input [formControlName]="name" [id]="name" matInput>
-    <!-- mat-error *ngIf="form.get(name)?.invalid && !form.get(name)?.untouched">
-      <ng-container *ngIf="form.get(name)?.errors?.['required']" i18n>{{ controls[name]?.label }} is required</ng-container>
-      <ng-container *ngIf="form.get(name)?.errors?.['email']" i18n>Invalid email address</ng-container>
-    </mat-error -->
   </mat-form-field>
 </ng-template>
 
