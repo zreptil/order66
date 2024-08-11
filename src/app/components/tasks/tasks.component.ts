@@ -10,9 +10,9 @@ import {TimeData, TimeType} from '@/_model/time-data';
 import {DayData} from '@/_model/day-data';
 import {ActionData} from '@/_model/action-data';
 import {DialogResultButton} from '@/_model/dialog-data';
-import {EnumPermission} from '@/components/type-admin/type-admin.component';
 import {LinkPictureComponent} from '@/components/upload-image/link-picture.component';
 import {PictureData} from '@/_model/picture-data';
+import {EnumPermission} from '@/_model/user-data';
 
 @Component({
   selector: 'app-plan',

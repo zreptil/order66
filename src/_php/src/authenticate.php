@@ -2,6 +2,9 @@
 define('TYPE_ADMIN', 1 << 0);
 define('TYPE_SITTER', 1 << 1);
 define('TYPE_OWNER', 1 << 2);
+define('PERM_EDITCOMPLETEDPLANS', 1 << 0);
+define('PERM_KEEPUSERTOKEN', 1 << 1);
+
 $skipCheck = true;
 require_once 'config.php';
 unset($skipCheck);
@@ -148,9 +151,12 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     }
   }
   if ($cmd == 'logout') {
-    $query = $db->prepare('update users set token=null where id=:id');
-    $query->bindValue(':id', $user['id'], SQLITE3_INTEGER);
-    $query->execute();
+    // the admin will always loose his token, when logging out
+    if (!may(PERM_KEEPUSERTOKEN) || $user['permissions'] == 'all' ) {
+      $query = $db->prepare('update users set token=null where id=:id');
+      $query->bindValue(':id', $user['id'], SQLITE3_INTEGER);
+      $query->execute();
+    }
   }
   $db->close();
 }

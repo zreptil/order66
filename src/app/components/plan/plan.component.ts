@@ -11,7 +11,7 @@ import {DayComponent} from '@/components/day/day.component';
 import {TimeType} from '@/_model/time-data';
 import {TasksComponent} from '@/components/tasks/tasks.component';
 import {SitterPlan} from '@/_services/backend.service';
-import {EnumPermission} from '@/components/type-admin/type-admin.component';
+import {EnumPermission} from '@/_model/user-data';
 
 @Component({
   selector: 'app-plan',

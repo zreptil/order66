@@ -3,13 +3,9 @@ import {GlobalsService} from '@/_services/globals.service';
 import {MessageService} from '@/_services/message.service';
 import {TypeService} from '@/_services/type.service';
 import {BackendService} from '@/_services/backend.service';
-import {UserData} from '@/_model/user-data';
+import {EnumPermission, UserData} from '@/_model/user-data';
 import {DialogResultButton} from '@/_model/dialog-data';
 import {UserType} from '@/_model/app-data';
-
-export enum EnumPermission {
-  editCompletedPlans = 1
-}
 
 @Component({
   selector: 'app-type-admin',
@@ -20,6 +16,8 @@ export class TypeAdminComponent implements AfterViewInit {
   userList: UserData[] = [];
   permissionList: any[] = [{
     id: EnumPermission.editCompletedPlans, label: $localize`Edit completed plans`
+  }, {
+    id: EnumPermission.keepUserToken, label: $localize`Keep token when user logs out`
   }];
 
   constructor(public globals: GlobalsService,

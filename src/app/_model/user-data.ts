@@ -1,5 +1,10 @@
 import {BaseData} from '@/_model/base-data';
 
+export enum EnumPermission {
+  editCompletedPlans = 1,
+  keepUserToken
+}
+
 export class UserData extends BaseData {
 
   username: string;

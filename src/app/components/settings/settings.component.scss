@@ -100,3 +100,10 @@ div[row] {
 .current {
   background: rgba(0, 0, 0, 0.2);
 }
+
+@media (max-width: 500px) {
+  ::ng-deep .dialog-box.settings {
+    max-width: 100% !important;
+  }
+}
+

@@ -1,9 +1,9 @@
 import {BaseData} from '@/_model/base-data';
 import {PersonData} from '@/_model/person-data';
 import {PlanData} from '@/_model/plan-data';
-import {EnumPermission} from '@/components/type-admin/type-admin.component';
 import {GLOBALS} from '@/_services/globals.service';
 import {Utils} from '@/classes/utils';
+import {EnumPermission} from '@/_model/user-data';
 
 export enum UserType {
   Admin = 1 << 0,
