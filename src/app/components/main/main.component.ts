@@ -12,6 +12,7 @@ import {TypeUser, UserType} from '@/_model/app-data';
 import {Utils} from '@/classes/utils';
 import {DsgvoComponent} from '@/components/dsgvo/dsgvo.component';
 import {EnvironmentService} from '@/_services/environment.service';
+import {ImgurService} from '@/_services/oauth2/imgur.service';
 
 @Component({
   selector: 'app-main',
@@ -31,6 +32,7 @@ export class MainComponent implements OnInit {
               public msg: MessageService,
               public bs: BackendService,
               public sync: SyncService,
+              public imgur: ImgurService,
               public env: EnvironmentService) {
   }
 

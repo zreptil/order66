@@ -23,7 +23,14 @@
   <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'person_zip'}"></ng-container>
   <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'person_city'}"></ng-container>
   <br>
-  <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'person_imgurUsername'}"></ng-container>
+  <button (click)="clickImgur($event)" mat-button>
+    <span i18n>imgur</span>
+    @if (!Utils.isEmpty(_data.person.imgur.at)) {
+      <mat-icon>no_photography</mat-icon>
+    } @else {
+      <mat-icon>photography</mat-icon>
+    }
+  </button>
 </form>
 <div *ngIf="ps.page(pageName) == null" i18n page-error>
   The form is missing some information

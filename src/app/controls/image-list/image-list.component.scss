@@ -1,0 +1,63 @@
+@use '@angular/material' as mat;
+
+[images] {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  button[image] {
+    min-height: 10em;
+    justify-content: center;
+    border: 2px dashed rgba(0, 0, 0, 0.4);
+  }
+
+  [image] {
+    padding: 0.2em;
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-between;
+
+    img {
+      width: 100%;
+    }
+
+    [controls] {
+      position: absolute;
+      opacity: 0;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.2s linear;
+
+      button {
+        background: black;
+        color: white;
+
+        mat-icon {
+        }
+      }
+    }
+  }
+
+  div[image]:hover {
+    [controls] {
+      opacity: 1;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .mat-mdc-dialog-title {
+    font-size: 1em;
+  }
+  [images] {
+    grid-template-columns: 1fr;
+
+    div[image] {
+      margin: 0.5em 0;
+      @include mat.elevation(2);
+    }
+  }
+
+}

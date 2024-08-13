@@ -17,8 +17,8 @@ export class MessageService {
   constructor(private dialog: MatDialog) {
   }
 
-  closePopup(): void {
-    this.popupDlgRef?.close();
+  closePopup(result?: DialogResult): void {
+    this.popupDlgRef?.close(result);
   }
 
   info(content: string | string[], params?: DialogParams): Observable<DialogResult> {

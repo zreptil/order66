@@ -9,7 +9,6 @@ import {ColorPickerBaseComponent} from '@/controls/color-picker/color-picker-bas
 import {WelcomeComponent} from '@/components/welcome/welcome.component';
 import {MainComponent} from '@/components/main/main.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {MaterialModule} from '@/material.module';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {LogComponent} from '@/components/log/log.component';
@@ -40,6 +39,8 @@ import {DsgvoComponent} from '@/components/dsgvo/dsgvo.component';
 import {LinkPictureComponent} from './components/upload-image/link-picture.component';
 import {HideMissingImageDirective} from '@/_directives/hide-missing-image.directive';
 import {TimeIconComponent} from './controls/time-icon/time-icon.component';
+import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import {ImageListComponent} from './controls/image-list/image-list.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import {TimeIconComponent} from './controls/time-icon/time-icon.component';
     PasswordChangeComponent,
     LinkPictureComponent,
     TimeIconComponent,
+    ImageListComponent
   ],
   bootstrap: [AppComponent],
   imports: [

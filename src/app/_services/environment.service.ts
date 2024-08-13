@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {environment} from '@environments/environment';
 import {GLOBALS} from '@/_services/globals.service';
+import {Utils} from '@/classes/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -9,23 +10,32 @@ export class EnvironmentService {
   isProduction: boolean = false;
   OAUTH2_CLIENT_ID: string = null;
   DROPBOX_APP_KEY: string = null;
+  IMGUR_APP_KEY: string = null;
   backendUrl: string = null;
   settingsFilename: string = null;
   defaultLogin: any = null;
 
   urlParams: any = {};
+  hashParams: any = {};
 
   appType: string;
   appParams: any = {};
+  imgurPictures: any[];
 
   constructor() {
     for (const key of Object.keys(environment)) {
       (this as any)[key] = (environment as any)[key];
     }
-    const src = location.search.replace(/^\?/, '').split('&');
-    for (const p of src) {
-      const parts = p.split('=');
-      this.urlParams[parts[0]] = parts[1];
+    for (let scan of [
+      {src: location.search.replace(/^\?/, '').split('&'), dst: this.urlParams},
+      {src: location.hash.replace(/^#/, '').split('&'), dst: this.hashParams}
+    ]) {
+      for (const p of scan.src) {
+        const parts = p.split('=');
+        if (!Utils.isEmpty(parts[0])) {
+          scan.dst[parts[0]] = parts[1];
+        }
+      }
     }
     setTimeout(() => {
       if (this.urlParams['enableDebug'] === 'true') {

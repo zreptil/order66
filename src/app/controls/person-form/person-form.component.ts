@@ -1,10 +1,13 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import {GlobalsService} from '@/_services/globals.service';
+import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {Validators} from '@angular/forms';
 import {MessageService} from '@/_services/message.service';
 import {EnvironmentService} from '@/_services/environment.service';
 import {PersonData} from '@/_model/person-data';
 import {ControlList, PageService} from '@/_services/page.service';
+import {Utils} from '@/classes/utils';
+import {DialogResultButton} from '@/_model/dialog-data';
+import {ImgurService} from '@/_services/oauth2/imgur.service';
 
 export class PersonFormData {
   person: PersonData;
@@ -31,9 +34,11 @@ export class PersonFormComponent implements OnInit, AfterViewInit {
     usertype: {label: $localize`I am`},
   };
   @Input() startFocus: string;
+  protected readonly Utils = Utils;
 
   constructor(public globals: GlobalsService,
               public ps: PageService,
+              public imgur: ImgurService,
               public env: EnvironmentService,
               public msg: MessageService) {
   }
@@ -81,5 +86,20 @@ export class PersonFormComponent implements OnInit, AfterViewInit {
 
   toggleUsertype(value: number) {
     this.usertype = (+this.usertype) ^ +value;
+  }
+
+  clickImgur(_evt: MouseEvent) {
+    if (Utils.isEmpty(this._data.person.imgur.at)) {
+      this.imgur.connect();
+    } else {
+      this.msg.confirm($localize`Do you really want to disconnect from Imgur?`).subscribe({
+        next: (result) => {
+          if (result?.btn === DialogResultButton.yes) {
+            this.imgur.disconnect();
+            this._data.person.fillFromJson(GLOBALS.appData.person);
+          }
+        }
+      });
+    }
   }
 }

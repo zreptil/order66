@@ -6,13 +6,12 @@ import {Utils} from '@/classes/utils';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MessageService} from '@/_services/message.service';
 import {SitterPlan} from '@/_services/backend.service';
-import {TimeData, TimeType} from '@/_model/time-data';
+import {TimeData} from '@/_model/time-data';
 import {DayData} from '@/_model/day-data';
 import {ActionData} from '@/_model/action-data';
 import {DialogResultButton} from '@/_model/dialog-data';
-import {LinkPictureComponent} from '@/components/upload-image/link-picture.component';
-import {PictureData} from '@/_model/picture-data';
 import {EnumPermission} from '@/_model/user-data';
+import {UserType} from '@/_model/app-data';
 
 @Component({
   selector: 'app-plan',
@@ -30,8 +29,10 @@ export class TasksComponent implements AfterViewInit {
   readonly DatepickerPeriod = DatepickerPeriod;
   edit = {action: -1, time: -1};
   _mayEdit = false;
+  initialized = false;
   protected readonly Utils = Utils;
   protected readonly EnumPermission = EnumPermission;
+  protected readonly UserType = UserType;
 
   constructor(public globals: GlobalsService,
               public msg: MessageService,
@@ -47,6 +48,7 @@ export class TasksComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.initialized = true;
   }
 
   mayEdit(day?: DayData): boolean {
@@ -181,46 +183,25 @@ export class TasksComponent implements AfterViewInit {
     if ((day as any).forceOpen) {
       return true;
     }
-    if (Utils.isBefore(day.date, now)) {
+    if (Utils.isBeforeDate(day.date, now)) {
       return true;
     } else if (Utils.isSameDay(day.date, now)) {
-      switch (time.type) {
-        case TimeType.morning:
-          return now.getHours() < 12;
-        case TimeType.evening:
-          return now.getHours() >= 12;
-        case TimeType.eventually:
-          return true;
-      }
+      return time.actions.some(e => !(e.done ?? false));
+      // switch (time.type) {
+      //   case TimeType.morning:
+      //     return now.getHours() < 12;
+      //   case TimeType.evening:
+      //     return now.getHours() >= 12;
+      //   case TimeType.eventually:
+      //     return true;
+      // }
     }
     return !this.isSitter;
   }
 
   expandDay(isOpen: boolean, day: DayData) {
-    (day as any).forceOpen = isOpen;
-  }
-
-  clickAddImage(evt: MouseEvent, day: DayData, time: TimeData) {
-    const data = new PictureData();
-    this.msg.showPopup(LinkPictureComponent, 'settings', data).subscribe(result => {
-      if (result?.btn === DialogResultButton.ok) {
-        const picture = new PictureData(result.data.asJson);
-        time.pictures.push(picture);
-        time.fillFromJson(time.asJson);
-      }
-    })
-  }
-
-  clickDeleteTimeImage(evt: MouseEvent, day: DayData, time: TimeData, picture: PictureData) {
-    const msg = $localize`Delete the picture from ${Utils.fmtDate(day.date)} ${time.typeName}?`;
-    const idx = time.pictures.findIndex(e => +e.id === +picture.id);
-    if (idx >= 0) {
-      this.msg.confirm(msg).subscribe(result => {
-        if (result?.btn === DialogResultButton.yes) {
-          delete (time.pictures[idx]);
-          time.fillFromJson(time.asJson);
-        }
-      });
+    if (this.initialized) {
+      (day as any).forceOpen = isOpen;
     }
   }
 
@@ -234,30 +215,10 @@ export class TasksComponent implements AfterViewInit {
     return 'close';
   }
 
-  clickEditTimeImage(evt: MouseEvent, day: DayData, time: TimeData, image: PictureData) {
-    this.msg.showPopup(LinkPictureComponent, 'settings', image).subscribe(result => {
-      if (result?.btn === DialogResultButton.ok) {
-        const idx = time.pictures.findIndex(e => +e.id === +image.id);
-        if (idx >= 0) {
-          time.pictures[idx].fillFromJson(result.data.asJson);
-        }
-      }
-    })
-  }
-
   timeInfo(time: TimeData) {
-    console.log(time.info);
     let ret = time?.info;
     ret = ret.replace(/\n/g, '<br>');
     return ret;
-  }
-
-  clickImageMove(evt: MouseEvent, day: DayData, time: TimeData, image: PictureData, diff: number) {
-    const idx = time.pictures.findIndex(e => e.id === image.id);
-    if (idx >= 0) {
-      time.pictures.splice(idx, 1);
-      time.pictures.splice(idx + diff, 0, image);
-    }
   }
 
   classForDay(day: DayData): string[] {

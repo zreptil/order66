@@ -1,0 +1,39 @@
+<div images>
+  @for (image of imageList; track image.id) {
+    <div image>
+      <img alt="image" [src]="image.url">
+      <div controls>
+        @if (!$first && mayEditImage) {
+          <button mat-icon-button (click)="clickImageMove($event, image, -1)">
+            <mat-icon>arrow_left</mat-icon>
+          </button>
+        }
+        @if (mayEditImage) {
+          <button mat-icon-button (click)="clickEditTimeImage($event, image)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="clickDeleteTimeImage($event, image)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        }
+        <button mat-icon-button (click)="globals.openLink(image.url)">
+          <mat-icon>open_in_new</mat-icon>
+        </button>
+        @if (!$last && mayEditImage) {
+          <button mat-icon-button (click)="clickImageMove($event, image, 1)">
+            <mat-icon>arrow_right</mat-icon>
+          </button>
+        }
+      </div>
+      @if (!Utils.isEmpty(image.info)) {
+        <div footer [class]="classForInfo">{{ image.info }}</div>
+      }
+    </div>
+  }
+  @if (mayEditImage) {
+    <button (click)="clickAddImage($event)" image mat-button>
+      <mat-icon>add</mat-icon>
+      <span>Add Image</span>
+    </button>
+  }
+</div>

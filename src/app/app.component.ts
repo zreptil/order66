@@ -1,10 +1,10 @@
 import {ChangeDetectorRef, Component} from '@angular/core';
 import {SyncService} from '@/_services/sync/sync.service';
-import {StorageService} from '@/_services/storage.service';
 import {EnvironmentService} from '@/_services/environment.service';
 import {GLOBALS} from '@/_services/globals.service';
 import {LogService} from '@/_services/log.service';
 import {ThemeService} from '@/_services/theme.service';
+import {StorageService} from '@/_services/storage.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +18,7 @@ export class AppComponent {
               ts: ThemeService,
               public env: EnvironmentService) {
     LogService.cr = cr;
-    sync.onSetCredentialsToStorage = (value, isRefreshing) => {
+    sync.onSetCredentialsToStorage = (value, _isRefreshing) => {
       GLOBALS.oauth2AccessToken = value;
       GLOBALS.saveWebData();
     };

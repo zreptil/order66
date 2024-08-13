@@ -1,6 +1,7 @@
 export enum oauth2SyncType {
   none,
-  dropbox
+  dropbox,
+  imgur
 }
 
 /**

@@ -1,6 +1,7 @@
 import {BaseData} from '@/_model/base-data';
 import {Utils} from '@/classes/utils';
 import {GLOBALS} from '@/_services/globals.service';
+import {ImgurData} from '@/_model/imgur-data';
 
 export class PersonData extends BaseData {
   firstname: string;
@@ -13,7 +14,7 @@ export class PersonData extends BaseData {
   phone: string;
   fkUser: number;
   tasksAsCalendar = false;
-  imgurUsername: string;
+  imgur: ImgurData;
 
   constructor(json?: any) {
     super(json);
@@ -48,7 +49,7 @@ export class PersonData extends BaseData {
       g: this.city,
       h: this.phone,
       i: this.tasksAsCalendar,
-      j: this.imgurUsername
+      j: this.imgur.asJson
     };
   }
 
@@ -62,6 +63,6 @@ export class PersonData extends BaseData {
     this.city = json?.g ?? def?.city;
     this.phone = json?.h ?? def?.phone;
     this.tasksAsCalendar = json?.i ?? def?.tasksAsCalendar;
-    this.imgurUsername = json?.j ?? def?.imgurUsername;
+    this.imgur = new ImgurData(json?.j ?? def?.imgur);
   }
 }

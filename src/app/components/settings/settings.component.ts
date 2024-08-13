@@ -61,6 +61,7 @@ export class SettingsComponent implements OnInit {
         GLOBALS.appData.usertype = data.usertype;
         GLOBALS.currentUserType = GLOBALS.usertypeList[0];
         GLOBALS.saveSharedData();
+        GLOBALS._ownerList = null;
         GLOBALS._sitterList = null;
         this.msg.closePopup();
       },

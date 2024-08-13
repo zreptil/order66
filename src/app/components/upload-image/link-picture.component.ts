@@ -2,9 +2,14 @@ import {Component, Inject} from '@angular/core';
 import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {CloseButtonData} from '@/controls/close-button/close-button-data';
 import {ControlList, PageService} from '@/_services/page.service';
-import {DialogResultButton} from '@/_model/dialog-data';
+import {DialogResult, DialogResultButton} from '@/_model/dialog-data';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {PictureData} from '@/_model/picture-data';
+import {ImgurService} from '@/_services/oauth2/imgur.service';
+import {Utils} from '@/classes/utils';
+import {MessageService} from '@/_services/message.service';
+import {Log} from '@/_services/log.service';
+import {EnvironmentService} from '@/_services/environment.service';
 
 @Component({
   selector: 'app-upload-image',
@@ -12,6 +17,8 @@ import {PictureData} from '@/_model/picture-data';
   styleUrl: './link-picture.component.scss'
 })
 export class LinkPictureComponent {
+  imgurImages: any[] = [];
+  imgurSelected: number[] = [];
   closeData: CloseButtonData = {
     colorKey: 'settings',
     showClose: true
@@ -23,34 +30,60 @@ export class LinkPictureComponent {
   };
 
   pageName = 'uploadPicture';
-  data = new PictureData();
+  data: PictureData | PictureData[] = new PictureData();
+  protected readonly Utils = Utils;
 
   constructor(public globals: GlobalsService,
+              public env: EnvironmentService,
               public ps: PageService,
+              public imgur: ImgurService,
+              public msg: MessageService,
               @Inject(MAT_DIALOG_DATA) public srcData: PictureData) {
-    this.data.fillFromJson(srcData.asJson);
+    this.data = new PictureData(srcData.asJson);
     this.ps.initForm(this.pageName, this.controls, this.data);
   }
 
-  get dialogResult(): any {
-    this.ps.writeData(this.pageName);
+  get dialogResult(): DialogResult {
+    if (this.isImgurSelector) {
+      this.data = this.imgurImages.filter(e => this.imgurSelected.indexOf(e.id) >= 0)
+        .map(e => new PictureData({a: e.link, c: this.srcData.userType}));
+    } else {
+      (this.data as PictureData).fillFromJson(this.srcData.asJson);
+      this.ps.writeData(this.pageName);
+    }
     return {btn: DialogResultButton.ok, data: this.data};
   }
 
   get imageSrc(): string {
-    const ret = this.data?.url;
+    const ret = (this.data as PictureData)?.url;
     if (ret == null) {
       return null;
     }
     return ret;
   }
 
+  get isImgurSelector(): boolean {
+    return !Utils.isEmpty(this.imgurImages);
+  }
+
   clickImgur(_evt: MouseEvent) {
-    let url = `https://${GLOBALS.appData.person.imgurUsername}.imgur.com/all`;
-    if (GLOBALS.appData.person?.imgurUsername == null) {
-      url = 'https://imgur.com';
+    if (Utils.isEmpty(GLOBALS.appData?.person?.imgur?.at)) {
+      this.imgur.connect();
+    } else {
+      this.imgur.getImages().subscribe({
+        next: result => {
+          if (result?.success) {
+            this.imgurImages = result.data;
+          }
+        }, error: error => {
+          if (GLOBALS.isLocal) {
+            this.imgurImages = this.env.imgurPictures;
+          }
+          console.log(error);
+          Log.error(error?.error?.data?.error);
+        }
+      });
     }
-    GLOBALS.openLink(url);
   }
 
   clickPaste(_evt: MouseEvent) {
@@ -59,5 +92,22 @@ export class LinkPictureComponent {
         this.ps.writeFormValue(this.pageName, 'url', text);
       });
     }
+  }
+
+  selectImage(image: any): void {
+    const idx = this.imgurSelected.indexOf(image.id);
+    if (idx >= 0) {
+      this.imgurSelected.splice(idx, 1);
+    } else {
+      this.imgurSelected.push(image.id);
+    }
+  }
+
+  classForImage(image: any): string[] {
+    const ret: string[] = ['image'];
+    if (this.imgurSelected.indexOf(image.id) >= 0) {
+      ret.push('selected');
+    }
+    return ret;
   }
 }

@@ -98,66 +98,6 @@
                     </div>
                   }
 
-                  @if (isSitter) {
-                    <mat-form-field appearance="outline" sitterInfo>
-                      <mat-label>Info</mat-label>
-                      <textarea [(ngModel)]="time.info" appTextareaAutoresize autofocus matInput></textarea>
-                    </mat-form-field>
-                    <div images>
-                      @for (image of time.pictures; track image.id) {
-                        <div image>
-                          <img alt="image" [src]="image.url" header>
-                          <div controls>
-                            @if (!$first) {
-                              <button mat-icon-button (click)="clickImageMove($event, day, time, image, -1)">
-                                <mat-icon>arrow_left</mat-icon>
-                              </button>
-                            }
-                            <button mat-icon-button (click)="clickEditTimeImage($event, day, time, image)">
-                              <mat-icon>edit</mat-icon>
-                            </button>
-                            <button mat-icon-button (click)="clickDeleteTimeImage($event, day, time, image)">
-                              <mat-icon>delete</mat-icon>
-                            </button>
-                            <button mat-icon-button (click)="globals.openLink(image.url)">
-                              <mat-icon>open_in_new</mat-icon>
-                            </button>
-                            @if (!$last) {
-                              <button mat-icon-button (click)="clickImageMove($event, day, time, image, 1)">
-                                <mat-icon>arrow_right</mat-icon>
-                              </button>
-                            }
-                          </div>
-                          @if (!Utils.isEmpty(image.info)) {
-                            <div footer>{{ image.info }}</div>
-                          }
-                        </div>
-                      }
-                      <button image mat-button (click)="clickAddImage($event, day, time)">
-                        <mat-icon>add</mat-icon>
-                        <span>Add Image</span>
-                      </button>
-                    </div>
-                  } @else if (!Utils.isEmpty(time.info)) {
-                    <div sitterInfo [innerHtml]="timeInfo(time)"></div>
-                  }
-                  @if (!isSitter) {
-                    <div images>
-                      @for (image of time.pictures; track image.id) {
-                        <div image>
-                          <img alt="image" [src]="image.url">
-                          <div controls>
-                            <button mat-icon-button (click)="globals.openLink(image.url)">
-                              <mat-icon>open_in_new</mat-icon>
-                            </button>
-                          </div>
-                          @if (!Utils.isEmpty(image.info)) {
-                            <div sitterImageInfo>{{ image.info }}</div>
-                          }
-                        </div>
-                      }
-                    </div>
-                  }
                   @if (mayEdit(day) && !isSitter) {
                     <div row>
                       <button mat-button (click)="clickAddAction($event, time)">
@@ -166,6 +106,16 @@
                       </button>
                     </div>
                   }
+                  <app-image-list [day]="day" [time]="time" [userType]="UserType.Owner" [isSitter]="isSitter"></app-image-list>
+                  @if (isSitter) {
+                    <mat-form-field appearance="outline" sitterInfo>
+                      <mat-label>Info</mat-label>
+                      <textarea [(ngModel)]="time.info" appTextareaAutoresize autofocus matInput></textarea>
+                    </mat-form-field>
+                  } @else if (!Utils.isEmpty(time.info)) {
+                    <div sitterInfo [innerHtml]="timeInfo(time)"></div>
+                  }
+                  <app-image-list [day]="day" [time]="time" [userType]="UserType.Sitter" [isSitter]="isSitter"></app-image-list>
                 </mat-expansion-panel>
               }
             }

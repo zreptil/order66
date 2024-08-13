@@ -15,6 +15,7 @@ import {BackendService, SitterPlan} from '@/_services/backend.service';
 import {AppData, TypeUser, UserType} from '@/_model/app-data';
 import {PersonData} from '@/_model/person-data';
 import {MatFormFieldAppearance} from '@angular/material/form-field';
+import {ImgurService} from '@/_services/oauth2/imgur.service';
 
 class CustomTimeoutError extends Error {
   constructor() {
@@ -66,7 +67,8 @@ export class GlobalsService {
     impressum: $localize`Impressum`,
     welcome: $localize`Welcome to Order66`,
     whatsnew: $localize`Once upon a time...`,
-    linkPicture: $localize`Link Picture`
+    linkPicture: $localize`Link Picture`,
+    imgurSelector: $localize`Imgur Picture Selector`,
   };
   appData: AppData;
   sitterFetching = false;
@@ -80,6 +82,7 @@ export class GlobalsService {
               public ls: LanguageService,
               public msg: MessageService,
               public bs: BackendService,
+              public imgur: ImgurService,
               public env: EnvironmentService) {
     GLOBALS = this;
     this.loadWebData();
@@ -100,6 +103,7 @@ export class GlobalsService {
           } else {
             this.currentPage = 'main';
           }
+          this.imgur.init();
         }, (_error) => {
           this.msg.showPopup(WelcomeComponent, 'welcome', {});
         });
@@ -450,7 +454,6 @@ export class GlobalsService {
       this.bs.saveAppData(GLOBALS.appData,
         (data) => {
           GLOBALS.appData.fillFromJson(data.asJson);
-          console.log(GLOBALS.appData);
           GLOBALS.appData.usertype = data.usertype;
           GLOBALS.currentUserType = GLOBALS.usertypeList[0];
           GLOBALS.saveSharedData();

@@ -7,7 +7,7 @@
   </div>
   <mat-dialog-content>
     <div row>
-      @if (mayEdit && !isActive) {
+      @if ((mayEdit && !isActive) || _mayEdit) {
         <app-datepicker (periodChange)="onPeriodChange($event)" [period]="data.period" [showLabel]="false"></app-datepicker>
       }
       @if (globals.appData.person.tasksAsCalendar) {
@@ -74,6 +74,11 @@
         <mat-icon>save</mat-icon>
         Save
       </button>
+      @if (globals.appData.may(EnumPermission.editCompletedPlans)) {
+        <button mat-icon-button (click)="_mayEdit = !_mayEdit">
+          <mat-icon>edit</mat-icon>
+        </button>
+      }
       @if (data.id >= 0) {
         <button [mat-dialog-close]="{btn: 'delete', data: data}" mat-button>
           <mat-icon>delete</mat-icon>

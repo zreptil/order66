@@ -2,28 +2,42 @@
      cdkDragRootElement=".dialog-box.settings">
   <div cdkDragHandle mat-dialog-title>
     <mat-icon>settings</mat-icon>
-    <h1>{{ globals.titles.linkPicture }}</h1>
+    <h1>{{ isImgurSelector ? globals.titles.imgurSelector : globals.titles.linkPicture }}</h1>
     <app-close-button [data]="closeData"></app-close-button>
   </div>
   <mat-dialog-content>
-    <div row>
-      <img alt="picture" hideMissingImage src="{{imageSrc}}">
-      <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'url'}"></ng-container>
-      <button (click)="clickPaste($event)" mat-icon-button>
-        <mat-icon>content_paste</mat-icon>
-      </button>
-    </div>
-    <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'info'}"></ng-container>
+    @if (!isImgurSelector) {
+      <div row>
+        <img alt="picture" hideMissingImage src="{{imageSrc}}">
+        <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'url'}"></ng-container>
+        <button (click)="clickPaste($event)" mat-icon-button>
+          <mat-icon>content_paste</mat-icon>
+        </button>
+      </div>
+      <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'info'}"></ng-container>
+    } @else {
+      <div imageList>
+        @for (image of imgurImages; track image.id) {
+          <div [class]="classForImage(image)">
+            <img (click)="selectImage(image)" [src]="image.link" alt="Imgur Image">
+          </div>
+        }
+      </div>
+    }
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button [matDialogClose]="dialogResult" mat-button>
-      <mat-icon>save</mat-icon>
-      <span i18n>Save</span>
-    </button>
-    <button (click)="clickImgur($event)" mat-button>
-      <span i18n>imgur</span>
-      <img alt="icon for imgur" icon src="https://imgur.com/images/favicon.png">
-    </button>
+    <div>
+      <button [matDialogClose]="dialogResult" mat-button>
+        <mat-icon>save</mat-icon>
+        <span i18n>Save</span>
+      </button>
+      @if (!isImgurSelector && Utils.isEmpty(srcData.url)) {
+        <button (click)="clickImgur($event)" mat-button>
+          <img alt="icon for imgur" icon src="https://imgur.com/images/favicon.png">
+          <span i18n>Imgur</span>
+        </button>
+      }
+    </div>
   </mat-dialog-actions>
 </div>
 

@@ -33,10 +33,10 @@ export class PlanComponent implements AfterViewInit {
   constructor(public globals: GlobalsService,
               public msg: MessageService,
               @Inject(MAT_DIALOG_DATA) public data: PlanData) {
-    if (data.period?.start == null) {
-      data.period.minDate = new Date();
-      data.period.maxDate = Utils.addDateMonths(new Date(), 12);
-    }
+    // if (data.period?.start == null) {
+    //   data.period.minDate = new Date();
+    //   data.period.maxDate = Utils.addDateMonths(new Date(), 12);
+    // }
     this.onPeriodChange(data.period);
   }
 
