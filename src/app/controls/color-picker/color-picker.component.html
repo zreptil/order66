@@ -1,8 +1,14 @@
-<div *ngFor="let color of colors; let idx = index" panel>
-  <button (click)="clickActivate(idx)"
-          [ngStyle]="{color: color?.btnForeColor}">
-    <div checkers></div>
-    <div [class]="color?.btnClass" [ngStyle]="{backgroundColor: color?.btnBackColor}" back></div>
-    <mat-icon>{{ color?.icon ?? 'palette' }}</mat-icon>
+@if (singleButton) {
+  <button (click)="clickSingle($event)" mat-icon-button>
+    <mat-icon>palette</mat-icon>
   </button>
-</div>
+} @else {
+  <div *ngFor="let color of colors; let idx = index" panel>
+    <button (click)="clickActivate(idx)"
+            [ngStyle]="{color: color?.btnForeColor}">
+      <div checkers></div>
+      <div [class]="color?.btnClass" [ngStyle]="{backgroundColor: color?.btnBackColor}" back></div>
+      <mat-icon>{{ color?.icon ?? 'palette' }}</mat-icon>
+    </button>
+  </div>
+}

@@ -221,7 +221,7 @@ export class ColorPickerDialog implements AfterViewInit {
 
   fireChange(evt: any): void {
     // don't fire for a color that is not in the data
-    if (this.data.colorList[this.data.colorIdx].themeKey === evt.themeKey) {
+    if (this.data.colorList[this.data.colorIdx]?.themeKey === evt.themeKey) {
       this.data.action = 'colorChange';
       this.data.colorList[this.data.colorIdx] = evt;
       this.data.onDialogEvent?.emit(this.data);

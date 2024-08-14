@@ -5,8 +5,17 @@
     <app-close-button [data]="closeData"></app-close-button>
   </div>
   <mat-dialog-content>
+    <h2 (click)="click(11.0)">
+      <span i18n="version">Version</span><span i18n="v110">1.1.0 - 14/08/2024</span></h2>
+    <ul [class]="classFor(11.0)">
+      <li class="added" i18n="v110a1">
+        Order66 is now usable for Sittingmanagement. The login works as intended, it has a
+        working connection to Imgur to enable the users to use the pictures saved there
+        and the overall functions seem to work as expected.
+      </li>
+    </ul>
     <h2 (click)="click(10.0)">
-      <span i18n="version">Version</span><span i18n="v100">1.0.0 - 17.07.2024</span></h2>
+      <span i18n="version">Version</span><span i18n="v100">1.0.0 - 17/07/2024</span></h2>
     <ul [class]="classFor(10.0)">
       <li class="added" i18n="v100a1">
         Initial Version, everything is new!

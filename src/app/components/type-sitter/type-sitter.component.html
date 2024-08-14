@@ -3,7 +3,7 @@
 </mat-slide-toggle>
 <div content>
   @for (plan of plans; track planId(plan)) {
-    <mat-card (click)="clickPlan(plan)" [class]="classForPlan(plan)">
+    <mat-card (click)="clickPlan(plan)" [class]="classForPlan(plan)" [style]="globals.styleForPlan(plan)">
       <mat-card-header row>
         @if (isTime(plan, -1)) {
           <mat-icon>flight_takeoff</mat-icon>

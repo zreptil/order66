@@ -48,6 +48,7 @@ export class ColorPickerComponent {
   @Input()
   updateDialogData: (data: any) => void;
   @Input() allColors: ColorData[];
+  @Input() singleButton = false;
 
   constructor(public dialog: MatDialog) {
     this.mixColors = ColorMix.fromJson({})
@@ -65,7 +66,7 @@ export class ColorPickerComponent {
       c.btnBackColor = c.display;
       c.btnForeColor = c.fontDisplay;
       if (!c.isBackColor) {
-        c.btnBackColor = value.find(c => c.icon === ThemeData.icons.back).display;
+        c.btnBackColor = value.find(c => c.icon === ThemeData.icons.back)?.display ?? c.fontDisplay;
         c.btnForeColor = c.display;
       }
     }
@@ -126,5 +127,10 @@ export class ColorPickerComponent {
       }
       this.onDialogEvent?.emit(data);
     });
+  }
+
+  clickSingle(evt: MouseEvent) {
+    evt.stopPropagation();
+    this.clickActivate(1);
   }
 }

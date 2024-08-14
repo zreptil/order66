@@ -6,6 +6,15 @@
   --accentBack: var(--settingsHeadBack);
   --accentFore: var(--settingsHeadFore);
   --mat-select-panel-background-color: var(--headBack);
+  --mat-checkbox-label-text-color: initial;
+  --mat-expansion-header-text-color: initial;
+  --mat-expansion-header-description-color: initial;
+
+  --mdc-outlined-text-field-input-text-color: initial;
+  --mdc-outlined-text-field-caret-color: initial;
+
+  --mdc-outlined-text-field-outline-color: none;
+
 }
 
 .mat-mdc-dialog-title {
@@ -229,6 +238,12 @@ mat-panel-title {
   mat-icon {
     margin-right: 0.5em;
   }
+}
+
+div[row] {
+  display: flex;
+  flex-flow: row;
+  align-items: flex-start;
 }
 
 @media (max-width: 500px) {

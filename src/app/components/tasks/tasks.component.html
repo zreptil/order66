@@ -15,7 +15,7 @@
   <mat-dialog-content>
     <mat-accordion multi="true">
       @for (day of data.p.days; track day.id; let idx = $index) {
-        <mat-expansion-panel [expanded]="isDayExpanded(day)" (expandedChange)="expandDay($event, day)">
+        <mat-expansion-panel [style]="globals.styleForPlan(data)" [expanded]="isDayExpanded(day)" (expandedChange)="expandDay($event, day)">
           <mat-expansion-panel-header [class]="classForDay(day)">
             <mat-panel-title>
               {{ Utils.fmtDate(day.date, 'ddd') }}, {{ Utils.fmtDate(day.date) }}
@@ -29,7 +29,7 @@
           <mat-accordion multi="true">
             @for (time of day.timeRanges; track time.id; let idx = $index) {
               @if (time.actions?.length > 0 || (!isSitter && mayEdit(day))) {
-                <mat-expansion-panel tasks [expanded]="isTimeExpanded(day, time)">
+                <mat-expansion-panel [style]="globals.styleForPlan(data)" tasks [expanded]="isTimeExpanded(day, time)">
                   <mat-expansion-panel-header>
                     <mat-panel-title>
                       <mat-icon>{{ time.typeIcon }}</mat-icon>
@@ -38,7 +38,7 @@
                     <mat-panel-description>
                       @if (time.actions?.length > 0 || !mayEdit(day)) {
                         <div label>{{ timeDescription(time) }}</div>
-                        @if (mayEdit(day)) {
+                        @if (mayEdit(day) && !isSitter) {
                           <button mat-icon-button (click)="clickDeleteTimeActions($event, day, time)">
                             <mat-icon>delete</mat-icon>
                           </button>
@@ -51,53 +51,55 @@
                       }
                     </mat-panel-description>
                   </mat-expansion-panel-header>
-                  @for (action of time.actions; track action.id) {
-                    <div row>
-                      @if (isSitter) {
-                        <mat-checkbox [(ngModel)]="action.done">{{ action.text }}</mat-checkbox>
-                      } @else {
-                        @if (mayEdit(day)) {
-                          @if (edit.action === action.id && edit.time === time.id) {
-                            <button (click)="clickEditAction($event, action, time)" mat-icon-button>
-                              <mat-icon>save</mat-icon>
-                            </button>
-                            <mat-form-field full-width>
-                              <textarea [(ngModel)]="action.text" matInput rows="4" autofocus></textarea>
-                            </mat-form-field>
-                          } @else if (action.done && !_mayEdit) {
+                  <div [style]="globals.styleForPlan(data)">
+                    @for (action of time.actions; track action.id) {
+                      <div row>
+                        @if (isSitter) {
+                          <mat-checkbox [style]="globals.cbStyleForPlan(data)" [(ngModel)]="action.done">{{ action.text }}</mat-checkbox>
+                        } @else {
+                          @if (mayEdit(day)) {
+                            @if (edit.action === action.id && edit.time === time.id) {
+                              <button (click)="clickEditAction($event, action, time)" mat-icon-button>
+                                <mat-icon>save</mat-icon>
+                              </button>
+                              <mat-form-field full-width>
+                                <textarea [(ngModel)]="action.text" matInput rows="4" autofocus></textarea>
+                              </mat-form-field>
+                            } @else if (action.done && !_mayEdit) {
+                              <div sitterCheck>
+                                <mat-icon [class]="classForDone(action, day)">{{ iconForDone(action, day) }}</mat-icon>
+                              </div>
+                              <div>
+                                {{ action.text }}
+                              </div>
+                            } @else {
+                              <button (click)="clickDeleteAction($event, day, action, time)" mat-icon-button>
+                                <mat-icon>delete</mat-icon>
+                              </button>
+                              @if ($last) {
+                                <!-- just a placeholder to keep the controls aligned -->
+                                <button mat-icon-button disabled></button>
+                              } @else {
+                                <button mat-icon-button (click)="clickActionMove($event, day, action, time)">
+                                  <mat-icon>arrow_drop_down</mat-icon>
+                                </button>
+                              }
+                              <button (click)="clickEditAction($event, action, time)" text mat-button>
+                                {{ action.text }}
+                              </button>
+                            }
+                          } @else {
                             <div sitterCheck>
                               <mat-icon [class]="classForDone(action, day)">{{ iconForDone(action, day) }}</mat-icon>
                             </div>
                             <div>
                               {{ action.text }}
                             </div>
-                          } @else {
-                            <button (click)="clickDeleteAction($event, day, action, time)" mat-icon-button>
-                              <mat-icon>delete</mat-icon>
-                            </button>
-                            @if ($last) {
-                              <button mat-icon-button disabled></button>
-                            } @else {
-                              <button mat-icon-button (click)="clickActionMove($event, day, action, time)">
-                                <mat-icon>arrow_drop_down</mat-icon>
-                              </button>
-                            }
-                            <button (click)="clickEditAction($event, action, time)" text mat-button>
-                              {{ action.text }}
-                            </button>
                           }
-                        } @else {
-                          <div sitterCheck>
-                            <mat-icon [class]="classForDone(action, day)">{{ iconForDone(action, day) }}</mat-icon>
-                          </div>
-                          <div>
-                            {{ action.text }}
-                          </div>
                         }
-                      }
-                    </div>
-                  }
-
+                      </div>
+                    }
+                  </div>
                   @if (mayEdit(day) && !isSitter) {
                     <div row>
                       <button mat-button (click)="clickAddAction($event, time)">
@@ -108,7 +110,7 @@
                   }
                   <app-image-list [day]="day" [time]="time" [userType]="UserType.Owner" [isSitter]="isSitter"></app-image-list>
                   @if (isSitter) {
-                    <mat-form-field appearance="outline" sitterInfo>
+                    <mat-form-field appearance="outline">
                       <mat-label>Info</mat-label>
                       <textarea [(ngModel)]="time.info" appTextareaAutoresize autofocus matInput></textarea>
                     </mat-form-field>
@@ -130,11 +132,20 @@
         <mat-icon>save</mat-icon>
         Save
       </button>
-      @if (globals.appData.may(EnumPermission.editCompletedPlans)) {
-        <button mat-icon-button (click)="_mayEdit = !_mayEdit">
-          <mat-icon>edit</mat-icon>
-        </button>
-      }
+      <div row>
+        @if (isSitter) {
+          <app-color-picker (onDialogEvent)="onColorPicker($event)"
+                            [allColors]="sitterColors"
+                            singleButton="true"
+                            [colors]="sitterColors"
+                            modeList="hsl"></app-color-picker>
+        }
+        @if (globals.appData.may(EnumPermission.editCompletedPlans)) {
+          <button mat-icon-button (click)="_mayEdit = !_mayEdit">
+            <mat-icon>edit</mat-icon>
+          </button>
+        }
+      </div>
     } @else {
       <div style="display:flex;flex-flow:row;gap:0.5em;align-items:center">
         <mat-icon class="check">close</mat-icon>

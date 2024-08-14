@@ -12,6 +12,8 @@ import {ActionData} from '@/_model/action-data';
 import {DialogResultButton} from '@/_model/dialog-data';
 import {EnumPermission} from '@/_model/user-data';
 import {UserType} from '@/_model/app-data';
+import {ColorDialogData} from '@/controls/color-picker/color-picker.component';
+import {ColorData} from '@/_model/color-data';
 
 @Component({
   selector: 'app-plan',
@@ -30,6 +32,8 @@ export class TasksComponent implements AfterViewInit {
   edit = {action: -1, time: -1};
   _mayEdit = false;
   initialized = false;
+  sitterColors: ColorData[];
+  savedColors: any = {};
   protected readonly Utils = Utils;
   protected readonly EnumPermission = EnumPermission;
   protected readonly UserType = UserType;
@@ -37,6 +41,23 @@ export class TasksComponent implements AfterViewInit {
   constructor(public globals: GlobalsService,
               public msg: MessageService,
               @Inject(MAT_DIALOG_DATA) public data: SitterPlan) {
+    const owner = globals.appData.person.owners[`${data.ui}`];
+    const title = `${$localize`Owner`} ${globals.ownerName(data)}`;
+    const back = owner?.colorBack ?? new ColorData([255, 255, 255]);
+    back.title = title;
+    back.subtitle = $localize`Background`;
+    back.themeKey = 'back';
+    back.isBackColor = true;
+    const fore = owner?.colorFore ?? new ColorData([0, 0, 0]);
+    fore.title = title;
+    fore.subtitle = $localize`Text`;
+    fore.themeKey = 'fore';
+    fore.isBackColor = false;
+    this.sitterColors = [fore, back];
+    this.savedColors = {
+      back: back.asJson,
+      fore: fore.asJson
+    };
   }
 
   get isSitter(): boolean {
@@ -183,10 +204,12 @@ export class TasksComponent implements AfterViewInit {
     if ((day as any).forceOpen) {
       return true;
     }
-    if (Utils.isBeforeDate(day.date, now)) {
-      return true;
-    } else if (Utils.isSameDay(day.date, now)) {
-      return time.actions.some(e => !(e.done ?? false));
+    if (!this.initialized) {
+      if (Utils.isBeforeDate(day.date, now)) {
+        return true;
+      } else if (Utils.isSameDay(day.date, now)) {
+        return time.actions.some(e => !(e.done ?? false));
+      }
       // switch (time.type) {
       //   case TimeType.morning:
       //     return now.getHours() < 12;
@@ -235,6 +258,41 @@ export class TasksComponent implements AfterViewInit {
     if (idx >= 0) {
       time.actions.splice(idx, 1);
       time.actions.splice(idx + 1, 0, action);
+    }
+  }
+
+  onColorPicker(data: ColorDialogData) {
+    const color = data.colorList[data.colorIdx];
+    switch (data.action) {
+      case 'colorChange': {
+        const owner = GLOBALS.appData.person.owner(this.data);
+        GLOBALS._styleForPanels[this.data.ui] = null;
+        switch (color.themeKey) {
+          case 'back':
+            owner.colorBack = color;
+            break;
+          case 'fore':
+            owner.colorFore = color;
+            break;
+        }
+        break;
+      }
+      case 'mode-hsl':
+        break;
+      case 'close': {
+        const owner = GLOBALS.appData.person.owner(this.data);
+        GLOBALS._styleForPanels[this.data.ui] = null;
+        owner.colorBack = ColorData.fromJson(this.savedColors.back);
+        owner.colorFore = ColorData.fromJson(this.savedColors.fore);
+        this.sitterColors = [owner.colorBack, owner.colorFore];
+        break;
+      }
+      case 'closeOk':
+        GLOBALS.saveImmediate();
+        break;
+      default:
+        console.log(data.action);
+        break;
     }
   }
 }

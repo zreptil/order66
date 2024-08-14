@@ -35,8 +35,7 @@ export class ColorCfgDialogComponent implements AfterViewInit {
   constructor(public globals: GlobalsService,
               private ts: ThemeService,
               private ms: MessageService,
-              @Inject(MAT_DIALOG_DATA)
-              public dlgData: { colorKey: string },
+              @Inject(MAT_DIALOG_DATA) public dlgData: { colorKey: string },
               public dlgRef: MatDialogRef<ColorCfgDialogComponent>
   ) {
   }

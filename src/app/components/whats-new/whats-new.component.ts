@@ -15,6 +15,7 @@ export class WhatsNewComponent implements AfterViewInit {
   closeData: CloseButtonData = {
     colorKey: 'whatsnew',
     closeAction: (): Observable<boolean> => {
+      GLOBALS.saveSharedData();
       return of(true);
     }
   }

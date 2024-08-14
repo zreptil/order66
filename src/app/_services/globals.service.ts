@@ -30,7 +30,7 @@ export let GLOBALS: GlobalsService;
   providedIn: 'root'
 })
 export class GlobalsService {
-  version = '1.0';
+  version = '1.1.0';
   skipStorageClear = false;
   devSupport = false;
   debugFlag = 'debug';
@@ -75,6 +75,7 @@ export class GlobalsService {
   ownerFetching = false;
   saveImmediately = true;
   showCompleted = false;
+  _styleForPanels: any = {};
   private flags = '';
 
   constructor(public http: HttpClient,
@@ -304,6 +305,11 @@ export class GlobalsService {
     return `${data?.fullname}`;
   }
 
+  owner(plan: SitterPlan): PersonData {
+    return GLOBALS.ownerList?.find(
+      (owner) => owner.fkUser === plan.ui);
+  }
+
   ownerName(plan: SitterPlan): string {
     const data = GLOBALS.ownerList?.find(
       (owner) => owner.fkUser === plan.ui);
@@ -468,6 +474,40 @@ export class GlobalsService {
 
   openLink(url: string) {
     window.open(url, '_blank');
+  }
+
+  styleForPlan(plan: SitterPlan): any {
+    if (this._styleForPanels[plan.ui] == null) {
+      this._styleForPanels[plan.ui] = {};
+      const owner = this.appData?.person?.owners?.[plan.ui];
+      this._styleForPanels[plan.ui].backgroundColor = owner?.colorBack?.display ?? 'white';
+      this._styleForPanels[plan.ui].color = owner?.colorFore?.display ?? 'black';
+      this._styleForPanels[plan.ui]['--mdc-outlined-text-field-focus-outline-color'] = this._styleForPanels[plan.ui].color;
+      this._styleForPanels[plan.ui]['--mdc-outlined-text-field-focus-label-text-color'] = this._styleForPanels[plan.ui].color;
+      this._styleForPanels[plan.ui]['--mdc-outlined-text-field-label-text-color'] = this._styleForPanels[plan.ui].color;
+      this._styleForPanels[plan.ui]['--mdc-outlined-text-field-hover-label-text-color'] = this._styleForPanels[plan.ui].color;
+      this._styleForPanels[plan.ui]['--mdc-outlined-text-field-hover-outline-color'] = this._styleForPanels[plan.ui].color;
+      this._styleForPanels[plan.ui]['--mdc-checkbox-selected-icon-color'] = this._styleForPanels[plan.ui].color;
+      this._styleForPanels[plan.ui]['--mdc-checkbox-selected-checkmark-color'] = this._styleForPanels[plan.ui].color;
+    }
+    return this._styleForPanels[plan.ui];
+  }
+
+  cbStyleForPlan(plan: SitterPlan): any {
+    const owner = this.appData?.person?.owners?.[plan.ui];
+    const back = owner?.colorBack?.display ?? 'white';
+    const fore = owner?.colorFore?.display ?? 'black';
+    return {
+      '--mdc-checkbox-selected-icon-color': fore,
+      '--mdc-checkbox-selected-hover-icon-color': fore,
+      '--mdc-checkbox-unselected-hover-icon-color': fore,
+      '--mdc-checkbox-unselected-focus-icon-color': fore,
+      '--mdc-checkbox-selected-focus-icon-color': fore,
+      '--mdc-checkbox-selected-checkmark-color': back,
+      '--mdc-checkbox-selected-focus-state-layer-color': back,
+      '--mdc-checkbox-unselected-focus-state-layer-color': back,
+      '--mdc-checkbox-selected-pressed-state-layer-color': back
+    };
   }
 
   private may(key: string): boolean {

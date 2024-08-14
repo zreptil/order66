@@ -13,10 +13,10 @@ export class ColorCfgComponent {
 
   @Input() colorKey: string;
 
-  constructor(public ms: MessageService) {
+  constructor(public msg: MessageService) {
   }
 
   showDialog() {
-    this.ms.showPopup(ColorCfgDialogComponent, 'colorcfgdialog', {colorKey: this.colorKey});
+    this.msg.showPopup(ColorCfgDialogComponent, 'colorcfgdialog', {colorKey: this.colorKey});
   }
 }
