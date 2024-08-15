@@ -7,7 +7,8 @@
   button[image] {
     min-height: 10em;
     justify-content: center;
-    border: 2px dashed rgba(0, 0, 0, 0.4);
+    border: 2px dashed var(--foreColor);
+    color: var(--foreColor);
   }
 
   [image] {

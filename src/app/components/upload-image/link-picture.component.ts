@@ -72,6 +72,7 @@ export class LinkPictureComponent {
     } else {
       this.imgur.getImages().subscribe({
         next: result => {
+          console.log(result);
           if (result?.success) {
             this.imgurImages = result.data;
           }
@@ -107,6 +108,15 @@ export class LinkPictureComponent {
     const ret: string[] = ['image'];
     if (this.imgurSelected.indexOf(image.id) >= 0) {
       ret.push('selected');
+    }
+    return ret;
+  }
+
+  imageInfo(image: any): string[] {
+    const ret: string[] = [];
+    ret.push(Utils.fmtDate(new Date(+image.datetime * 1000), 'dd.MM.yyyy hh:mm'));
+    if (!Utils.isEmpty(image.description)) {
+      ret.push(image.description);
     }
     return ret;
   }

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Inject} from '@angular/core';
+import {AfterViewInit, Component, Inject, OnInit} from '@angular/core';
 import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {CloseButtonData} from '@/controls/close-button/close-button-data';
 import {DatepickerPeriod} from '@/controls/datepicker/datepicker-period';
@@ -20,7 +20,7 @@ import {ColorData} from '@/_model/color-data';
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.scss']
 })
-export class TasksComponent implements AfterViewInit {
+export class TasksComponent implements OnInit, AfterViewInit {
 
   closeData: CloseButtonData = {
     colorKey: 'plan',
@@ -41,27 +41,34 @@ export class TasksComponent implements AfterViewInit {
   constructor(public globals: GlobalsService,
               public msg: MessageService,
               @Inject(MAT_DIALOG_DATA) public data: SitterPlan) {
-    const owner = globals.appData.person.owners[`${data.ui}`];
-    const title = `${$localize`Owner`} ${globals.ownerName(data)}`;
-    const back = owner?.colorBack ?? new ColorData([255, 255, 255]);
-    back.title = title;
-    back.subtitle = $localize`Background`;
-    back.themeKey = 'back';
-    back.isBackColor = true;
-    const fore = owner?.colorFore ?? new ColorData([0, 0, 0]);
-    fore.title = title;
-    fore.subtitle = $localize`Text`;
-    fore.themeKey = 'fore';
-    fore.isBackColor = false;
-    this.sitterColors = [fore, back];
-    this.savedColors = {
-      back: back.asJson,
-      fore: fore.asJson
-    };
   }
 
   get isSitter(): boolean {
     return this.data.pi != null;
+  }
+
+  ngOnInit() {
+    const owner = GLOBALS.appData.person.owner(this.data);
+    const back = owner?.colorBack ?? new ColorData([255, 255, 255]);
+    const fore = owner?.colorFore ?? new ColorData([0, 0, 0]);
+    this.initColors(back, fore);
+    this.savedColors = {
+      back: this.sitterColors[0].asJson,
+      fore: this.sitterColors[1].asJson
+    };
+  }
+
+  initColors(back: ColorData, fore: ColorData): void {
+    const title = `${$localize`Owner`} ${GLOBALS.ownerName(this.data)}`;
+    back.title = title;
+    back.subtitle = $localize`Background`;
+    back.themeKey = `${GLOBALS.ownerName(this.data)}back`;
+    back.isBackColor = true;
+    fore.title = title;
+    fore.subtitle = $localize`Text`;
+    fore.themeKey = `${GLOBALS.ownerName(this.data)}fore`;
+    fore.isBackColor = false;
+    this.sitterColors = [back, fore];
   }
 
   isToday(date: Date): boolean {
@@ -69,7 +76,9 @@ export class TasksComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.initialized = true;
+    setTimeout(() => {
+      this.initialized = true;
+    });
   }
 
   mayEdit(day?: DayData): boolean {
@@ -266,32 +275,37 @@ export class TasksComponent implements AfterViewInit {
     switch (data.action) {
       case 'colorChange': {
         const owner = GLOBALS.appData.person.owner(this.data);
-        GLOBALS._styleForPanels[this.data.ui] = null;
         switch (color.themeKey) {
-          case 'back':
+          case `${GLOBALS.ownerName(this.data)}back`:
             owner.colorBack = color;
             break;
-          case 'fore':
+          case `${GLOBALS.ownerName(this.data)}fore`:
             owner.colorFore = color;
             break;
         }
+        this.initColors(owner.colorBack, owner.colorFore);
+        GLOBALS._styleForPanels[this.data.ui] = null;
         break;
       }
       case 'mode-hsl':
         break;
       case 'close': {
         const owner = GLOBALS.appData.person.owner(this.data);
-        GLOBALS._styleForPanels[this.data.ui] = null;
         owner.colorBack = ColorData.fromJson(this.savedColors.back);
         owner.colorFore = ColorData.fromJson(this.savedColors.fore);
-        this.sitterColors = [owner.colorBack, owner.colorFore];
+        this.initColors(owner.colorBack, owner.colorFore);
+        GLOBALS._styleForPanels[this.data.ui] = null;
         break;
       }
       case 'closeOk':
+        const owner = GLOBALS.appData.person.owner(this.data);
+        this.initColors(owner.colorBack, owner.colorFore);
+        console.log(this.sitterColors);
         GLOBALS.saveImmediate();
+        GLOBALS._styleForPanels[this.data.ui] = null;
         break;
       default:
-        console.log(data.action);
+        //console.log(data.action);
         break;
     }
   }

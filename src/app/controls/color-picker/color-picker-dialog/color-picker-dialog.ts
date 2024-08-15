@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Inject} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Inject, OnInit} from '@angular/core';
 import {ColorData} from '@/_model/color-data';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {DialogResultButton} from '@/_model/dialog-data';
@@ -15,7 +15,7 @@ import {GLOBALS, GlobalsService} from '@/_services/globals.service';
   templateUrl: './color-picker-dialog.html',
   styleUrls: ['./color-picker-dialog.scss']
 })
-export class ColorPickerDialog implements AfterViewInit {
+export class ColorPickerDialog implements OnInit, AfterViewInit {
   static modeList: ('hsl' | 'mixer' | 'image' | 'slider')[] = ['hsl', 'mixer', 'image', 'slider'];
   static iconList: { [key: string]: string } =
     {
@@ -37,14 +37,6 @@ export class ColorPickerDialog implements AfterViewInit {
               public ts: ThemeService,
               public globals: GlobalsService,
               @Inject(MAT_DIALOG_DATA) public data: ColorDialogData) {
-    if (this.savedColors.length < 1) {
-      this.savedColors.push(new ColorData([0, 0, 0]));
-    }
-    while (this.savedColors.length > ColorPickerDialog._maxSavedColors) {
-      this.savedColors.splice(0, 1);
-    }
-    this.currSavedIdx = ColorPickerDialog._savedColors.length - 1;
-    this.updateTitle();
   }
 
   _defColor: ColorData;
@@ -139,6 +131,17 @@ export class ColorPickerDialog implements AfterViewInit {
     return {
       color: ColorUtils.fontColor(this.currentColor.value)
     };
+  }
+
+  ngOnInit() {
+    if (this.savedColors.length < 1) {
+      this.savedColors.push(new ColorData([0, 0, 0]));
+    }
+    while (this.savedColors.length > ColorPickerDialog._maxSavedColors) {
+      this.savedColors.splice(0, 1);
+    }
+    this.currSavedIdx = ColorPickerDialog._savedColors.length - 1;
+    this.updateTitle();
   }
 
   updateTitle(): void {

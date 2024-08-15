@@ -131,6 +131,6 @@ export class ColorPickerComponent {
 
   clickSingle(evt: MouseEvent) {
     evt.stopPropagation();
-    this.clickActivate(1);
+    this.clickActivate(0);
   }
 }

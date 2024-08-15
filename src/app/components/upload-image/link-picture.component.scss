@@ -57,18 +57,27 @@ mat-form-field {
 
   .image {
     display: flex;
-    flex-flow: row;
+    flex-flow: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    cursor: pointer;
 
     img {
-      cursor: pointer;
       width: 150px
+    }
+
+    [info] {
+      white-space: wrap;
+      max-width: 100%;
+      font-size: 0.7em;
+      opacity: 0.8;
+      font-weight: bold;
     }
   }
 
   .selected {
     outline: 2px solid rgba(0, 0, 0, 0.2);
     background: rgba(0, 0, 0, 0.2);
+    color: white;
   }
 }

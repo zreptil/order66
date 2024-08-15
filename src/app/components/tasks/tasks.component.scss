@@ -15,6 +15,28 @@
 
   --mdc-outlined-text-field-outline-color: none;
 
+  --foreColor: black;
+  --backColor: white;
+}
+
+mat-expansion-panel {
+  --mdc-outlined-text-field-focus-outline-color: var(--foreColor);
+  --mdc-outlined-text-field-focus-label-text-color: var(--foreColor);
+  --mdc-outlined-text-field-label-text-color: var(--foreColor);
+  --mdc-outlined-text-field-hover-label-text-color: var(--foreColor);
+  --mdc-outlined-text-field-hover-outline-color: var(--foreColor);
+
+  mat-checkbox {
+    --mdc-checkbox-selected-icon-color: var(--foreColor);
+    --mdc-checkbox-selected-hover-icon-color: var(--foreColor);
+    --mdc-checkbox-unselected-hover-icon-color: var(--foreColor);
+    --mdc-checkbox-unselected-focus-icon-color: var(--foreColor);
+    --mdc-checkbox-selected-focus-icon-color: var(--foreColor);
+    --mdc-checkbox-selected-checkmark-color: var(--backColor);
+    --mdc-checkbox-selected-focus-state-layer-color: var(--backColor);
+    --mdc-checkbox-unselected-focus-state-layer-color: var(--backColor);
+    --mdc-checkbox-selected-pressed-state-layer-color: var(--backColor);
+  }
 }
 
 .mat-mdc-dialog-title {

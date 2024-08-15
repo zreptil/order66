@@ -18,8 +18,14 @@
     } @else {
       <div imageList>
         @for (image of imgurImages; track image.id) {
-          <div [class]="classForImage(image)">
-            <img (click)="selectImage(image)" [src]="image.link" alt="Imgur Image">
+          <div (click)="selectImage(image)" [class]="classForImage(image)">
+            <img [src]="image.link" alt="Imgur Image">
+            @for (info of imageInfo(image); track $index) {
+              <div info>{{ info }}</div>
+            }
+            @if (globals.isDebug) {
+              <div info>{{ image | json }}</div>
+            }
           </div>
         }
       </div>

@@ -94,11 +94,12 @@ export class GlobalsService {
     this.loadSharedData().then(_ => {
       this.bs.loginByToken(
         (data) => {
+          const ut = GLOBALS.currentUserType?.value;
           this.appData = new AppData();
           this.appData.fillFromBackend(data.data);
           this.appData.permissions = data.perm?.split(',').map((entry: string) => +entry);
           this.appData.usertype = data.type;
-          this.currentUserType = this.usertypeList[0];
+          this.currentUserType = GLOBALS.usertypeList.find(e => e.value === ut) ?? GLOBALS.usertypeList[0];
           if (this.storageVersion !== this.version) {
             this.msg.showPopup(WhatsNewComponent, 'whatsnew', {});
           } else {
@@ -330,8 +331,9 @@ export class GlobalsService {
 
   loadAppData() {
     this.bs.loadAppData((data) => {
+      const ut = GLOBALS.currentUserType?.value;
       this.appData.fillFromJson(data.asJson);
-      this.currentUserType = this.usertypeList[0];
+      this.currentUserType = GLOBALS.usertypeList.find(e => e.value === ut) ?? GLOBALS.usertypeList[0];
     });
   }
 
@@ -459,9 +461,10 @@ export class GlobalsService {
       saveToAppData?.();
       this.bs.saveAppData(GLOBALS.appData,
         (data) => {
+          const ut = GLOBALS.currentUserType?.value;
           GLOBALS.appData.fillFromJson(data.asJson);
           GLOBALS.appData.usertype = data.usertype;
-          GLOBALS.currentUserType = GLOBALS.usertypeList[0];
+          GLOBALS.currentUserType = GLOBALS.usertypeList.find(e => e.value === ut) ?? GLOBALS.usertypeList[0];
           GLOBALS.saveSharedData();
           onDone?.();
         },
@@ -482,32 +485,10 @@ export class GlobalsService {
       const owner = this.appData?.person?.owners?.[plan.ui];
       this._styleForPanels[plan.ui].backgroundColor = owner?.colorBack?.display ?? 'white';
       this._styleForPanels[plan.ui].color = owner?.colorFore?.display ?? 'black';
-      this._styleForPanels[plan.ui]['--mdc-outlined-text-field-focus-outline-color'] = this._styleForPanels[plan.ui].color;
-      this._styleForPanels[plan.ui]['--mdc-outlined-text-field-focus-label-text-color'] = this._styleForPanels[plan.ui].color;
-      this._styleForPanels[plan.ui]['--mdc-outlined-text-field-label-text-color'] = this._styleForPanels[plan.ui].color;
-      this._styleForPanels[plan.ui]['--mdc-outlined-text-field-hover-label-text-color'] = this._styleForPanels[plan.ui].color;
-      this._styleForPanels[plan.ui]['--mdc-outlined-text-field-hover-outline-color'] = this._styleForPanels[plan.ui].color;
-      this._styleForPanels[plan.ui]['--mdc-checkbox-selected-icon-color'] = this._styleForPanels[plan.ui].color;
-      this._styleForPanels[plan.ui]['--mdc-checkbox-selected-checkmark-color'] = this._styleForPanels[plan.ui].color;
+      this._styleForPanels[plan.ui]['--foreColor'] = this._styleForPanels[plan.ui].color;
+      this._styleForPanels[plan.ui]['--backColor'] = this._styleForPanels[plan.ui].backgroundColor;
     }
     return this._styleForPanels[plan.ui];
-  }
-
-  cbStyleForPlan(plan: SitterPlan): any {
-    const owner = this.appData?.person?.owners?.[plan.ui];
-    const back = owner?.colorBack?.display ?? 'white';
-    const fore = owner?.colorFore?.display ?? 'black';
-    return {
-      '--mdc-checkbox-selected-icon-color': fore,
-      '--mdc-checkbox-selected-hover-icon-color': fore,
-      '--mdc-checkbox-unselected-hover-icon-color': fore,
-      '--mdc-checkbox-unselected-focus-icon-color': fore,
-      '--mdc-checkbox-selected-focus-icon-color': fore,
-      '--mdc-checkbox-selected-checkmark-color': back,
-      '--mdc-checkbox-selected-focus-state-layer-color': back,
-      '--mdc-checkbox-unselected-focus-state-layer-color': back,
-      '--mdc-checkbox-selected-pressed-state-layer-color': back
-    };
   }
 
   private may(key: string): boolean {
