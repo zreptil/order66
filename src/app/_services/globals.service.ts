@@ -16,6 +16,9 @@ import {AppData, TypeUser, UserType} from '@/_model/app-data';
 import {PersonData} from '@/_model/person-data';
 import {MatFormFieldAppearance} from '@angular/material/form-field';
 import {ImgurService} from '@/_services/oauth2/imgur.service';
+import {PlanData, PlanStatus} from '@/_model/plan-data';
+import {DayData} from '@/_model/day-data';
+import {FormConfig} from '@/forms/form-config';
 
 class CustomTimeoutError extends Error {
   constructor() {
@@ -30,7 +33,7 @@ export let GLOBALS: GlobalsService;
   providedIn: 'root'
 })
 export class GlobalsService {
-  version = '1.1.0';
+  version = '1.1.3';
   skipStorageClear = false;
   devSupport = false;
   debugFlag = 'debug';
@@ -47,6 +50,8 @@ export class GlobalsService {
   language: LangData;
   _syncType: oauth2SyncType;
   oauth2AccessToken: string = null;
+  listConfig: FormConfig[] = [];
+  listConfigOrg: FormConfig[] = [];
   ownTheme: any;
   appearance: MatFormFieldAppearance = 'fill';
   currentUserType: TypeUser;
@@ -76,6 +81,21 @@ export class GlobalsService {
   saveImmediately = true;
   showCompleted = false;
   _styleForPanels: any = {};
+  siteConfig: any = {
+    gridColumns: 4,
+    showPrimeNumbers: false,
+    rubikView: 'three-d',
+    rubikMode: '',
+    rubikRotx: -30,
+    rubikRoty: 30,
+    rubikRotz: 0,
+    rubikTurnSpeed: 0.2,
+    rubikRecorded: '',
+    pdfTarget: '',
+    pdfData: null,
+    ppPdfSameWindow: false
+  }
+  formListParams: any;
   private flags = '';
 
   constructor(public http: HttpClient,
@@ -489,6 +509,41 @@ export class GlobalsService {
       this._styleForPanels[plan.ui]['--backColor'] = this._styleForPanels[plan.ui].backgroundColor;
     }
     return this._styleForPanels[plan.ui];
+  }
+
+  statusIcon(plan: PlanData) {
+    const icons: any = {
+      0: 'thumb_down',
+      1: 'thumb_up'
+    };
+    return icons[plan.status ?? 0];
+  }
+
+  statusInfo(plan: PlanData) {
+    if (Utils.isEmpty(plan.statusInfo)) {
+      plan.statusInfo = null;
+    }
+    switch (plan.status) {
+      case PlanStatus.accepted:
+        return plan.statusInfo ?? $localize`${plan.sitterPerson?.firstname} accepted the plan`;
+      case PlanStatus.denied:
+        return plan.statusInfo ?? $localize`${plan.sitterPerson?.firstname} denied the plan`;
+    }
+  }
+
+  hasActions(day: DayData) {
+    return day.timeRanges.some(e => e.actions?.length > 0);
+  }
+
+  loadFormListParams(): void {
+    if (this.formListParams != null) {
+      for (const cfg of this.listConfig) {
+        cfg.fillFromString(this.formListParams[cfg.form.dataId] ?? {});
+      }
+      for (const cfg of this.listConfigOrg) {
+        cfg.fillFromString(this.formListParams[cfg.form.dataId] ?? {});
+      }
+    }
   }
 
   private may(key: string): boolean {

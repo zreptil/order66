@@ -33,7 +33,7 @@ export class AppData extends BaseData {
   }
 
   get filteredPlans(): PlanData[] {
-    return this.plans?.filter(e => GLOBALS.showCompleted || Utils.isAfter(e.period.end, Utils.now)) ?? [];
+    return this.plans?.filter(e => GLOBALS.showCompleted || Utils.isOnOrAfter(e.period.end, Utils.now)) ?? [];
   }
 
   override get _asJson(): any {

@@ -55,25 +55,21 @@
     </div>
   </div>
   <div>
-    <div>
-    </div>
-    <div>
-      <div content>
-        @if (globals.currentUserType?.value === UserType.Owner) {
-          <app-type-owner></app-type-owner>
-        } @else if (globals.currentUserType?.value === UserType.Sitter) {
-          <app-type-sitter></app-type-sitter>
-        } @else if (globals.currentUserType?.value === UserType.Admin) {
-          <app-type-admin></app-type-admin>
-        } @else {
-          <app-impressum *ngIf="globals.currentPage==='impressum'"></app-impressum>
-          <app-welcome *ngIf="globals.currentPage==='welcome'"></app-welcome>
-          <app-whats-new *ngIf="globals.currentPage==='news'"></app-whats-new>
-          @if (globals.devSupport) {
-            {{ globals.appData ?? {} |json }}<br>
-          }
+    <div content>
+      @if (globals.currentUserType?.value === UserType.Owner) {
+        <app-type-owner></app-type-owner>
+      } @else if (globals.currentUserType?.value === UserType.Sitter) {
+        <app-type-sitter></app-type-sitter>
+      } @else if (globals.currentUserType?.value === UserType.Admin) {
+        <app-type-admin></app-type-admin>
+      } @else {
+        <app-impressum *ngIf="globals.currentPage==='impressum'"></app-impressum>
+        <app-welcome *ngIf="globals.currentPage==='welcome'"></app-welcome>
+        <app-whats-new *ngIf="globals.currentPage==='news'"></app-whats-new>
+        @if (globals.devSupport) {
+          {{ globals.appData ?? {} |json }}<br>
         }
-      </div>
+      }
     </div>
   </div>
   <app-log></app-log>

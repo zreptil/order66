@@ -184,7 +184,6 @@ beyond the control of Order66. Should the confirmation process be started?`;
    * oauth2-workflow.
    */
   private checkUrlParams(): void {
-    // https://order66.zreptil.de/?imgur#access_token=2e2e92f9bd52f703d60140b82e05c37f8b3b5789&expires_in=315360000&token_type=bearer&refresh_token=c55b9ceed87d5d4d730c39d89aff059ec85991ed&account_username=zreptil&account_id=183846117
     if (this.env.urlParams.error === 'access_denied') {
       this.status = oauthStatus.accessDenied;
       location.href = location.origin;

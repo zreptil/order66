@@ -14,6 +14,7 @@ import {EnumPermission} from '@/_model/user-data';
 import {UserType} from '@/_model/app-data';
 import {ColorDialogData} from '@/controls/color-picker/color-picker.component';
 import {ColorData} from '@/_model/color-data';
+import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-plan',
@@ -40,6 +41,7 @@ export class TasksComponent implements OnInit, AfterViewInit {
 
   constructor(public globals: GlobalsService,
               public msg: MessageService,
+              public sanitizer: DomSanitizer,
               @Inject(MAT_DIALOG_DATA) public data: SitterPlan) {
   }
 
@@ -160,6 +162,12 @@ export class TasksComponent implements OnInit, AfterViewInit {
 
   clickCopyAction(evt: MouseEvent, day: DayData, time: TimeData) {
     evt.stopPropagation();
+    if (time == null) {
+      for (const time of day.timeRanges) {
+        this.clickCopyAction(evt, day, time);
+      }
+      return;
+    }
     if (day.id > 1) {
       const yesterday = this.data.p.days.find(d => d.id === day.id - 1);
       if (yesterday != null) {
@@ -205,7 +213,13 @@ export class TasksComponent implements OnInit, AfterViewInit {
   }
 
   isDayExpanded(day: DayData): boolean {
-    return !this.isSitter || Utils.isSameDay(day.date, Utils.now);
+    if (!this.isSitter) {
+      if (Utils.isBetween(Utils.now, this.data.p.period.start, this.data.p.period.end)) {
+        return Utils.isSameDay(day.date, Utils.now);
+      }
+      return true;
+    }
+    return Utils.isSameDay(day.date, Utils.now);
   }
 
   isTimeExpanded(day: DayData, time: TimeData) {
@@ -308,5 +322,21 @@ export class TasksComponent implements OnInit, AfterViewInit {
         //console.log(data.action);
         break;
     }
+  }
+
+  actionText(action: ActionData): SafeHtml {
+    const ret: string[] = [`<div>${action.text}</div>`];
+    if (GLOBALS.isDebug && action.created != null) {
+      ret.push(`<div actiontime>(${Utils.fmtDateTime(new Date(action.created))})</div>`);
+    }
+    return this.sanitizer.bypassSecurityTrustHtml(`${Utils.join(ret, '')}`);
+  }
+
+  classForAction(action: ActionData): string[] {
+    const ret: string[] = ['action'];
+    if (this.isSitter && Utils.isSameDay(Utils.now, new Date(action.created))) {
+      ret.push('add');
+    }
+    return ret;
   }
 }

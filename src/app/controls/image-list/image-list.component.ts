@@ -19,6 +19,7 @@ export class ImageListComponent {
   @Input() time: TimeData;
   @Input() userType: UserType;
   @Input() isSitter: boolean;
+  @Input() mayEdit: boolean;
 
   protected readonly Utils = Utils;
 
@@ -37,7 +38,7 @@ export class ImageListComponent {
   }
 
   get mayEditImage(): boolean {
-    return this.userType === (this.isSitter ? UserType.Sitter : UserType.Owner);
+    return this.mayEdit && this.userType === (this.isSitter ? UserType.Sitter : UserType.Owner);
   }
 
   get classForInfo(): string[] {

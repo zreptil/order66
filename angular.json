@@ -42,6 +42,8 @@
           "defaultConfiguration": "production",
           "options": {
             "allowedCommonJsDependencies": [
+              "pdfmake",
+              "pdfjs-dist",
               "fast-sha256",
               "jszip"
             ],
@@ -59,7 +61,10 @@
               "src/polyfills.ts",
               "@angular/localize/init"
             ],
-            "scripts": [],
+            "scripts": [
+              "src/assets/scripts/pdf.js",
+              "src/assets/scripts/pdf.worker.js"
+            ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"

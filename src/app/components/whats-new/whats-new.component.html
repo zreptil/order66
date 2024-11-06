@@ -5,6 +5,46 @@
     <app-close-button [data]="closeData"></app-close-button>
   </div>
   <mat-dialog-content>
+    <h2 (click)="click(11.3)">
+      <span i18n="version">Version</span><span i18n="v113">1.1.3 - 17/08/2024</span></h2>
+    <ul [class]="classFor(11.3)">
+      <li class="added" i18n="v113a1">
+        Added links to create a calendar entry and to view the google calendar for sitters.
+      </li>
+    </ul>
+    <h2 (click)="click(11.2)">
+      <span i18n="version">Version</span><span i18n="v112">1.1.2 - 16/08/2024</span></h2>
+    <ul [class]="classFor(11.2)">
+      <li class="added" i18n="v112a1">
+        Added the ability for owners to copy all timeranges of the previous day.
+      </li>
+      <li class="fixed" i18n="v112f1">
+        Fixed the screensize-calculation for correct display in mobile browsers.
+      </li>
+    </ul>
+    <h2 (click)="click(11.1)">
+      <span i18n="version">Version</span><span i18n="v111">1.1.1 - 15/08/2024</span></h2>
+    <ul [class]="classFor(11.1)">
+      <li class="added" i18n="v111a1">
+        In the list of pictures from Imgur the time of the upload for the pictures is shown.
+      </li>
+      <li class="added" i18n="v111a2">
+        The tasks are now saved with a timestamp when they were created. In the tasklist of
+        the sitter the tasks that were created at the current day are displayed in bold to
+        draw attention to new tasks.
+      </li>
+      <li class="changed" i18n="v111c1">
+        Added lines between the tasks in the tasklist if running on a small screen.
+      </li>
+      <li class="fixed" i18n="v111f1">
+        Fixed several situations where the tasks were editable although they have already be done by
+        the sitter.
+      </li>
+      <li class="fixed" i18n="v111f2">
+        Fixed the display of the tasklist for petowners. The list now shows the current day by default
+        when the timeperiod of the plan is currently active.
+      </li>
+    </ul>
     <h2 (click)="click(11.0)">
       <span i18n="version">Version</span><span i18n="v110">1.1.0 - 14/08/2024</span></h2>
     <ul [class]="classFor(11.0)">

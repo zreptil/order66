@@ -3,7 +3,7 @@
 </mat-slide-toggle>
 <div content>
   @for (plan of plans; track planId(plan)) {
-    <mat-card (click)="clickPlan(plan)" [class]="classForPlan(plan)" [style]="globals.styleForPlan(plan)">
+    <mat-card [class]="classForPlan(plan)" [style]="globals.styleForPlan(plan)">
       <mat-card-header row>
         @if (isTime(plan, -1)) {
           <mat-icon>flight_takeoff</mat-icon>
@@ -16,8 +16,18 @@
           {{ plan.p.period.display }}
           <div sitter><span i18n>Owner</span>: {{ globals.ownerData(plan) }}</div>
         </div>
+        <div style="flex:1"></div>
+        <button mat-icon-button (click)="clickMap($event, plan)" micro-button>
+          <mat-icon>map</mat-icon>
+        </button>
+        <button mat-icon-button (click)="clickCalendarShow($event, plan)" micro-button>
+          <mat-icon>calendar_month</mat-icon>
+        </button>
+        <button mat-icon-button (click)="clickPdf($event, plan)" micro-button>
+          <mat-icon>print</mat-icon>
+        </button>
       </mat-card-header>
-      <mat-card-content>
+      <mat-card-content (click)="clickPlan(plan)">
         <div column>
           <span>{{ plan.p.info }}</span>
           <!--          @if (isTime(plan, -1) || isTime(plan, 0)) {-->
@@ -25,29 +35,36 @@
             @for (day of plan.p.days; track day.id) {
               @for (time of day.timeRanges; track time.id) {
                 @if (time.actions?.length > 0) {
-                  <!--                  <div container>-->
                   <app-time-icon [time]="time" [day]="day"></app-time-icon>
-                  <!--                    @if (isPast(day)) {-->
-                    <!--                      <mat-icon past>{{ time.typeIcon }}</mat-icon>-->
-                    <!--                      @if (isTimeRangeDone(time)) {-->
-                    <!--                        <mat-icon overlay done>done</mat-icon>-->
-                    <!--                      } @else {-->
-                    <!--                        <mat-icon overlay todo>close</mat-icon>-->
-                    <!--                      }-->
-                    <!--                    } @else {-->
-                    <!--                      <mat-icon>{{ time.typeIcon }}</mat-icon>-->
-                    <!--                      @if (isTimeRangeDone(time)) {-->
-                    <!--                        <mat-icon overlay done>done</mat-icon>-->
-                    <!--                      }-->
-                    <!--                    }-->
-                    <!--                  </div>-->
                 }
+              }
+              @if (!globals.hasActions(day)) {
+                {{ Utils.fmtDate(day.date, 'ddd') }}
               }|
             }
           </div>
-          <!--          }-->
         </div>
       </mat-card-content>
+      <mat-card-actions>
+        <button (click)="clickStatus($event, plan)" mat-icon-button>
+          <mat-icon>{{ globals.statusIcon(plan.p) }}</mat-icon>
+        </button>
+        @if (!editStatusInfo(plan.p)) {
+          <button mat-button full-width (click)="clickStatusInfo($event, plan.p)" start>
+            {{ globals.statusInfo(plan.p) }}
+          </button>
+        } @else {
+          <mat-form-field full-width>
+            <input [(ngModel)]="plan.p.statusInfo" matInput autofocus>
+          </mat-form-field>
+          <button mat-icon-button (click)="clickSaveStatusInfo($event, plan)">
+            <mat-icon>save</mat-icon>
+          </button>
+        }
+        <button mat-icon-button (click)="clickCalendarAdd($event, plan)">
+          <mat-icon>edit_calendar</mat-icon>
+        </button>
+      </mat-card-actions>
     </mat-card>
   }
 </div>

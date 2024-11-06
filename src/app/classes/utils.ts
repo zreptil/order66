@@ -147,16 +147,28 @@ export class Utils {
     return ret;
   }
 
+  static fmtDateTime(date: Date | number): string {
+    if (typeof date === 'number') {
+      date = new Date(date);
+    }
+    return Utils.fmtDate(date, $localize`dd/MM/yyyy, hh:mm`);
+  }
+
   static fmtDate(date: Date, fmt: string = null): string {
     if (fmt == null) {
       fmt = $localize`dd/MM/yyyy`;
     }
     let ret = fmt;
+    ret = ret.replace(/dddd/g, DatepickerPeriod.dowName(date));
     ret = ret.replace(/ddd/g, DatepickerPeriod.dowShortName(date));
     ret = ret.replace(/dd/g, Utils.pad(date?.getDate() ?? '--'));
     if (date == null) {
+      ret = ret.replace(/MMMM/g, '????');
+      ret = ret.replace(/MMM/g, '???');
       ret = ret.replace(/MM/g, '--');
     } else {
+      ret = ret.replace(/MMMM/g, DatepickerPeriod.monthName(date));
+      ret = ret.replace(/MMM/g, DatepickerPeriod.monthShortName(date));
       ret = ret.replace(/MM/g, Utils.pad(date?.getMonth() + 1));
     }
     ret = ret.replace(/yyyy/g, Utils.pad(date?.getFullYear() ?? '----', 4));
@@ -274,6 +286,14 @@ export class Utils {
     return e?.getTime() < l?.getTime();
   }
 
+  static isOnOrAfterDate(earlier: Date, later: Date): boolean {
+    return Utils.isAfterDate(earlier, later) || Utils.isSameDay(earlier, later);
+  }
+
+  static isOnOrBeforeDate(earlier: Date, later: Date): boolean {
+    return Utils.isBeforeDate(earlier, later) || Utils.isSameDay(earlier, later);
+  }
+
   static isAfterDate(earlier: Date, later: Date): boolean {
     const e = new Date(earlier.getFullYear(), earlier.getMonth(), earlier.getDate(), 0, 0, 0, 0);
     const l = new Date(later.getFullYear(), later.getMonth(), later.getDate(), 0, 0, 0, 0);
@@ -300,6 +320,10 @@ export class Utils {
 
   static isOnOrAfter(later: Date, earlier: Date) {
     return this.isAfter(later, earlier) || this.isSameDay(later, earlier);
+  }
+
+  static isBetween(date: Date, start: Date, end: Date) {
+    return this.isOnOrAfter(date, start) && this.isOnOrBefore(date, end);
   }
 
   static differenceInDays(later: Date, earlier: Date): number {
@@ -471,5 +495,13 @@ export class Utils {
 
   static isNumeric(value: string): boolean {
     return /^\d+$/.test(value);
+  }
+
+  static urlParams(data: any): string {
+    const ret: string[] = [];
+    for (const key of Object.keys(data ?? {})) {
+      ret.push(`${key}=${data[key]}`);
+    }
+    return Utils.join(ret, '&');
   }
 }

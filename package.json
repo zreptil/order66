@@ -30,6 +30,7 @@
     "@angular/router": "^18.0.0",
     "@types/pdfmake": "^0.2.1",
     "@types/ws": "^8.5.4",
+    "angular-oauth2-oidc": "^17.0.2",
     "base64-arraybuffer": "^1.0.2",
     "bcryptjs": "^2.4.3",
     "better-npm-audit": "^3.7.3",

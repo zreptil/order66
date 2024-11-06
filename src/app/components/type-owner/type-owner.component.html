@@ -7,13 +7,24 @@
 <div content>
   @for (plan of globals.appData.filteredPlans; track plan.id) {
     <mat-card (click)="ts.clickPlan(plan)" [style]="styleForCard(plan)">
-      <mat-card-header>
-        {{ plan.period.display }}
-        <div sitter><span i18n>Sitter</span>: {{ plan.sitterData }}</div>
+      <mat-card-header row>
+        <div>
+          {{ plan.period.display }}
+          <div sitter><span i18n>Sitter</span>: {{ plan.sitterData }}</div>
+        </div>
+        <button mat-icon-button (click)="clickPdf($event, plan)" micro-button>
+          <mat-icon>print</mat-icon>
+        </button>
       </mat-card-header>
       <mat-card-content>
         {{ plan.info }}
       </mat-card-content>
+      <mat-card-actions>
+        @if (plan.status != null) {
+          <mat-icon>{{ globals.statusIcon(plan) }}</mat-icon>
+          <div sitterInfo>{{ globals.statusInfo(plan) }}</div>
+        }
+      </mat-card-actions>
     </mat-card>
   }
 </div>

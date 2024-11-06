@@ -68,7 +68,11 @@ export class LinkPictureComponent {
 
   clickImgur(_evt: MouseEvent) {
     if (Utils.isEmpty(GLOBALS.appData?.person?.imgur?.at)) {
-      this.imgur.connect();
+      if (GLOBALS.isLocal) {
+        this.imgurImages = this.env.imgurPictures;
+      } else {
+        this.imgur.connect();
+      }
     } else {
       this.imgur.getImages().subscribe({
         next: result => {
@@ -114,7 +118,7 @@ export class LinkPictureComponent {
 
   imageInfo(image: any): string[] {
     const ret: string[] = [];
-    ret.push(Utils.fmtDate(new Date(+image.datetime * 1000), 'dd.MM.yyyy hh:mm'));
+    ret.push(Utils.fmtDateTime(new Date(+image.datetime * 1000)));
     if (!Utils.isEmpty(image.description)) {
       ret.push(image.description);
     }

@@ -8,7 +8,13 @@
   <mat-dialog-content>
     @if (!isImgurSelector) {
       <div row>
-        <img alt="picture" hideMissingImage src="{{imageSrc}}">
+        @if (imageSrc?.endsWith('.mp4')) {
+          <video controls>
+            <source [src]="imageSrc" type="video/mp4">
+          </video>
+        } @else {
+          <img alt="picture" hideMissingImage src="{{imageSrc}}">
+        }
         <ng-container *ngTemplateOutlet="formFieldTemplate; context: {name: 'url'}"></ng-container>
         <button (click)="clickPaste($event)" mat-icon-button>
           <mat-icon>content_paste</mat-icon>
@@ -19,7 +25,13 @@
       <div imageList>
         @for (image of imgurImages; track image.id) {
           <div (click)="selectImage(image)" [class]="classForImage(image)">
-            <img [src]="image.link" alt="Imgur Image">
+            @if (image.link?.endsWith('.mp4')) {
+              <video controls>
+                <source [src]="image.link" type="video/mp4">
+              </video>
+            } @else {
+              <img [src]="image.link" alt="Imgur Image">
+            }
             @for (info of imageInfo(image); track $index) {
               <div info>{{ info }}</div>
             }

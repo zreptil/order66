@@ -41,6 +41,7 @@ import {HideMissingImageDirective} from '@/_directives/hide-missing-image.direct
 import {TimeIconComponent} from './controls/time-icon/time-icon.component';
 import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {ImageListComponent} from './controls/image-list/image-list.component';
+import {OAuthModule} from 'angular-oauth2-oidc';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import {ImageListComponent} from './controls/image-list/image-list.component';
     LogComponent,
     ProgressComponent,
     TextareaAutoresizeDirective,
-    HideMissingImageDirective
+    HideMissingImageDirective,
+    OAuthModule.forRoot()
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())]
 })

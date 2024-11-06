@@ -19,11 +19,11 @@
     align-items: center;
     justify-content: space-between;
 
-    img {
+    img, video {
       width: 100%;
     }
 
-    [controls] {
+    [image-controls] {
       position: absolute;
       opacity: 0;
       left: 50%;
@@ -42,7 +42,7 @@
   }
 
   div[image]:hover {
-    [controls] {
+    [image-controls] {
       opacity: 1;
     }
   }

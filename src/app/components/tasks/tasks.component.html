@@ -21,8 +21,15 @@
               {{ Utils.fmtDate(day.date, 'ddd') }}, {{ Utils.fmtDate(day.date) }}
             </mat-panel-title>
             <mat-panel-description>
-              @for (time of day.timeRanges; track time.id) {
-                <app-time-icon [time]="time" [day]="day" hideOnEmptyActions="true"></app-time-icon>
+              @if (!globals.hasActions(day) && !isSitter && mayEdit(day)) {
+                <button mat-button (click)="clickCopyAction($event, day, null)">
+                  <mat-icon>content_copy</mat-icon>
+                  <span>{{ msgCopy(day) }}</span>
+                </button>
+              } @else {
+                @for (time of day.timeRanges; track time.id) {
+                  <app-time-icon [time]="time" [day]="day" hideOnEmptyActions="true"></app-time-icon>
+                }
               }
             </mat-panel-description>
           </mat-expansion-panel-header>
@@ -53,9 +60,13 @@
                   </mat-expansion-panel-header>
                   <div [style]="globals.styleForPlan(data)">
                     @for (action of time.actions; track action.id) {
-                      <div row>
+                      <div action row>
                         @if (isSitter) {
-                          <mat-checkbox [(ngModel)]="action.done">{{ action.text }}</mat-checkbox>
+                          <mat-checkbox [(ngModel)]="action.done">
+                            <ng-container [ngTemplateOutletContext]="{action:action}"
+                                          [ngTemplateOutlet]="tplTheme">
+                            </ng-container>
+                          </mat-checkbox>
                         } @else {
                           @if (mayEdit(day)) {
                             @if (edit.action === action.id && edit.time === time.id) {
@@ -65,12 +76,14 @@
                               <mat-form-field full-width>
                                 <textarea [(ngModel)]="action.text" matInput rows="4" autofocus></textarea>
                               </mat-form-field>
-                            } @else if (action.done && !_mayEdit) {
+                            } @else if (isSitter && (action.done || !_mayEdit)) {
                               <div sitterCheck>
                                 <mat-icon [class]="classForDone(action, day)">{{ iconForDone(action, day) }}</mat-icon>
                               </div>
                               <div>
-                                {{ action.text }}
+                                <ng-container [ngTemplateOutletContext]="{action:action}"
+                                              [ngTemplateOutlet]="tplTheme">
+                                </ng-container>
                               </div>
                             } @else {
                               <button (click)="clickDeleteAction($event, day, action, time)" mat-icon-button>
@@ -85,7 +98,9 @@
                                 </button>
                               }
                               <button (click)="clickEditAction($event, action, time)" text mat-button>
-                                {{ action.text }}
+                                <ng-container [ngTemplateOutletContext]="{action:action}"
+                                              [ngTemplateOutlet]="tplTheme">
+                                </ng-container>
                               </button>
                             }
                           } @else {
@@ -93,7 +108,9 @@
                               <mat-icon [class]="classForDone(action, day)">{{ iconForDone(action, day) }}</mat-icon>
                             </div>
                             <div>
-                              {{ action.text }}
+                              <ng-container [ngTemplateOutletContext]="{action:action}"
+                                            [ngTemplateOutlet]="tplTheme">
+                              </ng-container>
                             </div>
                           }
                         }
@@ -108,7 +125,7 @@
                       </button>
                     </div>
                   }
-                  <app-image-list [day]="day" [time]="time" [userType]="UserType.Owner" [isSitter]="isSitter"></app-image-list>
+                  <app-image-list [day]="day" [time]="time" [userType]="UserType.Owner" [isSitter]="isSitter" [mayEdit]="mayEdit(day)"></app-image-list>
                   @if (isSitter) {
                     <mat-form-field appearance="outline">
                       <mat-label>Info</mat-label>
@@ -117,7 +134,7 @@
                   } @else if (!Utils.isEmpty(time.info)) {
                     <div sitterInfo [innerHtml]="timeInfo(time)"></div>
                   }
-                  <app-image-list [day]="day" [time]="time" [userType]="UserType.Sitter" [isSitter]="isSitter"></app-image-list>
+                  <app-image-list [day]="day" [time]="time" [userType]="UserType.Sitter" [isSitter]="isSitter" [mayEdit]="isSitter"></app-image-list>
                 </mat-expansion-panel>
               }
             }
@@ -160,3 +177,11 @@
     }
   </mat-dialog-actions>
 </div>
+<ng-template #tplTheme let-action="action">
+  <div [class]="classForAction(action)" action>
+    {{ action.text }}
+    @if (globals.isDebug) {
+      <div actiontime>{{ Utils.fmtDateTime(action.created) }}</div>
+    }
+  </div>
+</ng-template>

@@ -1,8 +1,14 @@
 <div images>
   @for (image of imageList; track image.id) {
     <div image>
-      <img alt="image" [src]="image.url">
-      <div controls>
+      @if (image.url?.endsWith('.mp4')) {
+        <video controls>
+          <source [src]="image.url" type="video/mp4">
+        </video>
+      } @else {
+        <img alt="image" [src]="image.url">
+      }
+      <div image-controls>
         @if (!$first && mayEditImage) {
           <button mat-icon-button (click)="clickImageMove($event, image, -1)">
             <mat-icon>arrow_left</mat-icon>

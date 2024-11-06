@@ -9,6 +9,8 @@
     <div row>
       @if ((mayEdit && !isActive) || _mayEdit) {
         <app-datepicker (periodChange)="onPeriodChange($event)" [period]="data.period" [showLabel]="false"></app-datepicker>
+      } @else {
+        {{ data.period.display }}
       }
       @if (globals.appData.person.tasksAsCalendar) {
         <mat-form-field subscriptSizing="dynamic">

@@ -99,6 +99,7 @@ div[header] {
     align-items: center;
     gap: 0.2em;
     margin-bottom: 0.2em;
+    line-height: 1.1em;
   }
 
   [column] {
@@ -295,4 +296,18 @@ div[row] {
       }
     }
   }
+  [action][row]:not(:first-child) {
+    border-top: 1px solid black;
+  }
+}
+
+.action {
+  [actiontime] {
+    opacity: 0.8;
+    font-size: 0.7em;
+  }
+}
+
+.action.add {
+  font-weight: bold;
 }

@@ -16,6 +16,10 @@
           <context context-type="linenumber">22</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/tasks/tasks.component.ts</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/type-sitter/type-sitter.component.html</context>
           <context context-type="linenumber">17</context>
         </context-group>
@@ -43,7 +47,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">66</context>
+          <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/plan/plan.component.html</context>
@@ -169,6 +173,10 @@
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
           <context context-type="linenumber">18</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/tasks/tasks.component.ts</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="146442697456175258" datatype="html">
         <source>Data</source>
@@ -204,6 +212,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
           <context context-type="linenumber">64</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/tasks/tasks.component.ts</context>
+          <context context-type="linenumber">66</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8908117042972169424" datatype="html">
@@ -441,7 +453,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">69</context>
+          <context context-type="linenumber">70</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/main/main.component.html</context>
@@ -463,7 +475,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">60</context>
+          <context context-type="linenumber">61</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/main/main.component.html</context>
@@ -534,21 +546,21 @@
         <source>Passwordchange</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">61</context>
+          <context context-type="linenumber">62</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5605123772636494177" datatype="html">
         <source>Plan</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">62</context>
+          <context context-type="linenumber">63</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6904866445262015585" datatype="html">
         <source>Tasks</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">63</context>
+          <context context-type="linenumber">64</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/plan/plan.component.html</context>
@@ -559,21 +571,21 @@
         <source>Daily Schedule</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">64</context>
+          <context context-type="linenumber">65</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4759312981227880392" datatype="html">
         <source>Dataprotection</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">65</context>
+          <context context-type="linenumber">66</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1547876271716599756" datatype="html">
         <source>Impressum</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">67</context>
+          <context context-type="linenumber">68</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/main/main.component.html</context>
@@ -584,28 +596,28 @@
         <source>Welcome to Order66</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">68</context>
+          <context context-type="linenumber">69</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2597766462454032605" datatype="html">
         <source>Link Picture</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">70</context>
+          <context context-type="linenumber">71</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3456612057806187199" datatype="html">
         <source>Imgur Picture Selector</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">71</context>
+          <context context-type="linenumber">72</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7646507470496958959" datatype="html">
         <source>Own</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">113</context>
+          <context context-type="linenumber">116</context>
         </context-group>
         <note priority="1" from="meaning">theme selection - own</note>
       </trans-unit>
@@ -613,7 +625,7 @@
         <source>Automatic</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">124</context>
+          <context context-type="linenumber">127</context>
         </context-group>
         <note priority="1" from="meaning">theme selection - automatic</note>
       </trans-unit>
@@ -621,7 +633,7 @@
         <source>Standard</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">128</context>
+          <context context-type="linenumber">131</context>
         </context-group>
         <note priority="1" from="meaning">theme selection - standard</note>
       </trans-unit>
@@ -629,7 +641,7 @@
         <source>X-Mas</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">132</context>
+          <context context-type="linenumber">135</context>
         </context-group>
         <note priority="1" from="meaning">theme selection - christmas</note>
       </trans-unit>
@@ -637,78 +649,78 @@
         <source>Toby</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">145</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">156</context>
+          <context context-type="linenumber">159</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1347314874934649541" datatype="html">
         <source>Named</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">145</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">156</context>
+          <context context-type="linenumber">159</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4937238701328708875" datatype="html">
         <source>Selected Period</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">277</context>
+          <context context-type="linenumber">280</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6479681338512278715" datatype="html">
         <source>One Month ago</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">278</context>
+          <context context-type="linenumber">281</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4634686543910917221" datatype="html">
         <source>Two Months ago</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">279</context>
+          <context context-type="linenumber">282</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3391680301204048086" datatype="html">
         <source>Three Months ago</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">280</context>
+          <context context-type="linenumber">283</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1494116721319611637" datatype="html">
         <source>Six Months ago</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">281</context>
+          <context context-type="linenumber">284</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7792248046138362602" datatype="html">
         <source>One Year ago</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">282</context>
+          <context context-type="linenumber">285</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6899006172769799970" datatype="html">
         <source>There was no answer within <x id="PH" equiv-text="params.timeout / 1000"/> seconds at <x id="PH_1" equiv-text="url"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">430</context>
+          <context context-type="linenumber">439</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4043771269711020744" datatype="html">
         <source>Error when saving data - <x id="PH" equiv-text="error"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">464</context>
+          <context context-type="linenumber">474</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/settings/settings.component.ts</context>
@@ -717,6 +729,20 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/type-owner/type-owner.component.ts</context>
           <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1414544277614151091" datatype="html">
+        <source><x id="PH" equiv-text="plan.sitterPerson?.firstname"/> accepted the plan</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">509</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3384196124008100957" datatype="html">
+        <source><x id="PH" equiv-text="plan.sitterPerson?.firstname"/> denied the plan</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">511</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8998661683259739163" datatype="html">
@@ -825,11 +851,18 @@ beyond the control of Order66. Should the confirmation process be started?</sour
           <context context-type="linenumber">114</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="7674001075959655563" datatype="html">
+        <source>dd/MM/yyyy, hh:mm</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/classes/utils.ts</context>
+          <context context-type="linenumber">154</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="671740983484503056" datatype="html">
         <source>dd/MM/yyyy</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/classes/utils.ts</context>
-          <context context-type="linenumber">152</context>
+          <context context-type="linenumber">159</context>
         </context-group>
       </trans-unit>
       <trans-unit id="545262897541079418" datatype="html">
@@ -840,7 +873,7 @@ beyond the control of Order66. Should the confirmation process be started?</sour
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/tasks/tasks.component.html</context>
-          <context context-type="linenumber">105,106</context>
+          <context context-type="linenumber">124,125</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4363495726471870539" datatype="html">
@@ -866,7 +899,7 @@ beyond the control of Order66. Should the confirmation process be started?</sour
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/tasks/tasks.component.html</context>
-          <context context-type="linenumber">130,132</context>
+          <context context-type="linenumber">149,151</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7203057817374567802" datatype="html">
@@ -877,7 +910,7 @@ beyond the control of Order66. Should the confirmation process be started?</sour
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/tasks/tasks.component.ts</context>
-          <context context-type="linenumber">172</context>
+          <context context-type="linenumber">210</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7263126157332672329" datatype="html">
@@ -888,7 +921,7 @@ beyond the control of Order66. Should the confirmation process be started?</sour
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/tasks/tasks.component.ts</context>
-          <context context-type="linenumber">174</context>
+          <context context-type="linenumber">212</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6173899997476755699" datatype="html">
@@ -899,7 +932,7 @@ beyond the control of Order66. Should the confirmation process be started?</sour
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/tasks/tasks.component.ts</context>
-          <context context-type="linenumber">72</context>
+          <context context-type="linenumber">104</context>
         </context-group>
       </trans-unit>
       <trans-unit id="105911275367514489" datatype="html">
@@ -910,7 +943,7 @@ beyond the control of Order66. Should the confirmation process be started?</sour
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/tasks/tasks.component.ts</context>
-          <context context-type="linenumber">73</context>
+          <context context-type="linenumber">105</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4064794797202909354" datatype="html">
@@ -921,7 +954,7 @@ beyond the control of Order66. Should the confirmation process be started?</sour
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/tasks/tasks.component.ts</context>
-          <context context-type="linenumber">74</context>
+          <context context-type="linenumber">106</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6146948203161944025" datatype="html">
@@ -932,7 +965,7 @@ beyond the control of Order66. Should the confirmation process be started?</sour
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/tasks/tasks.component.ts</context>
-          <context context-type="linenumber">122</context>
+          <context context-type="linenumber">154</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1431416938026210429" datatype="html">
@@ -1042,7 +1075,7 @@ beyond the control of Order66. Should the confirmation process be started?</sour
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/upload-image/link-picture.component.html</context>
-          <context context-type="linenumber">32,33</context>
+          <context context-type="linenumber">38,39</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/controls/color-cfg/color-cfg-dialog/color-cfg-dialog.component.html</context>
@@ -1162,21 +1195,21 @@ beyond the control of Order66. Should the confirmation process be started?</sour
         <source>Todo</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/tasks/tasks.component.html</context>
-          <context context-type="linenumber">141,142</context>
+          <context context-type="linenumber">168,169</context>
         </context-group>
       </trans-unit>
       <trans-unit id="397098723873502323" datatype="html">
         <source>Done</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/tasks/tasks.component.html</context>
-          <context context-type="linenumber">143,144</context>
+          <context context-type="linenumber">170,171</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9143870609833453749" datatype="html">
         <source>Do you want to delete all Instructions from <x id="PH" equiv-text="Utils.fmtDate(day.date)"/>&amp;nbsp;<x id="PH_1" equiv-text="time.typeName"/>?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/tasks/tasks.component.ts</context>
-          <context context-type="linenumber">111</context>
+          <context context-type="linenumber">143</context>
         </context-group>
       </trans-unit>
       <trans-unit id="699563194938098288" datatype="html">
@@ -1232,11 +1265,18 @@ beyond the control of Order66. Should the confirmation process be started?</sour
           <context context-type="linenumber">2</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="6907639715878244810" datatype="html">
+        <source>Animal care at <x id="PH" equiv-text="GLOBALS.owner(plan).address"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/type-sitter/type-sitter.component.ts</context>
+          <context context-type="linenumber">121</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="5503309607357277339" datatype="html">
         <source>Imgur</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/upload-image/link-picture.component.html</context>
-          <context context-type="linenumber">37,38</context>
+          <context context-type="linenumber">43,44</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6138191611360373433" datatype="html">
@@ -1359,15 +1399,115 @@ beyond the control of Order66. Should the confirmation process be started?</sour
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
-          <context context-type="linenumber">18</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
+          <context context-type="linenumber">58</context>
         </context-group>
         <note priority="1" from="description">version</note>
+      </trans-unit>
+      <trans-unit id="8850089984802212263" datatype="html">
+        <source>1.1.3 - 17/08/2024</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
+          <context context-type="linenumber">9,10</context>
+        </context-group>
+        <note priority="1" from="description">v113</note>
+      </trans-unit>
+      <trans-unit id="7259081015266234496" datatype="html">
+        <source> Added links to create a calendar entry and to view the google calendar for sitters. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
+          <context context-type="linenumber">12,13</context>
+        </context-group>
+        <note priority="1" from="description">v113a1</note>
+      </trans-unit>
+      <trans-unit id="2124960046575521961" datatype="html">
+        <source>1.1.2 - 16/08/2024</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+        <note priority="1" from="description">v112</note>
+      </trans-unit>
+      <trans-unit id="2369098979631292048" datatype="html">
+        <source> Added the ability for owners to copy all timeranges of the previous day. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
+          <context context-type="linenumber">19,20</context>
+        </context-group>
+        <note priority="1" from="description">v112a1</note>
+      </trans-unit>
+      <trans-unit id="8643158686770347191" datatype="html">
+        <source> Fixed the screensize-calculation for correct display in mobile browsers. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
+          <context context-type="linenumber">22,23</context>
+        </context-group>
+        <note priority="1" from="description">v112f1</note>
+      </trans-unit>
+      <trans-unit id="8327336210063018219" datatype="html">
+        <source>1.1.1 - 15/08/2024</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
+          <context context-type="linenumber">26,27</context>
+        </context-group>
+        <note priority="1" from="description">v111</note>
+      </trans-unit>
+      <trans-unit id="3798556907204536668" datatype="html">
+        <source> In the list of pictures from Imgur the time of the upload for the pictures is shown. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
+          <context context-type="linenumber">29,30</context>
+        </context-group>
+        <note priority="1" from="description">v111a1</note>
+      </trans-unit>
+      <trans-unit id="246475535592853377" datatype="html">
+        <source> The tasks are now saved with a timestamp when they were created. In the tasklist of the sitter the tasks that were created at the current day are displayed in bold to draw attention to new tasks. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
+          <context context-type="linenumber">32,34</context>
+        </context-group>
+        <note priority="1" from="description">v111a2</note>
+      </trans-unit>
+      <trans-unit id="2768984595356239330" datatype="html">
+        <source> Added lines between the tasks in the tasklist if running on a small screen. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
+          <context context-type="linenumber">37,38</context>
+        </context-group>
+        <note priority="1" from="description">v111c1</note>
+      </trans-unit>
+      <trans-unit id="5127253333130949465" datatype="html">
+        <source> Fixed several situations where the tasks were editable although they have already be done by the sitter. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
+          <context context-type="linenumber">40,42</context>
+        </context-group>
+        <note priority="1" from="description">v111f1</note>
+      </trans-unit>
+      <trans-unit id="8472623412645109222" datatype="html">
+        <source> Fixed the display of the tasklist for petowners. The list now shows the current day by default when the timeperiod of the plan is currently active. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
+          <context context-type="linenumber">44,46</context>
+        </context-group>
+        <note priority="1" from="description">v111f2</note>
       </trans-unit>
       <trans-unit id="5171961651550762761" datatype="html">
         <source>1.1.0 - 14/08/2024</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
-          <context context-type="linenumber">9,10</context>
+          <context context-type="linenumber">49,50</context>
         </context-group>
         <note priority="1" from="description">v110</note>
       </trans-unit>
@@ -1375,7 +1515,7 @@ beyond the control of Order66. Should the confirmation process be started?</sour
         <source> Order66 is now usable for Sittingmanagement. The login works as intended, it has a working connection to Imgur to enable the users to use the pictures saved there and the overall functions seem to work as expected. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
-          <context context-type="linenumber">12,14</context>
+          <context context-type="linenumber">52,54</context>
         </context-group>
         <note priority="1" from="description">v110a1</note>
       </trans-unit>
@@ -1383,7 +1523,7 @@ beyond the control of Order66. Should the confirmation process be started?</sour
         <source>1.0.0 - 17/07/2024</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
-          <context context-type="linenumber">18,19</context>
+          <context context-type="linenumber">58,59</context>
         </context-group>
         <note priority="1" from="description">v100</note>
       </trans-unit>
@@ -1391,7 +1531,7 @@ beyond the control of Order66. Should the confirmation process be started?</sour
         <source> Initial Version, everything is new! </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
-          <context context-type="linenumber">21,22</context>
+          <context context-type="linenumber">61,62</context>
         </context-group>
         <note priority="1" from="description">v100a1</note>
       </trans-unit>
@@ -1399,28 +1539,28 @@ beyond the control of Order66. Should the confirmation process be started?</sour
         <source>Should the color changes be discarded?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/controls/color-cfg/color-cfg-dialog/color-cfg-dialog.component.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">58</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6932243969636190908" datatype="html">
         <source>Coloradjustments</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/controls/color-cfg/color-cfg-dialog/color-cfg-dialog.component.ts</context>
-          <context context-type="linenumber">202</context>
+          <context context-type="linenumber">201</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6830194984812251284" datatype="html">
         <source>Colors for </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/controls/color-cfg/color-cfg-dialog/color-cfg-dialog.component.ts</context>
-          <context context-type="linenumber">202</context>
+          <context context-type="linenumber">201</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1218656448576107723" datatype="html">
         <source>Colorselection</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/controls/color-picker/color-picker-dialog/color-picker-dialog.ts</context>
-          <context context-type="linenumber">147</context>
+          <context context-type="linenumber">150</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3490027067127948130" datatype="html">
@@ -1537,7 +1677,7 @@ beyond the control of Order66. Should the confirmation process be started?</sour
         <source>Delete the picture from <x id="PH" equiv-text="Utils.fmtDate(this.day.date)"/> <x id="PH_1" equiv-text="this.time.typeName"/>?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/controls/image-list/image-list.component.ts</context>
-          <context context-type="linenumber">76</context>
+          <context context-type="linenumber">77</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6254069540514061020" datatype="html">

@@ -5,6 +5,7 @@ import {PlanComponent} from '@/components/plan/plan.component';
 import {PlanData} from '@/_model/plan-data';
 import {BackendService} from '@/_services/backend.service';
 import {TypeService} from '@/_services/type.service';
+import {PdfService} from '@/_services/pdf.service';
 
 @Component({
   selector: 'app-type-owner',
@@ -16,7 +17,8 @@ export class TypeOwnerComponent implements AfterViewInit {
   constructor(public globals: GlobalsService,
               public bs: BackendService,
               public msg: MessageService,
-              public ts: TypeService) {
+              public ts: TypeService,
+              public pdf: PdfService) {
   }
 
   ngAfterViewInit(): void {
@@ -51,5 +53,10 @@ export class TypeOwnerComponent implements AfterViewInit {
       ret.opacity = Math.max(1 - (plan.past / 14), 0.1);
     }
     return ret;
+  }
+
+  clickPdf(evt: MouseEvent, plan: PlanData) {
+    evt.stopPropagation();
+    this.pdf.generateSitterPlan(plan);
   }
 }
