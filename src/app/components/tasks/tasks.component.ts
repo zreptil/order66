@@ -252,13 +252,7 @@ export class TasksComponent implements OnInit, AfterViewInit {
   }
 
   iconForDone(action: ActionData, day: DayData) {
-    if (action.done) {
-      return 'done';
-    }
-    if (this.isToday(day?.date)) {
-      return 'check_box_outline_blank';
-    }
-    return 'close';
+    return day?.iconForDone(action) ?? 'close';
   }
 
   timeInfo(time: TimeData) {

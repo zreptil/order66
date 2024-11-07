@@ -1,6 +1,7 @@
 import {BaseData} from '@/_model/base-data';
 import {Utils} from '@/classes/utils';
 import {TimeData} from '@/_model/time-data';
+import {ActionData} from '@/_model/action-data';
 
 export class DayData extends BaseData {
   date: Date;
@@ -15,6 +16,16 @@ export class DayData extends BaseData {
       a: Utils.fmtDate(this.date, 'yyyyMMdd'),
       b: this.mapArrayToJson(this.timeRanges),
     };
+  }
+
+  iconForDone(action: ActionData) {
+    if (action.done) {
+      return 'done';
+    }
+    if (Utils.isToday(this.date)) {
+      return 'check_box_outline_blank';
+    }
+    return 'close';
   }
 
   override _fillFromJson(json: any, def?: any): void {

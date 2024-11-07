@@ -1,7 +1,7 @@
-import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ProgressService} from '@/_services/progress.service';
 import {ThemeService} from '@/_services/theme.service';
-import {Subscription} from 'rxjs';
+import {of, Subscription} from 'rxjs';
 import {CommonModule} from '@angular/common';
 import {MaterialModule} from '@/material.module';
 
@@ -12,32 +12,34 @@ import {MaterialModule} from '@/material.module';
   templateUrl: './progress.component.html',
   styleUrls: ['./progress.component.scss']
 })
-export class ProgressComponent implements AfterViewInit, OnDestroy {
+export class ProgressComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('overlay') overlay: any;
 
   subPsInit: Subscription;
   _cssStyle: any;
+  protected readonly of = of;
 
   constructor(public ps: ProgressService,
-              public ts: ThemeService) {
+              public ts: ThemeService,
+              public cdr: ChangeDetectorRef) {
     this.subPsInit = this.ps.initializer.subscribe((data: any) => {
       if (data == null) {
         data = this.ts.currTheme;
       }
-      this.ts.assignStyle(this.overlay?.nativeElement.style, {
-        panelBack: data.progressPanelBack,
-        panelFore: data.progressPanelFore,
-        bufferColor: data.progressBarColor
-      });
+      setTimeout(() =>
+        this.ts.assignStyle(this.overlay?.nativeElement.style, {
+          panelBack: data.progressPanelBack,
+          panelFore: data.progressPanelFore,
+          bufferColor: data.progressBarColor
+        }));
     });
   }
 
-  get value(): number {
-    return this.ps.value / (this.ps.max ?? 1) * 100;
+  ngOnInit() {
   }
 
   classForOverlay(hide: boolean): string[] {
-    const ret = [];
+    const ret: any[] = [];
     if (hide) {
       ret.push('hidden');
     }
@@ -56,5 +58,4 @@ export class ProgressComponent implements AfterViewInit, OnDestroy {
     this.subPsInit?.unsubscribe();
     this.subPsInit = null;
   }
-
 }

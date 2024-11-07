@@ -75,6 +75,7 @@ export class GlobalsService {
     linkPicture: $localize`Link Picture`,
     imgurSelector: $localize`Imgur Picture Selector`,
   };
+  urlPlayground = 'http://pdf.zreptil.de/playground.php';
   appData: AppData;
   sitterFetching = false;
   ownerFetching = false;

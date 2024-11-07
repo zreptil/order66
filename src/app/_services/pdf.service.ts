@@ -11,6 +11,7 @@ import {FormConfig} from '@/forms/form-config';
 import {ReportData} from '@/_model/report-data';
 import {PrintPlanForm} from '@/forms/print-plan';
 import {PlanData} from '@/_model/plan-data';
+import {ThemeService} from '@/_services/theme.service';
 
 export class PdfData {
   isPrinted = false;
@@ -32,7 +33,8 @@ export class PdfService {
   loadPending = 0;
 
   constructor(public http: HttpClient,
-              public ps: ProgressService) {
+              public ps: ProgressService,
+              public ts: ThemeService) {
     for (const form of this.formList) {
       GLOBALS.listConfigOrg.push(new FormConfig(form, true));
     }
@@ -76,6 +78,11 @@ export class PdfService {
   }
 
   async generatePdf(doSave = true) {
+    this.ps.init({
+      progressPanelBack: this.ts.currTheme.outputparamsHeadBack,
+      progressPanelFore: this.ts.currTheme.outputparamsHeadFore,
+      progressBarColor: this.ts.currTheme.outputparamsBodyBack
+    });
     if (doSave) {
       GLOBALS.saveSharedData();
     }
@@ -96,7 +103,7 @@ export class PdfService {
     try {
       this.ps.max = 1;
       this.ps.value = 0;
-      this.ps.text = this.msgCreatingPDF;
+      this.ps.info = this.msgCreatingPDF;
       if (repData.error != null) {
         if (GLOBALS.isDebug) {
           Log.error(this.msgLoadingData(repData.error.toString(), repData.error.stack.toString()));
@@ -104,7 +111,7 @@ export class PdfService {
           Log.error(this.msgLoadingDataError);
         }
         GLOBALS.siteConfig.isCreatingPDF = false;
-        this.ps.text = null;
+        this.ps.clear();
         return;
       }
       // let docLen = 0;
@@ -206,8 +213,6 @@ export class PdfService {
     } catch (ex) {
       GLOBALS.siteConfig.isCreatingPDF = false;
       Log.devError(ex, 'Fehler im PdfService');
-    } finally {
-      this.ps.text = null;
     }
     /*
         }).catchError((error) {
@@ -220,7 +225,6 @@ export class PdfService {
   }
 
   collectBase64Images(list: string[]): Observable<any> {
-    console.log('collectBase64Images', list);
     this.images = {};
     const listObservables: Observable<any>[] = [];
     for (const id of list) {
@@ -257,7 +261,6 @@ export class PdfService {
               }
               ret = `data:image/${ext};base64,${btoa(s)}`;
             }
-            console.log('getBase64Image', url, data);
             return ret;
           }
         )
@@ -394,11 +397,14 @@ export class PdfService {
 
   private makePdf(data: any) {
     if (this.loadPending > 0) {
+      this.ps.text = Utils.plural(this.loadPending, {
+        1: $localize`loading last image...`,
+        other: $localize`loading ${this.loadPending} images...`
+      })
       setTimeout(() => {
         this.makePdf(data);
       }, 1000);
     } else {
-      console.log('OHA', Utils.jsonize(data));
       this._makePdf(data);
     }
   }
@@ -467,7 +473,7 @@ export class PdfService {
         try {
           pdf.open();
         } catch (ex) {
-          Log.error($localize`Das PDF konnte nicht angezeigt werden. Ist ein Popup-Blocker aktiv?`);
+          Log.error($localize`The PDF could not be shown. Is there a Popup-Blocker active?`);
           pdf.download();
         }
       }
@@ -477,7 +483,6 @@ export class PdfService {
   private collectBase64Image(id: string): Observable<{ id: string, url: string }> {
     let req = null;
     let ext = 'png';
-    console.log(id);
     if (id.startsWith('@')) {
       req = new HttpRequest('GET', id.substring(1),
         null,

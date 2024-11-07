@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: center;
   width: 100vw;
-  height: 100vh;
+  height: var(--doc-height);
 
   // border: 5px solid red;
   background-color: rgba(0, 0, 0, 0.5);
@@ -15,31 +15,20 @@
 }
 
 [panel] {
-  --panelBack: var(--toolbarBack);
-  --panelFore: var(--toolbarFore);
-  --bufferColor: var(--mainBack);
+  --panelBack: var(--headBack);
+  --panelFore: var(--headFore);
+  --bufferColor: var(--bodyBack);
   display: flex;
   flex-flow: column;
   align-items: center;
   justify-content: center;
   width: 80%;
-  padding: 2% 2% 4% 2%;
+  padding: 2% 2% 0 2%;
   gap: 1em;
   border-radius: 1em;
   background-color: var(--panelBack);
   color: var(--panelFore);
   position: relative;
-
-  mat-progress-bar {
-    width: 100%;
-    height: 20px;
-    border-radius: 10px;
-  }
-
-  button {
-    position: absolute;
-    bottom: 1em;
-  }
 
   ::ng-deep .mat-progress-bar-buffer {
     background-color: var(--bufferColor);
@@ -53,4 +42,24 @@
     width: 90%;
     text-align: center;
   }
+}
+
+[controls] {
+  display: flex;
+  flex-flow: row;
+  gap: 2em;
+}
+
+.mdc-linear-progress__bar {
+  width: 100%;
+  height: 20px !important;
+  border-radius: 10px;
+}
+
+::ng-deep .mdc-linear-progress__bar-inner {
+  border-color: var(--bufferColor) !important;
+}
+
+::ng-deep .mat-mdc-progress-bar .mdc-linear-progress__buffer-bar {
+  background-color: rgba(0, 0, 0, 0.25) !important;
 }

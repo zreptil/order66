@@ -1,22 +1,21 @@
 import {BasePrint} from '@/forms/base-print';
 import {PageData} from '@/_model/page-data';
-import {ParamInfo} from '@/_model/param-info';
 import {PdfService} from '@/_services/pdf.service';
 import {PlanData} from '@/_model/plan-data';
 import {Utils} from '@/classes/utils';
 import {UserType} from '@/_model/app-data';
 
 export class PrintPlanForm extends BasePrint {
-  override help = $localize`:help for plan form@@help-plan-form:Ein Formular
-  für die Ausgabe eines Plans.`;
+  override help = $localize`:help for plan form@@help-plan-form:A form for
+  a careplan.`;
   override baseId = 'planForm';
   override baseIdx = '2';
   isFormParam1: boolean;
-  override params = [
-    new ParamInfo(0, $localize`Name`, {stringValue: 'Careplan'}),
-    new ParamInfo(1, $localize`Width in cm`, {intValue: 6}),
-    new ParamInfo(2, $localize`Height in cm`, {intValue: 4}),
-    new ParamInfo(3, $localize`Info`, {stringValue: ''}),
+  override params: any[] = [
+    // new ParamInfo(0, $localize`Name`, {stringValue: 'Careplan'}),
+    // new ParamInfo(1, $localize`Width in cm`, {intValue: 6}),
+    // new ParamInfo(2, $localize`Height in cm`, {intValue: 4}),
+    // new ParamInfo(3, $localize`Info`, {stringValue: ''}),
   ];
 
   data = {
@@ -57,10 +56,10 @@ export class PrintPlanForm extends BasePrint {
   }
 
   override extractParams(): void {
-    this.data.name = this.params[0].stringValue;
-    this.data.width = this.params[1].intValue;
-    this.data.height = this.params[2].intValue;
-    this.data.info = this.params[3].stringValue;
+    // this.data.name = this.params[0].stringValue;
+    // this.data.width = this.params[1].intValue;
+    // this.data.height = this.params[2].intValue;
+    // this.data.info = this.params[3].stringValue;
   }
 
   override fillPages(pages: PageData[]): void {
@@ -76,7 +75,7 @@ export class PrintPlanForm extends BasePrint {
     const xorg = 1.0;
     let yorg = 1.0;
     const wid = page.width - 2 * xorg;
-    console.log(this.repData);
+    const gap = 0.2;
     page.content.push({
       absolutePosition: {x: this.cm(xorg), y: this.cm(yorg)},
       columns: [
@@ -115,6 +114,7 @@ export class PrintPlanForm extends BasePrint {
       stack: stack
     });
     yorg += 2.0;
+    let dayIdx = 0;
     for (const day of plan.days) {
       // Tagesüberschrift
       stack.push({
@@ -137,11 +137,11 @@ export class PrintPlanForm extends BasePrint {
               width: this.cm(0.5),
               image: `print-${timeRange.typeIcon}`
             }, {
-              width: this.cm(0.2),
+              width: this.cm(gap),
               text: ''
             },
               {
-                width: this.cm(wid),
+                width: this.cm(wid - gap - 0.5),
                 text: timeRange.typeName,
                 alignment: 'left',
                 fontSize: this.fs(16),
@@ -155,13 +155,13 @@ export class PrintPlanForm extends BasePrint {
               margin: [0, 0, 0, this.cm(0.3)],
               columns: [{
                 width: this.cm(0.5),
-                image: 'print-close'
+                image: `print-${day?.iconForDone(action) ?? 'close'}`
               }, {
-                width: this.cm(0.2),
+                width: this.cm(gap),
                 text: ''
               },
                 {
-                  width: '*',
+                  width: this.cm(wid - gap - 0.5),
                   text: action.text,
                 }
               ]
@@ -171,8 +171,16 @@ export class PrintPlanForm extends BasePrint {
           for (const picture of timeRange.pictures) {
             images[picture.userType] ??= [];
             images[picture.userType].push({
-              image: '@loading',
-              width: this.cm(wid / 4),
+              stack: [{
+                image: '@loading',
+                width: this.cm(wid / 4 - gap)
+              }, {
+                text: picture.info ?? '',
+                color: picture.userType === UserType.Owner ? null : 'blue',
+                fontSize: this.fs(10)
+              }
+              ],
+              width: this.cm(wid / 4 - gap)
             });
             this.ps.loadPending++;
             const idx = images[picture.userType].length - 1;
@@ -180,10 +188,10 @@ export class PrintPlanForm extends BasePrint {
               next: data => {
                 if (data !== 'loading') {
                   if (data != null) {
-                    images[picture.userType][idx].image = data;
+                    images[picture.userType][idx].stack[0].image = data;
                   } else {
-                    delete images[picture.userType][idx].image;
-                    images[picture.userType][idx].text = '';
+                    delete images[picture.userType][idx].stack[0].image;
+                    images[picture.userType][idx].stack[0].text = '';
                   }
                   this.ps.loadPending--;
                 }
@@ -192,26 +200,21 @@ export class PrintPlanForm extends BasePrint {
               }
             });
           }
-          if (images[UserType.Owner] != null) {
-            subStack.push({
-              columns: images[UserType.Owner]
-            });
-          }
+          this.addImages(images[UserType.Owner], subStack, gap);
           if (timeRange.info != null) {
             subStack.push({
-              margin: [0, 0, 0, this.cm(0.3)],
+              margin: [0, 0, this.cm(xorg), this.cm(0.3)],
               text: timeRange.info,
               color: 'blue'
             });
           }
-          if (images[UserType.Sitter] != null) {
-            subStack.push({
-              columns: images[UserType.Sitter]
-            });
-          }
+          this.addImages(images[UserType.Sitter], subStack, gap);
         }
       }
-      stack[stack.length - 1].pageBreak = 'after';
+      dayIdx++;
+      if (dayIdx < plan.days.length) {
+        stack[stack.length - 1].pageBreak = 'after';
+      }
     }
     // for (let x = xorg; x < this.width; x += wid) {
     //   Utils.pushAll(cvs, this.cropMark(x, null));
@@ -248,6 +251,29 @@ export class PrintPlanForm extends BasePrint {
     // });
     page.background.push(pictures);
     pages.push(page);
-    console.log(Utils.jsonize(page));
+  }
+
+  addImages(images: any[], dst: any[], gap: number) {
+    if (images != null) {
+      let columns: any[] = [];
+      for (const img of images) {
+        columns.push(img);
+        if (columns.length === 4) {
+          dst.push({
+            margin: [0, 0, 0, this.cm(gap)],
+            columnGap: this.cm(gap),
+            columns: columns
+          });
+          columns = [];
+        }
+      }
+      if (columns.length > 0) {
+        dst.push({
+          margin: [0, 0, 0, this.cm(gap)],
+          columnGap: this.cm(gap),
+          columns: columns
+        });
+      }
+    }
   }
 }
