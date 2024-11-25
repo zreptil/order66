@@ -5,6 +5,7 @@
   <mat-icon>add</mat-icon>
 </button>
 <div content>
+  <div back-image back-owner></div>
   @for (plan of globals.appData.filteredPlans; track plan.id) {
     <mat-card (click)="ts.clickPlan(plan)" [style]="styleForCard(plan)">
       <mat-card-header row>

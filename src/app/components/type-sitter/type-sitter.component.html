@@ -2,6 +2,7 @@
   <mat-label i18n>Show completed</mat-label>
 </mat-slide-toggle>
 <div content>
+  <div back-image back-sitter></div>
   @for (plan of plans; track planId(plan)) {
     <mat-card [class]="classForPlan(plan)" [style]="globals.styleForPlan(plan)">
       <mat-card-header row>

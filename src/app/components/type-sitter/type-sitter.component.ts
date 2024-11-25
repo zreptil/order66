@@ -81,7 +81,7 @@ export class TypeSitterComponent implements AfterViewInit {
 
   classForPlan(plan: SitterPlan): string[] {
     const ret: string[] = [];
-    const check = new Date(2024, 7, 9).getTime();
+    const check = new Date().getTime();
     const start = plan.p.period.start.getTime();
     const end = plan.p.period.end.getTime();
     if (check >= start && check <= end) {
