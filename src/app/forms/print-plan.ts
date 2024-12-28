@@ -51,7 +51,8 @@ export class PrintPlanForm extends BasePrint {
   override get imgList(): string[] {
     return [
       'print-checkbox', 'print-close', 'print-done',
-      'print-nightlight', 'print-light_mode', 'print-today'
+      'print-nightlight', 'print-light_mode', 'print-today',
+      'print-check_box_outline_blank'
     ];
   }
 
@@ -63,10 +64,8 @@ export class PrintPlanForm extends BasePrint {
   }
 
   override fillPages(pages: PageData[]): void {
-    const oldLength = pages.length;
     const page = new PageData(this.isPortrait, [], []);
     const cvs: any[] = [];
-    const text: any[] = [];
     const pictures: any = {
       absolutePosition: {x: this.cm(0), y: this.cm(0)},
       stack: []
@@ -113,7 +112,6 @@ export class PrintPlanForm extends BasePrint {
       absolutePosition: {x: this.cm(xorg), y: this.cm(yorg + 2)},
       stack: stack
     });
-    yorg += 2.0;
     let dayIdx = 0;
     for (const day of plan.days) {
       // Tagesüberschrift
@@ -155,7 +153,7 @@ export class PrintPlanForm extends BasePrint {
               margin: [0, 0, 0, this.cm(0.3)],
               columns: [{
                 width: this.cm(0.5),
-                image: `print-${day?.iconForDone(action) ?? 'close'}`
+                image: day?.printIconForDone(action)
               }, {
                 width: this.cm(gap),
                 text: ''
@@ -195,7 +193,7 @@ export class PrintPlanForm extends BasePrint {
                   }
                   this.ps.loadPending--;
                 }
-              }, error: err => {
+              }, error: _err => {
                 this.ps.loadPending--;
               }
             });

@@ -286,14 +286,6 @@ export class Utils {
     return e?.getTime() < l?.getTime();
   }
 
-  static isOnOrAfterDate(earlier: Date, later: Date): boolean {
-    return Utils.isAfterDate(earlier, later) || Utils.isSameDay(earlier, later);
-  }
-
-  static isOnOrBeforeDate(earlier: Date, later: Date): boolean {
-    return Utils.isBeforeDate(earlier, later) || Utils.isSameDay(earlier, later);
-  }
-
   static isAfterDate(earlier: Date, later: Date): boolean {
     const e = new Date(earlier.getFullYear(), earlier.getMonth(), earlier.getDate(), 0, 0, 0, 0);
     const l = new Date(later.getFullYear(), later.getMonth(), later.getDate(), 0, 0, 0, 0);
@@ -304,25 +296,33 @@ export class Utils {
     return earlier?.getTime() < later?.getTime();
   }
 
-  static isSameDay(date1: Date, date2: Date) {
+  static isSameDay(date1: Date, date2: Date): boolean {
     return date1?.getFullYear() === date2?.getFullYear()
       && date1?.getMonth() === date2?.getMonth()
       && date1?.getDate() === date2?.getDate();
   }
 
-  static isSameMoment(date1: Date, date2: Date) {
+  static isSameMoment(date1: Date, date2: Date): boolean {
     return date1?.getTime() === date2?.getTime();
   }
 
-  static isOnOrBefore(earlier: Date, later: Date) {
+  static isOnOrBeforeDate(earlier: Date, later: Date): boolean {
+    return Utils.isBeforeDate(earlier, later) || Utils.isSameDay(earlier, later);
+  }
+
+  static isOnOrBefore(earlier: Date, later: Date): boolean {
     return this.isBefore(earlier, later) || this.isSameDay(later, earlier);
   }
 
-  static isOnOrAfter(later: Date, earlier: Date) {
+  static isOnOrAfterDate(earlier: Date, later: Date): boolean {
+    return Utils.isAfterDate(earlier, later) || Utils.isSameDay(earlier, later);
+  }
+
+  static isOnOrAfter(later: Date, earlier: Date): boolean {
     return this.isAfter(later, earlier) || this.isSameDay(later, earlier);
   }
 
-  static isBetween(date: Date, start: Date, end: Date) {
+  static isBetween(date: Date, start: Date, end: Date): boolean {
     return this.isOnOrAfter(date, start) && this.isOnOrBefore(date, end);
   }
 

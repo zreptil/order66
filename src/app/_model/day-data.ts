@@ -18,6 +18,16 @@ export class DayData extends BaseData {
     };
   }
 
+  printIconForDone(action: ActionData) {
+    if (action.done) {
+      return 'print-done';
+    }
+    if (Utils.isOnOrAfterDate(this.date, new Date())) {
+      return 'print-checkbox';
+    }
+    return 'print-close';
+  }
+
   iconForDone(action: ActionData) {
     if (action.done) {
       return 'done';
