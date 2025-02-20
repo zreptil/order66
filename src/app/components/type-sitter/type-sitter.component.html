@@ -34,14 +34,17 @@
           <!--          @if (isTime(plan, -1) || isTime(plan, 0)) {-->
           <div row icons>
             @for (day of plan.p.days; track day.id) {
-              @for (time of day.timeRanges; track time.id) {
-                @if (time.actions?.length > 0) {
-                  <app-time-icon [time]="time" [day]="day"></app-time-icon>
-                }
-              }
-              @if (!globals.hasActions(day)) {
+              <div dayactions>
                 {{ Utils.fmtDate(day.date, 'ddd') }}
-              }|
+                @for (time of day.timeRanges; track time.id) {
+                  @if (time.actions?.length > 0) {
+                    <app-time-icon [time]="time" [day]="day"></app-time-icon>
+                  }
+                }
+              </div>
+              <!--              @if (true || !globals.hasActions(day)) {-->
+                <!--                {{ Utils.fmtDate(day.date, 'ddd') }}-->
+                <!--              }|-->
             }
           </div>
         </div>
