@@ -6,7 +6,6 @@ import {CommonModule} from '@angular/common';
 import {MaterialModule} from '@/material.module';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, MaterialModule],
   selector: 'app-progress',
   templateUrl: './progress.component.html',

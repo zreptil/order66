@@ -16,7 +16,8 @@ import {EnumPermission} from '@/_model/user-data';
 @Component({
   selector: 'app-plan',
   templateUrl: './plan.component.html',
-  styleUrls: ['./plan.component.scss']
+  styleUrls: ['./plan.component.scss'],
+  standalone: false
 })
 export class PlanComponent implements AfterViewInit {
 

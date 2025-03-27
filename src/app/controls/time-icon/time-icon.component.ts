@@ -7,7 +7,8 @@ import {Utils} from '@/classes/utils';
 @Component({
   selector: 'app-time-icon',
   templateUrl: './time-icon.component.html',
-  styleUrl: './time-icon.component.scss'
+  styleUrl: './time-icon.component.scss',
+  standalone: false
 })
 export class TimeIconComponent {
   @Input() day: DayData;

@@ -10,7 +10,8 @@ import {PdfService} from '@/_services/pdf.service';
 @Component({
   selector: 'app-type-owner',
   templateUrl: './type-owner.component.html',
-  styleUrls: ['../type.component.scss']
+  styleUrls: ['../type.component.scss'],
+  standalone: false
 })
 export class TypeOwnerComponent implements AfterViewInit {
 
@@ -50,7 +51,7 @@ export class TypeOwnerComponent implements AfterViewInit {
   styleForCard(plan: PlanData): any {
     const ret: any = {};
     if (plan.past > 3) {
-      ret.opacity = Math.max(1 - (plan.past / 14), 0.1);
+      ret.opacity = 0.5; //Math.max(1 - (plan.past / 14), 0.1);
     }
     return ret;
   }

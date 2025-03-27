@@ -1,6 +1,7 @@
 <?php
 // at first make sure, that the brainless CORS-mechanism will not prevent
 // this webservice from being accessed
+global $cmd, $user, $remainingUsers;
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: PUT, GET, DELETE, POST, OPTIONS');
 header('Access-Control-Allow-Headers: *');
@@ -56,6 +57,9 @@ if ($cmd == 'loadAppData') {
   exit;
 } else if ($cmd == 'saveUser') {
   saveUser();
+  exit;
+} else if ($cmd == 'deleteUser') {
+  deleteUser();
   exit;
 } else if ($cmd == 'changePwd') {
   changePwd();

@@ -13,7 +13,8 @@ import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 
 @Component({
   templateUrl: './color-picker-dialog.html',
-  styleUrls: ['./color-picker-dialog.scss']
+  styleUrls: ['./color-picker-dialog.scss'],
+  standalone: false
 })
 export class ColorPickerDialog implements OnInit, AfterViewInit {
   static modeList: ('hsl' | 'mixer' | 'image' | 'slider')[] = ['hsl', 'mixer', 'image', 'slider'];

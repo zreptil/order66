@@ -11,7 +11,8 @@ import {GlobalsService} from '@/_services/globals.service';
 @Component({
   selector: 'app-datepicker-dialog',
   templateUrl: './datepicker-dialog.component.html',
-  styleUrls: ['./datepicker-dialog.component.scss']
+  styleUrls: ['./datepicker-dialog.component.scss'],
+  standalone: false
 })
 export class DatepickerDialogComponent implements OnInit {
 

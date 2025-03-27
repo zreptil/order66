@@ -9,7 +9,6 @@ import {PdfService} from '@/_services/pdf.service';
 
 @Component({
   imports: [CommonModule, MaterialModule, FormsModule, LogPipe],
-  standalone: true,
   selector: 'app-log',
   templateUrl: './log.component.html',
   styleUrls: ['./log.component.scss']

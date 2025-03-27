@@ -145,10 +145,16 @@
   </mat-dialog-content>
   <mat-dialog-actions>
     @if (mayEdit() || isSitter) {
-      <button [mat-dialog-close]="{btn: 'save', data: data}" i18n mat-button>
-        <mat-icon>save</mat-icon>
-        Save
-      </button>
+      <div row>
+        <button [mat-dialog-close]="{btn: 'save', data: data}" i18n mat-button>
+          <mat-icon>save</mat-icon>
+          Save
+        </button>
+        <button (click)="clickPdf($event)" mat-button i18n>
+          <mat-icon>print</mat-icon>
+          Print
+        </button>
+      </div>
       <div row>
         @if (isSitter) {
           <app-color-picker (onDialogEvent)="onColorPicker($event)"

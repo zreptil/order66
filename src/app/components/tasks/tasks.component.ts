@@ -15,11 +15,13 @@ import {UserType} from '@/_model/app-data';
 import {ColorDialogData} from '@/controls/color-picker/color-picker.component';
 import {ColorData} from '@/_model/color-data';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
+import {PdfService} from '@/_services/pdf.service';
 
 @Component({
   selector: 'app-plan',
   templateUrl: './tasks.component.html',
-  styleUrls: ['./tasks.component.scss']
+  styleUrls: ['./tasks.component.scss'],
+  standalone: false
 })
 export class TasksComponent implements OnInit, AfterViewInit {
 
@@ -42,6 +44,7 @@ export class TasksComponent implements OnInit, AfterViewInit {
   constructor(public globals: GlobalsService,
               public msg: MessageService,
               public sanitizer: DomSanitizer,
+              public pdf: PdfService,
               @Inject(MAT_DIALOG_DATA) public data: SitterPlan) {
   }
 
@@ -332,5 +335,10 @@ export class TasksComponent implements OnInit, AfterViewInit {
       ret.push('add');
     }
     return ret;
+  }
+
+  clickPdf(evt: MouseEvent) {
+    evt.stopPropagation();
+    this.pdf.generateSitterPlan(this.data.p);
   }
 }

@@ -1,4 +1,5 @@
 <?php
+global $scriptCheck, $userFile;
 define('TYPE_ADMIN', 1 << 0);
 define('TYPE_SITTER', 1 << 1);
 define('TYPE_OWNER', 1 << 2);
@@ -152,7 +153,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
   }
   if ($cmd == 'logout') {
     // the admin will always loose his token, when logging out
-    if (!may(PERM_KEEPUSERTOKEN) || $user['permissions'] == 'all' ) {
+    if (!may(PERM_KEEPUSERTOKEN) || $user['permissions'] == 'all') {
       $query = $db->prepare('update users set token=null where id=:id');
       $query->bindValue(':id', $user['id'], SQLITE3_INTEGER);
       $query->execute();
@@ -169,7 +170,8 @@ if (!isset($userDb)) {
   exit;
 }
 
-function loadUserList() {
+function loadUserList()
+{
   global $userFile;
   $db = new SQLite3($userFile, SQLITE3_OPEN_READWRITE);
   $query = $db->prepare('select * from users');
@@ -187,7 +189,8 @@ function loadUserList() {
   return json_encode($data);
 }
 
-function saveUser() {
+function saveUser()
+{
   global $userFile, $data;
   $d = json_decode($data);
   $db = new SQLite3($userFile, SQLITE3_OPEN_READWRITE);
@@ -198,25 +201,39 @@ function saveUser() {
   $db->close();
 }
 
-function changePwd() {
-  global $userFile, $user, $raw, $token;
-  try{
+function deleteUser()
+{
+  global $userFile, $data;
+  $d = json_decode($data);
   $db = new SQLite3($userFile, SQLITE3_OPEN_READWRITE);
-  $query = $db->prepare('update users set pwd=:pn where pwd=:po and token=:token');
-  $query->bindValue(':po', $raw['po'], SQLITE3_TEXT);
-  $query->bindValue(':pn', $raw['pn'], SQLITE3_TEXT);
-  $query->bindValue(':token', $token, SQLITE3_TEXT);
-  $result = $query->execute();
-  if ($db->changes() <= 0) {
-    header('HTTP/1.0 404 Not Found');
-    echo '{"em":"","ec":404}';
-  }
+  $query = $db->prepare('delete from users where id=:id');
+  $query->bindValue(':id', $d->{'0'}, SQLITE3_INTEGER);
+  $query->execute();
+  $db->close();
+  $userFilename = 'db/' . userId($d->{'0'}) . '.sqlite';
+  unlink($userFilename);
+}
+
+function changePwd()
+{
+  global $userFile, $user, $raw, $token;
+  try {
+    $db = new SQLite3($userFile, SQLITE3_OPEN_READWRITE);
+    $query = $db->prepare('update users set pwd=:pn where pwd=:po and token=:token');
+    $query->bindValue(':po', $raw['po'], SQLITE3_TEXT);
+    $query->bindValue(':pn', $raw['pn'], SQLITE3_TEXT);
+    $query->bindValue(':token', $token, SQLITE3_TEXT);
+    $result = $query->execute();
+    if ($db->changes() <= 0) {
+      header('HTTP/1.0 404 Not Found');
+      echo '{"em":"","ec":404}';
+    }
   } catch (Exception $e) {
-    echo '{"em":"'.$e->getMessage().'","ec":'.$e->getCode().'}';
+    echo '{"em":"' . $e->getMessage() . '","ec":' . $e->getCode() . '}';
   } finally {
     // Verbindung schließen
     if ($db) {
-        $db->close();
+      $db->close();
     }
   }
 }

@@ -14,7 +14,8 @@ import {PlanData} from '@/_model/plan-data';
 @Component({
   selector: 'app-plan',
   templateUrl: './day.component.html',
-  styleUrls: ['./day.component.scss']
+  styleUrls: ['./day.component.scss'],
+  standalone: false
 })
 export class DayComponent implements AfterViewInit {
 

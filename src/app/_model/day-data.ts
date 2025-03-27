@@ -33,7 +33,7 @@ export class DayData extends BaseData {
       return 'done';
     }
     if (Utils.isToday(this.date)) {
-      return 'check_box_outline_blank';
+      return 'checkbox';
     }
     return 'close';
   }

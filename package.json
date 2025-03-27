@@ -18,16 +18,16 @@
     "phpliteadmin": "C:\\Users\\msn\\PhpstormProjects\\php8.3.9\\php.exe -S localhost:81 -t C:\\Users\\msn\\WebstormProjects\\order66\\src\\_php"
   },
   "dependencies": {
-    "@angular/animations": "^18.0.0",
-    "@angular/cdk": "^18.1.0",
-    "@angular/common": "^18.0.0",
-    "@angular/compiler": "^18.0.0",
-    "@angular/core": "^18.0.0",
-    "@angular/forms": "^18.0.0",
-    "@angular/material": "^18.1.0",
-    "@angular/platform-browser": "^18.0.0",
-    "@angular/platform-browser-dynamic": "^18.0.0",
-    "@angular/router": "^18.0.0",
+    "@angular/animations": "^19.1.7",
+    "@angular/cdk": "^19.1.5",
+    "@angular/common": "^19.1.7",
+    "@angular/compiler": "^19.1.7",
+    "@angular/core": "^19.1.7",
+    "@angular/forms": "^19.1.7",
+    "@angular/material": "^19.1.5",
+    "@angular/platform-browser": "^19.1.7",
+    "@angular/platform-browser-dynamic": "^19.1.7",
+    "@angular/router": "^19.1.7",
     "@types/pdfmake": "^0.2.1",
     "@types/ws": "^8.5.4",
     "angular-oauth2-oidc": "^17.0.2",
@@ -46,13 +46,13 @@
     "tslib": "^2.3.0",
     "utf8-encoding": "^0.1.2",
     "xliff": "^6.1.0",
-    "zone.js": "~0.14.3"
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^18.0.0",
-    "@angular/cli": "^18.0.0",
-    "@angular/compiler-cli": "^18.0.0",
-    "@angular/localize": "^18.0.0",
+    "@angular-devkit/build-angular": "^19.1.8",
+    "@angular/cli": "^19.1.8",
+    "@angular/compiler-cli": "^19.1.7",
+    "@angular/localize": "^19.1.7",
     "@types/bcryptjs": "^2.4.6",
     "@types/file-saver": "^2.0.5",
     "@types/jasmine": "~4.3.0",
@@ -61,6 +61,6 @@
     "jasmine-core": "~4.5.0",
     "npm-build-zip": "^1.0.3",
     "npm-run-all": "^4.1.5",
-    "typescript": "~5.4.5"
+    "typescript": "~5.7.3"
   }
 }

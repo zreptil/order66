@@ -5,7 +5,8 @@ import {GlobalsService} from '@/_services/globals.service';
 @Component({
   selector: 'app-impressum',
   templateUrl: './impressum.component.html',
-  styleUrls: ['./impressum.component.scss']
+  styleUrls: ['./impressum.component.scss'],
+  standalone: false
 })
 export class ImpressumComponent implements OnInit {
   closeData: CloseButtonData = {

@@ -6,7 +6,8 @@ import {Observable, of} from 'rxjs';
 @Component({
   selector: 'app-whats-new',
   templateUrl: './whats-new.component.html',
-  styleUrls: ['./whats-new.component.scss']
+  styleUrls: ['./whats-new.component.scss'],
+  standalone: false
 })
 export class WhatsNewComponent implements AfterViewInit {
 

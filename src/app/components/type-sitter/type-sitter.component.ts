@@ -15,7 +15,8 @@ import {PdfService} from '@/_services/pdf.service';
 @Component({
   selector: 'app-type-sitter',
   templateUrl: './type-sitter.component.html',
-  styleUrls: ['../type.component.scss']
+  styleUrls: ['../type.component.scss'],
+  standalone: false
 })
 export class TypeSitterComponent implements AfterViewInit {
 

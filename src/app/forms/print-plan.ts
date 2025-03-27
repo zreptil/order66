@@ -52,7 +52,7 @@ export class PrintPlanForm extends BasePrint {
     return [
       'print-checkbox', 'print-close', 'print-done',
       'print-nightlight', 'print-light_mode', 'print-today',
-      'print-check_box_outline_blank'
+      'print-checkbox'
     ];
   }
 

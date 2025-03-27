@@ -5,7 +5,8 @@ import {ColorCfgDialogComponent} from '@/controls/color-cfg/color-cfg-dialog/col
 @Component({
   selector: 'color-cfg',
   templateUrl: './color-cfg.component.html',
-  styleUrls: ['./color-cfg.component.scss']
+  styleUrls: ['./color-cfg.component.scss'],
+  standalone: false
 })
 export class ColorCfgComponent {
 

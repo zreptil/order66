@@ -14,7 +14,8 @@ import {EnvironmentService} from '@/_services/environment.service';
 @Component({
   selector: 'app-upload-image',
   templateUrl: './link-picture.component.html',
-  styleUrl: './link-picture.component.scss'
+  styleUrl: './link-picture.component.scss',
+  standalone: false
 })
 export class LinkPictureComponent {
   imgurImages: any[] = [];

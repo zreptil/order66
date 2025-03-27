@@ -12,7 +12,8 @@ import {AppData, UserType} from '@/_model/app-data';
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.scss']
+  styleUrls: ['./welcome.component.scss'],
+  standalone: false
 })
 export class WelcomeComponent implements OnInit, AfterViewInit {
   closeData: CloseButtonData = {

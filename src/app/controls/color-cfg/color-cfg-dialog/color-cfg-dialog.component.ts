@@ -18,7 +18,8 @@ import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 @Component({
   selector: 'app-color-cfg-dialog',
   templateUrl: './color-cfg-dialog.component.html',
-  styleUrls: ['./color-cfg-dialog.component.scss']
+  styleUrls: ['./color-cfg-dialog.component.scss'],
+  standalone: false
 })
 export class ColorCfgDialogComponent implements AfterViewInit {
   value: string;

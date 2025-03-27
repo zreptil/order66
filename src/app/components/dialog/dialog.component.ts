@@ -9,7 +9,8 @@ import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
-  styleUrls: ['./dialog.component.scss']
+  styleUrls: ['./dialog.component.scss'],
+  standalone: false
 })
 export class DialogComponent implements OnInit, AfterViewChecked {
   readData: any;

@@ -10,7 +10,8 @@ import {Utils} from '@/classes/utils';
 @Component({
   selector: 'app-password-change',
   templateUrl: './password-change.component.html',
-  styleUrl: './password-change.component.scss'
+  styleUrl: './password-change.component.scss',
+  standalone: false
 })
 export class PasswordChangeComponent implements OnInit {
 

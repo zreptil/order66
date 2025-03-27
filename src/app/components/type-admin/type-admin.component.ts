@@ -10,7 +10,8 @@ import {UserType} from '@/_model/app-data';
 @Component({
   selector: 'app-type-admin',
   templateUrl: './type-admin.component.html',
-  styleUrls: ['../type.component.scss']
+  styleUrls: ['../type.component.scss'],
+  standalone: false
 })
 export class TypeAdminComponent implements AfterViewInit {
   userList: UserData[] = [];

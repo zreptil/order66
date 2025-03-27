@@ -12,7 +12,8 @@ import {MessageService} from '@/_services/message.service';
 @Component({
   selector: 'app-image-list',
   templateUrl: './image-list.component.html',
-  styleUrl: './image-list.component.scss'
+  styleUrl: './image-list.component.scss',
+  standalone: false
 })
 export class ImageListComponent {
   @Input() day: DayData;
