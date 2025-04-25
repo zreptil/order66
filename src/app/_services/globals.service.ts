@@ -155,6 +155,15 @@ export class GlobalsService {
     return $localize`:theme selection - christmas|:X-Mas`;
   }
 
+  get currentUserTypeName(): string {
+    for (const key of Object.keys(AppData.UserTypes)) {
+      if (this.currentUserType?.value === AppData.UserTypes[key].value) {
+        return AppData.UserTypes[key].name;
+      }
+    }
+    return 'Unknown';
+  }
+
   _sitterList: PersonData[];
 
   get sitterList(): PersonData[] {
@@ -544,6 +553,13 @@ export class GlobalsService {
       for (const cfg of this.listConfigOrg) {
         cfg.fillFromString(this.formListParams[cfg.form.dataId] ?? {});
       }
+    }
+  }
+
+  removeFocus() {
+    const activeElement = document.activeElement as HTMLElement;
+    if (activeElement) {
+      activeElement.blur();
     }
   }
 

@@ -16,6 +16,7 @@ import {ColorDialogData} from '@/controls/color-picker/color-picker.component';
 import {ColorData} from '@/_model/color-data';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {PdfService} from '@/_services/pdf.service';
+import {DlgBaseComponent} from '@/classes/base/dlg-base-component';
 
 @Component({
   selector: 'app-plan',
@@ -23,16 +24,17 @@ import {PdfService} from '@/_services/pdf.service';
   styleUrls: ['./tasks.component.scss'],
   standalone: false
 })
-export class TasksComponent implements OnInit, AfterViewInit {
+export class TasksComponent extends DlgBaseComponent implements OnInit, AfterViewInit {
 
   closeData: CloseButtonData = {
+    viewInfo: this.name,
     colorKey: 'plan',
     showClose: true
   };
   // period: DatepickerPeriod = new DatepickerPeriod();
   weeks: any[];
   readonly DatepickerPeriod = DatepickerPeriod;
-  edit = {action: -1, time: -1};
+  edit = {action: -1, day: -1, time: -1};
   _mayEdit = false;
   initialized = false;
   sitterColors: ColorData[];
@@ -41,11 +43,12 @@ export class TasksComponent implements OnInit, AfterViewInit {
   protected readonly EnumPermission = EnumPermission;
   protected readonly UserType = UserType;
 
-  constructor(public globals: GlobalsService,
+  constructor(globals: GlobalsService,
               public msg: MessageService,
               public sanitizer: DomSanitizer,
               public pdf: PdfService,
               @Inject(MAT_DIALOG_DATA) public data: SitterPlan) {
+    super(globals, 'Tasks');
   }
 
   get isSitter(): boolean {
@@ -110,22 +113,22 @@ export class TasksComponent implements OnInit, AfterViewInit {
     });
   }
 
-  clickAddAction(evt: MouseEvent, time: TimeData) {
+  clickAddAction(evt: MouseEvent, day: DayData, time: TimeData) {
     evt.stopPropagation();
     time.actions ??= [];
     const action = new ActionData({
       0: time.actions.length + 1
     });
     time.actions.push(action);
-    this.edit = {action: action.id, time: time.id};
+    this.edit = {action: action.id, day: day.id, time: time.id};
   }
 
-  clickEditAction(evt: MouseEvent, action: ActionData, time: TimeData) {
+  clickEditAction(evt: MouseEvent, action: ActionData, day: DayData, time: TimeData) {
     evt.stopPropagation();
     if (this.edit.action === action.id && this.edit.time === time.id) {
       this.edit.action = -1;
     } else {
-      this.edit = {action: action.id, time: time.id};
+      this.edit = {action: action.id, day: day.id, time: time.id};
     }
   }
 
@@ -152,7 +155,7 @@ export class TasksComponent implements OnInit, AfterViewInit {
     });
   }
 
-  clickDeleteAction(evt: MouseEvent, day: DayData, action: ActionData, time: TimeData) {
+  clickDeleteAction(evt: MouseEvent, action: ActionData, day: DayData, time: TimeData) {
     evt.stopPropagation();
     const msg = $localize`Do you want to delete this Instruction?`;
     this.msg.confirm(msg).subscribe(result => {

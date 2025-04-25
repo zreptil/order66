@@ -10,6 +10,7 @@ import {Utils} from '@/classes/utils';
 import {MessageService} from '@/_services/message.service';
 import {Log} from '@/_services/log.service';
 import {EnvironmentService} from '@/_services/environment.service';
+import {DlgBaseComponent} from '@/classes/base/dlg-base-component';
 
 @Component({
   selector: 'app-upload-image',
@@ -17,10 +18,11 @@ import {EnvironmentService} from '@/_services/environment.service';
   styleUrl: './link-picture.component.scss',
   standalone: false
 })
-export class LinkPictureComponent {
+export class LinkPictureComponent extends DlgBaseComponent {
   imgurImages: any[] = [];
   imgurSelected: number[] = [];
   closeData: CloseButtonData = {
+    viewInfo: this.name,
     colorKey: 'settings',
     showClose: true
   };
@@ -34,12 +36,13 @@ export class LinkPictureComponent {
   data: PictureData | PictureData[] = new PictureData();
   protected readonly Utils = Utils;
 
-  constructor(public globals: GlobalsService,
+  constructor(globals: GlobalsService,
               public env: EnvironmentService,
               public ps: PageService,
               public imgur: ImgurService,
               public msg: MessageService,
               @Inject(MAT_DIALOG_DATA) public srcData: PictureData) {
+    super(globals, 'LinkPicture');
     this.data = new PictureData(srcData.asJson);
     this.ps.initForm(this.pageName, this.controls, this.data);
   }
@@ -124,5 +127,30 @@ export class LinkPictureComponent {
       ret.push(image.description);
     }
     return ret;
+  }
+
+  clickSave(evt: MouseEvent) {
+    evt.stopPropagation();
+    this.msg.closePopup(this.dialogResult);
+  }
+
+  clickImportImgur(evt: MouseEvent) {
+    evt.stopPropagation();
+    const result = this.dialogResult;
+    if (!Array.isArray(result.data) || result.data.length === 1) {
+      this.data = new PictureData(this.srcData.asJson);
+      (this.data as PictureData).url = (result.data as PictureData[])[0].url;
+      this.ps.initForm(this.pageName, this.controls, this.data);
+      this.imgurImages = null;
+      this.imgurSelected = [];
+    } else {
+      this.clickSave(evt);
+    }
+  }
+
+  clickCancel(evt: MouseEvent) {
+    evt.stopPropagation();
+    this.imgurImages = null;
+    this.imgurSelected = [];
   }
 }

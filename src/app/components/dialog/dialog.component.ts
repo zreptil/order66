@@ -17,6 +17,7 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   mayFireValueChanges = false;
   chipsResult: string[] = [];
   closeData: CloseButtonData = {
+    viewInfo: `${this.data.type}`,
     showClose: !this.dialogRef.disableClose,
     dialogClose: {btn: DialogResultButton.cancel},
     colorKey: 'dialog'

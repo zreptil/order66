@@ -14,7 +14,7 @@
   </div>
   <mat-dialog-content>
     <mat-accordion multi="true">
-      @for (day of data.p.days; track day.id; let idx = $index) {
+      @for (day of data.p.days; track day.id) {
         <mat-expansion-panel [style]="globals.styleForPlan(data)" [expanded]="isDayExpanded(day)" (expandedChange)="expandDay($event, day)">
           <mat-expansion-panel-header [class]="classForDay(day)">
             <mat-panel-title>
@@ -28,18 +28,18 @@
                 </button>
               } @else {
                 @for (time of day.timeRanges; track time.id) {
-                  <app-time-icon [time]="time" [day]="day" hideOnEmptyActions="true"></app-time-icon>
+                  <app-time-icon [time]="time" [day]="day" [hideOnEmptyActions]="true"></app-time-icon>
                 }
               }
             </mat-panel-description>
           </mat-expansion-panel-header>
           <mat-accordion multi="true">
-            @for (time of day.timeRanges; track time.id; let idx = $index) {
+            @for (time of day.timeRanges; track time.id) {
               @if (time.actions?.length > 0 || (!isSitter && mayEdit(day))) {
                 <mat-expansion-panel [style]="globals.styleForPlan(data)" tasks [expanded]="isTimeExpanded(day, time)">
                   <mat-expansion-panel-header>
                     <mat-panel-title>
-                      <mat-icon>{{ time.typeIcon }}</mat-icon>
+                      <app-time-icon [time]="time" [day]="day" [hideOnEmptyActions]="true"></app-time-icon>
                       <div label>{{ time.typeName }}</div>
                     </mat-panel-title>
                     <mat-panel-description>
@@ -69,8 +69,8 @@
                           </mat-checkbox>
                         } @else {
                           @if (mayEdit(day)) {
-                            @if (edit.action === action.id && edit.time === time.id) {
-                              <button (click)="clickEditAction($event, action, time)" mat-icon-button>
+                            @if (edit.action === action.id && edit.day === day.id && edit.time === time.id) {
+                              <button (click)="clickEditAction($event, action, day, time)" mat-icon-button>
                                 <mat-icon>save</mat-icon>
                               </button>
                               <mat-form-field full-width>
@@ -86,7 +86,7 @@
                                 </ng-container>
                               </div>
                             } @else {
-                              <button (click)="clickDeleteAction($event, day, action, time)" mat-icon-button>
+                              <button (click)="clickDeleteAction($event, action, day, time)" mat-icon-button>
                                 <mat-icon>delete</mat-icon>
                               </button>
                               @if ($last) {
@@ -97,7 +97,7 @@
                                   <mat-icon>arrow_drop_down</mat-icon>
                                 </button>
                               }
-                              <button (click)="clickEditAction($event, action, time)" text mat-button>
+                              <button (click)="clickEditAction($event, action, day, time)" text mat-button>
                                 <ng-container [ngTemplateOutletContext]="{action:action}"
                                               [ngTemplateOutlet]="tplTheme">
                                 </ng-container>
@@ -119,7 +119,7 @@
                   </div>
                   @if (mayEdit(day) && !isSitter) {
                     <div row>
-                      <button mat-button (click)="clickAddAction($event, time)">
+                      <button mat-button (click)="clickAddAction($event, day, time)">
                         <mat-icon>add</mat-icon>
                         <span i18n>Add Instruction</span>
                       </button>
@@ -146,19 +146,19 @@
   <mat-dialog-actions>
     @if (mayEdit() || isSitter) {
       <div row>
-        <button [mat-dialog-close]="{btn: 'save', data: data}" i18n mat-button>
+        <button [mat-dialog-close]="{btn: 'save', data: data}" mat-button>
           <mat-icon>save</mat-icon>
-          Save
+          <div i18n>Save</div>
         </button>
-        <button (click)="clickPdf($event)" mat-button i18n>
+        <button (click)="clickPdf($event)" mat-button>
           <mat-icon>print</mat-icon>
-          Print
+          <div i18n>Print</div>
         </button>
       </div>
       <div row>
         @if (isSitter) {
           <app-color-picker (onDialogEvent)="onColorPicker($event)"
-                            singleButton="true"
+                            [singleButton]="true"
                             [colors]="sitterColors"
                             modeList="hsl"></app-color-picker>
         }

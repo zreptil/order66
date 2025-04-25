@@ -6,9 +6,9 @@
   @for (plan of plans; track planId(plan)) {
     <mat-card [class]="classForPlan(plan)" [style]="globals.styleForPlan(plan)">
       <mat-card-header row>
-        @if (isTime(plan, -1)) {
+        @if (ts.isTime(plan.p, -1)) {
           <mat-icon>flight_takeoff</mat-icon>
-        } @else if (isTime(plan, 1)) {
+        } @else if (ts.isTime(plan.p, 1)) {
           <mat-icon>flight_land</mat-icon>
         } @else {
           <mat-icon>flight</mat-icon>
@@ -28,7 +28,7 @@
           <mat-icon>print</mat-icon>
         </button>
       </mat-card-header>
-      <mat-card-content (click)="clickPlan(plan)">
+      <mat-card-content (click)="clickPlan(plan)" scrollShadow>
         <div column>
           <span>{{ plan.p.info }}</span>
           <!--          @if (isTime(plan, -1) || isTime(plan, 0)) {-->
@@ -48,22 +48,32 @@
             }
           </div>
         </div>
+        <div extInfo>
+          <div>{{ plan.p.extInfo }}</div>
+          <app-image-list [userType]="UserType.Owner" [plan]="plan.p" [isSitter]="false"></app-image-list>
+        </div>
       </mat-card-content>
       <mat-card-actions>
-        <button (click)="clickStatus($event, plan)" mat-icon-button>
-          <mat-icon>{{ globals.statusIcon(plan.p) }}</mat-icon>
-        </button>
-        @if (!editStatusInfo(plan.p)) {
-          <button mat-button full-width (click)="clickStatusInfo($event, plan.p)" start>
-            {{ globals.statusInfo(plan.p) }}
-          </button>
+        @if (ts.isTime(plan.p, 0)) {
+          <div></div>
         } @else {
-          <mat-form-field full-width>
-            <input [(ngModel)]="plan.p.statusInfo" matInput autofocus>
-          </mat-form-field>
-          <button mat-icon-button (click)="clickSaveStatusInfo($event, plan)">
-            <mat-icon>save</mat-icon>
-          </button>
+          <div row>
+            <button (click)="clickStatus($event, plan)" mat-icon-button>
+              <mat-icon>{{ globals.statusIcon(plan.p) }}</mat-icon>
+            </button>
+            @if (!editStatusInfo(plan.p)) {
+              <button mat-button full-width (click)="clickStatusInfo($event, plan.p)" start>
+                {{ globals.statusInfo(plan.p) }}
+              </button>
+            } @else {
+              <mat-form-field full-width>
+                <input [(ngModel)]="plan.p.statusInfo" matInput autofocus>
+              </mat-form-field>
+              <button mat-icon-button (click)="clickSaveStatusInfo($event, plan)">
+                <mat-icon>save</mat-icon>
+              </button>
+            }
+          </div>
         }
         <button mat-icon-button (click)="clickCalendarAdd($event, plan)">
           <mat-icon>edit_calendar</mat-icon>

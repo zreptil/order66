@@ -27,6 +27,7 @@ export class ColorPickerDialog implements OnInit, AfterViewInit {
   _stdColor: ColorData;
   triggerValue: number[];
   closeData: CloseButtonData = {
+    viewInfo: 'ColorPickerDialog',
     closeAction: () => {
       this.clickClose.bind(this);
       return of(true);

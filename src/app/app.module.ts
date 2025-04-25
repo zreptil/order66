@@ -1,4 +1,5 @@
 import {NgModule} from '@angular/core';
+import {MAT_DIALOG_DEFAULT_OPTIONS} from '@angular/material/dialog';
 import {BrowserModule} from '@angular/platform-browser';
 import {AppComponent} from './app.component';
 import {DialogComponent} from '@/components/dialog/dialog.component';
@@ -36,12 +37,13 @@ import {TextareaAutoresizeDirective} from '@/_directives/textarea-autoresize.dir
 import {TypeAdminComponent} from '@/components/type-admin/type-admin.component';
 import {PasswordChangeComponent} from './components/password-change/password-change.component';
 import {DsgvoComponent} from '@/components/dsgvo/dsgvo.component';
-import {LinkPictureComponent} from './components/upload-image/link-picture.component';
+import {LinkPictureComponent} from './components/link-picture/link-picture.component';
 import {HideMissingImageDirective} from '@/_directives/hide-missing-image.directive';
 import {TimeIconComponent} from './controls/time-icon/time-icon.component';
 import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {ImageListComponent} from './controls/image-list/image-list.component';
 import {OAuthModule} from 'angular-oauth2-oidc';
+import {ScrollShadowDirective} from '@/_directives/scroll-shadow.directive';
 
 @NgModule({
   declarations: [
@@ -77,7 +79,7 @@ import {OAuthModule} from 'angular-oauth2-oidc';
     PasswordChangeComponent,
     LinkPictureComponent,
     TimeIconComponent,
-    ImageListComponent
+    ImageListComponent,
   ],
   bootstrap: [AppComponent],
   imports: [
@@ -90,9 +92,13 @@ import {OAuthModule} from 'angular-oauth2-oidc';
     ProgressComponent,
     TextareaAutoresizeDirective,
     HideMissingImageDirective,
-    OAuthModule.forRoot()
+    ScrollShadowDirective,
+    OAuthModule.forRoot(),
   ],
-  providers: [provideHttpClient(withInterceptorsFromDi())]
+  providers: [
+    provideHttpClient(withInterceptorsFromDi()),
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {autoFocus: 'dialog', restoreFocus: true}}
+  ]
 })
 export class AppModule {
 }

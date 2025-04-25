@@ -8,6 +8,7 @@ import {BackendService} from '@/_services/backend.service';
 import {MessageService} from '@/_services/message.service';
 import {EnvironmentService} from '@/_services/environment.service';
 import {AppData, UserType} from '@/_model/app-data';
+import {DlgBaseComponent} from '@/classes/base/dlg-base-component';
 
 @Component({
   selector: 'app-welcome',
@@ -15,8 +16,9 @@ import {AppData, UserType} from '@/_model/app-data';
   styleUrls: ['./welcome.component.scss'],
   standalone: false
 })
-export class WelcomeComponent implements OnInit, AfterViewInit {
+export class WelcomeComponent extends DlgBaseComponent implements OnInit, AfterViewInit {
   closeData: CloseButtonData = {
+    viewInfo: this.name,
     colorKey: 'welcome',
     showClose: false
   };
@@ -38,11 +40,12 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
     usertype: {label: $localize`I am`},
   };
 
-  constructor(public globals: GlobalsService,
+  constructor(globals: GlobalsService,
               public bs: BackendService,
               public env: EnvironmentService,
               public dbs: DropboxService,
               public msg: MessageService) {
+    super(globals, 'Welcome');
   }
 
   private _mode = 'login';

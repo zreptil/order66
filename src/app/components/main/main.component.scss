@@ -66,8 +66,26 @@
     }
   }
 
+  [content] {
+    position: relative;
+    height: calc(var(--doc-height) - 50px);
+  }
+
   [content].grid {
     overflow-y: auto;
+  }
+
+  [viewInfo] {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    z-index: 100;
+    transform: translateX(-50%);
+    border: 1px solid black;
+    border-radius: 0.3em;
+    padding: 2px 1em;
+    font-size: 12px;
+    background: var(--logDebugColor);
   }
 }
 

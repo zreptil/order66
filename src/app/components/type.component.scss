@@ -43,6 +43,7 @@ mat-card.current {
 }
 
 mat-card-actions {
+  justify-content: space-between;
   gap: 0.3em;
 
   button[start] {
@@ -71,7 +72,6 @@ mat-card-content {
   padding-top: 0.5em;
   margin-bottom: 0.5em;
   overflow-y: auto;
-  height: 100%;
 }
 
 [sitter] {
@@ -88,6 +88,7 @@ mat-card-content {
 
 [row] {
   display: flex;
+  align-items: center;
   flex-flow: row;
   gap: 0.3em;
 }
@@ -95,7 +96,6 @@ mat-card-content {
 [column] {
   display: flex;
   flex-flow: column;
-  height: 100%;
 }
 
 [icons] {
@@ -163,3 +163,9 @@ div[dayactions] {
   border-right: 1px solid rgba(0, 0, 0, 0.8);
   width: 2em;
 }
+
+[extInfo] {
+  margin-top: 1em;
+  font-size: 0.8em;
+}
+

@@ -1,10 +1,12 @@
 import {DialogData, DialogParams, DialogResult, DialogResultButton, DialogType, IDialogDef} from '@/_model/dialog-data';
 import {Injectable} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {Observable, of} from 'rxjs';
+import {map, Observable, of} from 'rxjs';
 import {DialogComponent} from '@/components/dialog/dialog.component';
 import {ComponentType} from '@angular/cdk/overlay';
 import {PasswordChangeComponent} from '@/components/password-change/password-change.component';
+import {GLOBALS} from '@/_services/globals.service';
+import {DlgBaseComponent} from '@/classes/base/dlg-base-component';
 
 @Injectable({
   providedIn: 'root'
@@ -37,13 +39,16 @@ export class MessageService {
     return this.showDialog(type, content, false, params);
   }
 
-  showPopup(dlg: ComponentType<any>, id: string, data: any): Observable<DialogResult> {
+  showPopup(dlg: ComponentType<DlgBaseComponent>, id: string, data: any): Observable<DialogResult> {
+    GLOBALS.removeFocus();
     this.popupDlgRef = this.dialog.open(dlg, {
       data: data,
       panelClass: ['dialog-box', id],
       disableClose: true
     });
-    return this.popupDlgRef.afterClosed();
+    return this.popupDlgRef.afterClosed().pipe(map(data => {
+      return data;
+    }));
   }
 
   showDialog(type: DialogType | IDialogDef, content: string | string[], disableClose = false, params?: DialogParams): Observable<DialogResult> {
@@ -62,6 +67,7 @@ export class MessageService {
       } else {
         cls.push(DialogType[type.type]);
       }
+      GLOBALS.removeFocus();
       this.dlgRef = this.dialog.open(DialogComponent, {
         panelClass: cls,
         data: new DialogData(type, content, params, null),

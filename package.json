@@ -14,7 +14,7 @@
     "start": "ng serve --port 66 --open --ssl --ssl-key server.key --ssl-cert server.crt",
     "test": "ng test",
     "watch": "ng build --watch --configuration development",
-    "backend": "cmd /c C:\\Users\\msn\\PhpstormProjects\\php8.3.9\\php.exe -S localhost:80 -t C:\\Users\\msn\\WebstormProjects\\order66\\src\\_php\\src",
+    "backend": "cmd /k C:\\Users\\msn\\PhpstormProjects\\php8.3.9\\php.exe -S localhost:666 -t C:\\Users\\msn\\WebstormProjects\\order66\\src\\_php\\src",
     "phpliteadmin": "C:\\Users\\msn\\PhpstormProjects\\php8.3.9\\php.exe -S localhost:81 -t C:\\Users\\msn\\WebstormProjects\\order66\\src\\_php"
   },
   "dependencies": {
@@ -28,6 +28,7 @@
     "@angular/platform-browser": "^19.1.7",
     "@angular/platform-browser-dynamic": "^19.1.7",
     "@angular/router": "^19.1.7",
+    "@ng-bootstrap/ng-bootstrap": "^18.0.0",
     "@types/pdfmake": "^0.2.1",
     "@types/ws": "^8.5.4",
     "angular-oauth2-oidc": "^17.0.2",

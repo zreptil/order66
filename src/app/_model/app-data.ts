@@ -11,16 +11,16 @@ export enum UserType {
   Owner = 1 << 2
 }
 
-export type TypeUser = { label: string, value: UserType };
+export type TypeUser = { label: string, value: UserType, name: string };
 export type TypeUserList = { [key: string]: TypeUser };
 
 export class AppData extends BaseData {
 // msg: { [key: string]: any[] };
   static UserTypes: TypeUserList =
     {
-      admin: {label: $localize`Admin`, value: UserType.Admin},
-      owner: {label: $localize`Owner`, value: UserType.Owner},
-      sitter: {label: $localize`Sitter`, value: UserType.Sitter}
+      admin: {label: $localize`Admin`, value: UserType.Admin, name: 'Admin'},
+      owner: {label: $localize`Owner`, value: UserType.Owner, name: 'Owner'},
+      sitter: {label: $localize`Sitter`, value: UserType.Sitter, name: 'sitter'}
     }
 
   usertype: UserType;

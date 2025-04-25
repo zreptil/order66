@@ -22,7 +22,7 @@
             <mat-icon>delete</mat-icon>
           </button>
         }
-        <button mat-icon-button (click)="globals.openLink(image.url)">
+        <button mat-icon-button (click)="clickOpenImage($event, image)">
           <mat-icon>open_in_new</mat-icon>
         </button>
         @if (!$last && mayEditImage) {
@@ -39,7 +39,7 @@
   @if (mayEditImage) {
     <button (click)="clickAddImage($event)" image mat-button>
       <mat-icon>add</mat-icon>
-      <span>Add Image</span>
+      <span i18n>Add Image</span>
     </button>
   }
 </div>

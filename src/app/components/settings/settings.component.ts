@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {CloseButtonData} from '@/controls/close-button/close-button-data';
 import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {MatFormFieldAppearance} from '@angular/material/form-field';
@@ -9,6 +9,7 @@ import {MessageService} from '@/_services/message.service';
 import {EnvironmentService} from '@/_services/environment.service';
 import {PersonFormData} from '@/controls/person-form/person-form.component';
 import {PageService} from '@/_services/page.service';
+import {DlgBaseComponent} from '@/classes/base/dlg-base-component';
 
 @Component({
   selector: 'app-settings',
@@ -16,14 +17,14 @@ import {PageService} from '@/_services/page.service';
   styleUrls: ['./settings.component.scss'],
   standalone: false
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent extends DlgBaseComponent implements OnInit {
   closeData: CloseButtonData = {
+    viewInfo: this.name,
     colorKey: 'settings',
     showClose: true
   };
   username: string;
   password: string;
-  @ViewChild('userName') userName!: ElementRef;
   appearance: MatFormFieldAppearance = 'fill';
   form?: FormGroup;
   controls: any = {
@@ -38,11 +39,12 @@ export class SettingsComponent implements OnInit {
   personData: PersonFormData;
   pageKeyPerson = 'person';
 
-  constructor(public globals: GlobalsService,
+  constructor(globals: GlobalsService,
               public bs: BackendService,
               public ps: PageService,
               public env: EnvironmentService,
               public msg: MessageService) {
+    super(globals, 'Settings');
   }
 
   ngOnInit() {

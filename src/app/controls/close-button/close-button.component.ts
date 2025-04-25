@@ -42,4 +42,8 @@ export class CloseButtonComponent {
       this.dialogRef?.close(this.data.dialogClose);
     }
   }
+
+  toggleDebug(_evt: MouseEvent) {
+    GLOBALS.isDebug = !GLOBALS.isDebug
+  }
 }

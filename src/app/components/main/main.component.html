@@ -56,18 +56,25 @@
   </div>
   <div>
     <div content>
-      @if (globals.currentUserType?.value === UserType.Owner) {
-        <app-type-owner></app-type-owner>
-      } @else if (globals.currentUserType?.value === UserType.Sitter) {
-        <app-type-sitter></app-type-sitter>
-      } @else if (globals.currentUserType?.value === UserType.Admin) {
-        <app-type-admin></app-type-admin>
-      } @else {
-        <app-impressum *ngIf="globals.currentPage==='impressum'"></app-impressum>
-        <app-welcome *ngIf="globals.currentPage==='welcome'"></app-welcome>
-        <app-whats-new *ngIf="globals.currentPage==='news'"></app-whats-new>
-        @if (globals.devSupport) {
-          {{ globals.appData ?? {} |json }}<br>
+      @if (globals.isDebug) {
+        <div viewInfo>Type{{ globals.currentUserTypeName }}
+          {{ globals.currentUserType?.value }}
+        </div>
+      }
+      @switch (globals.currentUserType?.value) {
+        @case (UserType.Owner) {
+          <app-type-owner></app-type-owner>
+        }
+        @case (UserType.Sitter) {
+          <app-type-sitter></app-type-sitter>
+        }
+        @case (UserType.Admin) {
+          <app-type-admin></app-type-admin>
+        }
+        @default {
+          @if (globals.devSupport) {
+            {{ globals.appData ?? {} |json }}<br>
+          }
         }
       }
     </div>

@@ -7,6 +7,7 @@ import {of} from 'rxjs';
 import {DatepickerPeriod} from '@/controls/datepicker/datepicker-period';
 import {DatepickerEntry} from '@/controls/datepicker/datepicker-entry';
 import {GlobalsService} from '@/_services/globals.service';
+import {DlgBaseComponent} from '@/classes/base/dlg-base-component';
 
 @Component({
   selector: 'app-datepicker-dialog',
@@ -14,9 +15,10 @@ import {GlobalsService} from '@/_services/globals.service';
   styleUrls: ['./datepicker-dialog.component.scss'],
   standalone: false
 })
-export class DatepickerDialogComponent implements OnInit {
+export class DatepickerDialogComponent extends DlgBaseComponent implements OnInit {
 
   closeData: CloseButtonData = {
+    viewInfo: this.name,
     closeAction: () => {
       this.revertData.bind(this);
       return of(true);
@@ -24,8 +26,9 @@ export class DatepickerDialogComponent implements OnInit {
     colorKey: 'datepicker'
   };
 
-  constructor(public globals: GlobalsService,
+  constructor(globals: GlobalsService,
               @Inject(MAT_DIALOG_DATA) public data: DatepickerData) {
+    super(globals, 'DatepickerDialog');
   }
 
   get isMaxMonth(): boolean {

@@ -11,6 +11,7 @@ import {Utils} from '@/classes/utils';
 import {CalendarOptions, GoogleLinkService, GoogleMapsOptions} from '@/_services/google-link.service';
 import {PlanData} from '@/_model/plan-data';
 import {PdfService} from '@/_services/pdf.service';
+import {UserType} from '@/_model/app-data';
 
 @Component({
   selector: 'app-type-sitter',
@@ -22,6 +23,7 @@ export class TypeSitterComponent implements AfterViewInit {
 
   _planList: SitterPlan[];
   protected readonly Utils = Utils;
+  protected readonly UserType = UserType;
 
   constructor(public globals: GlobalsService,
               public bs: BackendService,
@@ -89,19 +91,6 @@ export class TypeSitterComponent implements AfterViewInit {
       ret.push('current');
     }
     return ret;
-  }
-
-  isTime(plan: SitterPlan, diff: number) {
-    const check = Utils.now;
-    const start = plan.p.period.start;
-    const end = plan.p.period.end;
-    if (diff < 0) {
-      return Utils.isBeforeDate(check, start);
-    }
-    if (diff > 0) {
-      return Utils.isAfterDate(check, end);
-    }
-    return Utils.isOnOrAfterDate(check, start) && Utils.isOnOrBeforeDate(check, end);
   }
 
   isTimeRangeDone(time: TimeData) {

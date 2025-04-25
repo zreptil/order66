@@ -6,6 +6,7 @@ import {CloseButtonData} from '@/controls/close-button/close-button-data';
 import {EnvironmentService} from '@/_services/environment.service';
 import {PageDef, PageService} from '@/_services/page.service';
 import {Utils} from '@/classes/utils';
+import {DlgBaseComponent} from '@/classes/base/dlg-base-component';
 
 @Component({
   selector: 'app-password-change',
@@ -13,7 +14,7 @@ import {Utils} from '@/classes/utils';
   styleUrl: './password-change.component.scss',
   standalone: false
 })
-export class PasswordChangeComponent implements OnInit {
+export class PasswordChangeComponent extends DlgBaseComponent implements OnInit {
 
   hide = true;
   controls: any = {
@@ -22,16 +23,18 @@ export class PasswordChangeComponent implements OnInit {
     pwdRep: {label: $localize`Repeat Password`},
   };
   closeData: CloseButtonData = {
+    viewInfo: this.name,
     colorKey: 'password',
     showClose: true
   };
   page: PageDef;
 
-  constructor(public globals: GlobalsService,
+  constructor(globals: GlobalsService,
               public bs: BackendService,
               public env: EnvironmentService,
               public ps: PageService,
               public msg: MessageService) {
+    super(globals, 'PasswordChange');
   }
 
   ngOnInit() {

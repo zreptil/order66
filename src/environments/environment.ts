@@ -8,7 +8,7 @@ export const environment = {
   // api key for imgur
   IMGUR_APP_KEY: '016f593a97364e4',
   // url for backend
-  backendUrl: 'http://localhost',
+  backendUrl: 'http://localhost:666',
   // backendUrl: 'https://order66.zreptil.de/backend',
   imgurPictures: [
     {

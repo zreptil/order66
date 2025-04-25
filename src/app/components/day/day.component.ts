@@ -10,6 +10,7 @@ import {ActionData} from '@/_model/action-data';
 import {MessageService} from '@/_services/message.service';
 import {DialogResultButton} from '@/_model/dialog-data';
 import {PlanData} from '@/_model/plan-data';
+import {DlgBaseComponent} from '@/classes/base/dlg-base-component';
 
 @Component({
   selector: 'app-plan',
@@ -17,9 +18,10 @@ import {PlanData} from '@/_model/plan-data';
   styleUrls: ['./day.component.scss'],
   standalone: false
 })
-export class DayComponent implements AfterViewInit {
+export class DayComponent extends DlgBaseComponent implements AfterViewInit {
 
   closeData: CloseButtonData = {
+    viewInfo: this.name,
     colorKey: 'settings',
     showClose: true
   };
@@ -27,9 +29,10 @@ export class DayComponent implements AfterViewInit {
   edit = {action: -1, time: -1};
   protected readonly Utils = Utils;
 
-  constructor(public globals: GlobalsService,
+  constructor(globals: GlobalsService,
               public msg: MessageService,
               @Inject(MAT_DIALOG_DATA) public data: { plan: PlanData, day: DayData }) {
+    super(globals, 'Day');
   }
 
   get msgCopy(): string {

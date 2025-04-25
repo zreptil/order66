@@ -44,11 +44,24 @@
     }
   </mat-dialog-content>
   <mat-dialog-actions>
-    <div>
-      <button [matDialogClose]="dialogResult" mat-button>
-        <mat-icon>save</mat-icon>
-        <span i18n>Save</span>
-      </button>
+    <div actions>
+      @if (isImgurSelector) {
+        <button (click)="clickImportImgur($event)" mat-button
+                [disabled]="imgurSelected?.length === 0">
+          <mat-icon>cloud_download</mat-icon>
+          <span i18n>Import</span>
+        </button>
+        <button (click)="clickCancel($event)" mat-button
+                [disabled]="imgurSelected?.length === 0">
+          <mat-icon>close</mat-icon>
+          <span i18n>Cancel</span>
+        </button>
+      } @else {
+        <button (click)="clickSave($event)" mat-button>
+          <mat-icon>save</mat-icon>
+          <span i18n>Save</span>
+        </button>
+      }
       @if (!isImgurSelector && Utils.isEmpty(srcData.url)) {
         <button (click)="clickImgur($event)" mat-button>
           <img alt="icon for imgur" icon src="https://imgur.com/images/favicon.png">

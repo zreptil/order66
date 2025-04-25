@@ -14,6 +14,7 @@ import {CdkDragEnd} from '@angular/cdk/drag-drop';
 import {Point} from 'pdfmake/interfaces';
 import {ThemeData} from '@/_model/theme-data';
 import {GLOBALS, GlobalsService} from '@/_services/globals.service';
+import {DlgBaseComponent} from '@/classes/base/dlg-base-component';
 
 @Component({
   selector: 'app-color-cfg-dialog',
@@ -21,7 +22,7 @@ import {GLOBALS, GlobalsService} from '@/_services/globals.service';
   styleUrls: ['./color-cfg-dialog.component.scss'],
   standalone: false
 })
-export class ColorCfgDialogComponent implements AfterViewInit {
+export class ColorCfgDialogComponent extends DlgBaseComponent implements AfterViewInit {
   value: string;
   valueFore: string;
   lastValue: string;
@@ -33,17 +34,19 @@ export class ColorCfgDialogComponent implements AfterViewInit {
   allColors: ColorData[] = [];
   dragPos: Point;
 
-  constructor(public globals: GlobalsService,
+  constructor(globals: GlobalsService,
               private ts: ThemeService,
               private ms: MessageService,
               @Inject(MAT_DIALOG_DATA) public dlgData: { colorKey: string },
               public dlgRef: MatDialogRef<ColorCfgDialogComponent>
   ) {
+    super(globals, 'ColorCfgDialog');
   }
 
   _listThemeKeys: string[];
 
   closeData: CloseButtonData = {
+    viewInfo: this.name,
     closeAction: (): Observable<boolean> => {
       let hasChanges = false;
       for (const key of Object.keys(this.orgTheme)) {

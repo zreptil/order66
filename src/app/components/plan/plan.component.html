@@ -69,6 +69,13 @@
         }
       </div>
     }
+    <div row>
+      <mat-form-field full-width>
+        <mat-label i18n>Additional Informations</mat-label>
+        <textarea [(ngModel)]="data.extInfo" [disabled]="!mayEdit" appTextareaAutoresize matInput></textarea>
+      </mat-form-field>
+    </div>
+    <app-image-list [isSitter]="false" [mayEdit]="mayEdit" [plan]="data" [style]="styleForImageList" [userType]="UserType.Owner"></app-image-list>
   </mat-dialog-content>
   <mat-dialog-actions>
     @if (mayEdit) {

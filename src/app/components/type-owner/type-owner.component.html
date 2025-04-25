@@ -17,13 +17,33 @@
           <mat-icon>print</mat-icon>
         </button>
       </mat-card-header>
-      <mat-card-content>
-        {{ plan.info }}
+      <mat-card-content scrollShadow>
+        <div column>
+          <span>{{ plan.info }}</span>
+          <div row icons>
+            @for (day of plan.days; track day.id) {
+              <div dayactions>
+                {{ Utils.fmtDate(day.date, 'ddd') }}
+                @for (time of day.timeRanges; track time.id) {
+                  @if (time.actions?.length > 0) {
+                    <app-time-icon [time]="time" [day]="day"></app-time-icon>
+                  }
+                }
+              </div>
+            }
+          </div>
+        </div>
+        <div extInfo>
+          <div>{{ plan.extInfo }}</div>
+          <app-image-list [userType]="UserType.Owner" [plan]="plan" [isSitter]="false"></app-image-list>
+        </div>
       </mat-card-content>
       <mat-card-actions>
-        @if (plan.status != null) {
-          <mat-icon>{{ globals.statusIcon(plan) }}</mat-icon>
-          <div sitterInfo>{{ globals.statusInfo(plan) }}</div>
+        @if (!ts.isTime(plan, 0)) {
+          @if (plan.status != null) {
+            <mat-icon>{{ globals.statusIcon(plan) }}</mat-icon>
+            <div sitterInfo>{{ globals.statusInfo(plan) }}</div>
+          }
         }
       </mat-card-actions>
     </mat-card>

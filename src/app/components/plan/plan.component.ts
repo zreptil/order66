@@ -12,6 +12,8 @@ import {TimeType} from '@/_model/time-data';
 import {TasksComponent} from '@/components/tasks/tasks.component';
 import {SitterPlan} from '@/_services/backend.service';
 import {EnumPermission} from '@/_model/user-data';
+import {DlgBaseComponent} from '@/classes/base/dlg-base-component';
+import {UserType} from '@/_model/app-data';
 
 @Component({
   selector: 'app-plan',
@@ -19,10 +21,11 @@ import {EnumPermission} from '@/_model/user-data';
   styleUrls: ['./plan.component.scss'],
   standalone: false
 })
-export class PlanComponent implements AfterViewInit {
+export class PlanComponent extends DlgBaseComponent implements AfterViewInit {
 
   closeData: CloseButtonData = {
-    colorKey: 'plan',
+    viewInfo: this.name,
+    colorKey: 'settings',
     showClose: true
   };
   // period: DatepickerPeriod = new DatepickerPeriod();
@@ -30,10 +33,12 @@ export class PlanComponent implements AfterViewInit {
   readonly DatepickerPeriod = DatepickerPeriod;
   protected readonly Utils = Utils;
   protected readonly EnumPermission = EnumPermission;
+  protected readonly UserType = UserType;
 
-  constructor(public globals: GlobalsService,
+  constructor(globals: GlobalsService,
               public msg: MessageService,
               @Inject(MAT_DIALOG_DATA) public data: PlanData) {
+    super(globals, 'Plan');
     // if (data.period?.start == null) {
     //   data.period.minDate = new Date();
     //   data.period.maxDate = Utils.addDateMonths(new Date(), 12);
@@ -46,6 +51,13 @@ export class PlanComponent implements AfterViewInit {
   get mayEdit(): boolean {
     return this._mayEdit
       || Utils.isAfter(this.data?.period?.end, Utils.now) || this.data?.period?.end == null;
+  }
+
+  get styleForImageList(): any {
+    return {
+      '--foreColor': `var(--${this.closeData.colorKey}BodyFore)`,
+      '--backColor': `var(--${this.closeData.colorKey}BodyBack)`
+    };
   }
 
   get activeTitle(): string {

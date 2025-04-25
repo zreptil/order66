@@ -23,6 +23,7 @@ import {GoogleService} from '@/_services/oauth2/google.service';
 })
 export class MainComponent implements OnInit {
   closeData: CloseButtonData = {
+    viewInfo: 'Main',
     colorKey: 'main',
     showClose: false
   };

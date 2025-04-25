@@ -4,6 +4,7 @@ import {DayData} from '@/_model/day-data';
 import {GLOBALS} from '@/_services/globals.service';
 import {Utils} from '@/classes/utils';
 import {PersonData} from '@/_model/person-data';
+import {PictureData} from '@/_model/picture-data';
 
 export enum PlanStatus {
   denied,
@@ -13,12 +14,14 @@ export enum PlanStatus {
 export class PlanData extends BaseData {
   period: DatepickerPeriod;
   info: string;
+  extInfo: string;
   sitter: number; // fkUser of PersonData
   status: PlanStatus;
   statusInfo: string;
   days: DayData[];
   // the days the plan lays in the past
   past: number;
+  pictures: PictureData[];
 
   constructor(json?: any) {
     super(json);
@@ -44,6 +47,8 @@ export class PlanData extends BaseData {
       d: this.info,
       e: this.status,
       f: this.statusInfo,
+      g: this.extInfo,
+      h: this.mapArrayToJson(this.pictures)
     };
   }
 
@@ -54,6 +59,8 @@ export class PlanData extends BaseData {
     this.info = json?.d ?? def?.info;
     this.status = json?.e ?? def?.status;
     this.statusInfo = json?.f ?? def?.statusInfo;
+    this.extInfo = json?.g ?? def?.extInfo;
+    this.pictures = this.mapArrayToModel(json?.h ?? def?.pictures, PictureData);
     this.days?.sort((a, b) => {
       return a.date.getTime() - b.date.getTime();
     })
